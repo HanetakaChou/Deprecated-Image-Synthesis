@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+     Copyright (C) 2021 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="code">
+      <UniqueIdentifier>{12685ef0-b214-4571-bd89-cbff673b0195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="code\support">
+      <UniqueIdentifier>{1ea174ba-5e32-407a-8c20-25bc4a746ee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{f654395b-73b7-458a-8d58-66ffb244eb65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="spirv">
+      <UniqueIdentifier>{226036d3-be23-4840-a7b7-865fdf03dc71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{2a39c1ac-2d2a-4650-979c-19f0d7765f43}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\code\demo.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\camera_controller.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\main.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\renderer.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\streaming.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\utils_align_up.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\vma.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\assets\lunarg_ppm.cpp">
+      <Filter>assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\assets\cube.cpp">
+      <Filter>assets</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\code\demo.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\support\camera_controller.h">
+      <Filter>code\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\support\frame_throttling.h">
+      <Filter>code\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\support\renderer.h">
+      <Filter>code\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\support\streaming.h">
+      <Filter>code\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\support\utils_align_up.h">
+      <Filter>code\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shaders\forward_shading_pipeline_layout.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\assets\lunarg_ppm.h">
+      <Filter>assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\assets\cube.h">
+      <Filter>assets</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\shaders\forward_shading_fragment.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="..\shaders\forward_shading_vertex.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="..\spirv\forward_shading_fragment.inl">
+      <Filter>spirv</Filter>
+    </None>
+    <None Include="..\spirv\forward_shading_vertex.inl">
+      <Filter>spirv</Filter>
+    </None>
+  </ItemGroup>
+</Project>

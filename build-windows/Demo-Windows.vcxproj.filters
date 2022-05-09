@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\code\support\camera_controller.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\assets\cube.cpp">
+      <Filter>assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\assets\lunarg_ppm.cpp">
+      <Filter>assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\demo.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\main.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\renderer.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\streaming.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\utils_align_up.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\support\vma.cpp">
+      <Filter>code\support</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\code\support\camera_controller.h">
+      <Filter>code\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\assets\cube.h">
+      <Filter>assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\assets\lunarg_ppm.h">
+      <Filter>assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\demo.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\support\frame_throttling.h">
+      <Filter>code\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\support\renderer.h">
+      <Filter>code\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\support\streaming.h">
+      <Filter>code\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\support\utils_align_up.h">
+      <Filter>code\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shaders\forward_shading_pipeline_layout.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\shaders\forward_shading_fragment.glsl">
+      <Filter>shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\shaders\forward_shading_vertex.glsl">
+      <Filter>shaders</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\thirdparty\vulkansdk\lib\x64\VkLayer_khronos_validation.dll">
+      <Filter>thirdparty\vulkansdk\lib\x64</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\thirdparty\vulkansdk\lib\x64\VkLayer_khronos_validation.json">
+      <Filter>thirdparty\vulkansdk\lib\x64</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\thirdparty\vulkansdk\lib\x86\VkLayer_khronos_validation.dll">
+      <Filter>thirdparty\vulkansdk\lib\x86</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\thirdparty\vulkansdk\lib\x86\VkLayer_khronos_validation.json">
+      <Filter>thirdparty\vulkansdk\lib\x86</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\spirv\forward_shading_vertex.inl">
+      <Filter>spirv</Filter>
+    </None>
+    <None Include="..\spirv\forward_shading_fragment.inl">
+      <Filter>spirv</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="code">
+      <UniqueIdentifier>{d6ddb980-fa23-4878-b346-f059bc2c0c49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="code\support">
+      <UniqueIdentifier>{52fd3e89-f978-49ad-9bfe-569d1591f058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{87ffb07a-7f8d-4442-8a40-7a32e3b5d7e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="spirv">
+      <UniqueIdentifier>{bc9bb82e-4575-4d07-8fe6-f066d3db061b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{4a25fa42-a24c-4a06-810d-b9dcc8fa0ba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty">
+      <UniqueIdentifier>{3f036d60-77b4-47f4-a0e6-1c821130d8b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty\vulkansdk">
+      <UniqueIdentifier>{5fec5066-f298-4c32-9bb6-f3c3a5a61612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty\vulkansdk\lib">
+      <UniqueIdentifier>{02131fa2-1bd3-44c6-b309-b2402dc74ff6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty\vulkansdk\lib\x64">
+      <UniqueIdentifier>{8926e858-ea0b-4334-a22c-3a98a6b2e087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty\vulkansdk\lib\x86">
+      <UniqueIdentifier>{f4ceec3f-14e6-412e-bfa9-44dff7d81df3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
