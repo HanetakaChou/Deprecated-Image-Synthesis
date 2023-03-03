@@ -1,0 +1,907 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+xmlns:a="urn:schemas-microsoft-com:office:access"
+xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
+xmlns:s="uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882"
+xmlns:rs="urn:schemas-microsoft-com:rowset" xmlns:z="#RowsetSchema"
+xmlns:b="urn:schemas-microsoft-com:office:publisher"
+xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+xmlns:c="urn:schemas-microsoft-com:office:component:spreadsheet"
+xmlns:oa="urn:schemas-microsoft-com:office:activation"
+xmlns:html="http://www.w3.org/TR/REC-html40"
+xmlns:q="http://schemas.xmlsoap.org/soap/envelope/" xmlns:D="DAV:"
+xmlns:x2="http://schemas.microsoft.com/office/excel/2003/xml"
+xmlns:ois="http://schemas.microsoft.com/sharepoint/soap/ois/"
+xmlns:dir="http://schemas.microsoft.com/sharepoint/soap/directory/"
+xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+xmlns:dsp="http://schemas.microsoft.com/sharepoint/dsp"
+xmlns:udc="http://schemas.microsoft.com/data/udc"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:sps="http://schemas.microsoft.com/sharepoint/soap/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:udcxf="http://schemas.microsoft.com/data/udc/xmlfile"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns:st1="urn:schemas-microsoft-com:office:smarttags"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 12">
+<meta name=Originator content="Microsoft Word 12">
+<link rel=File-List href="ReleaseNotes_files/filelist.xml">
+<title>NVIDIA Direct3D10 SDK – Release Notes</title>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="place"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="country-region"/>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Iain Cantlay</o:Author>
+  <o:LastAuthor>nhoobler</o:LastAuthor>
+  <o:Revision>5</o:Revision>
+  <o:TotalTime>106</o:TotalTime>
+  <o:Created>2011-02-16T19:03:00Z</o:Created>
+  <o:LastSaved>2011-03-21T15:36:00Z</o:LastSaved>
+  <o:Pages>2</o:Pages>
+  <o:Words>937</o:Words>
+  <o:Characters>5346</o:Characters>
+  <o:Company>NVIDIA</o:Company>
+  <o:Lines>44</o:Lines>
+  <o:Paragraphs>12</o:Paragraphs>
+  <o:CharactersWithSpaces>6271</o:CharactersWithSpaces>
+  <o:Version>12.00</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<link rel=themeData href="ReleaseNotes_files/themedata.thmx">
+<link rel=colorSchemeMapping href="ReleaseNotes_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Zoom>BestFit</w:Zoom>
+  <w:DontDisplayPageBoundaries/>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:PunctuationKerning/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:DontVertAlignCellWithSp/>
+   <w:DontBreakConstrainedForcedTables/>
+   <w:DontVertAlignInTxbx/>
+   <w:Word11KerningPairs/>
+   <w:CachedColBalance/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
+  DefSemiHidden="false" DefQFormat="false" LatentStyleCount="267">
+  <w:LsdException Locked="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="99" Name="No List"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true"
+   Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" QFormat="true"
+   Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" QFormat="true"
+   Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]--><!--[if !mso]><object
+ classid="clsid:38481807-CA0E-42D2-BF39-B33AF135CC4D" id=ieooui></object>
+<style>
+st1\:*{behavior:url(#ieooui) }
+</style>
+<![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:1;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:0 0 0 0 0 0;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-520082689 -1073717157 41 0 66047 0;}
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-1593833729 1073750107 16 0 415 0;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1610611985 1073750091 0 0 159 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 1 Char";
+	mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:16.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	mso-font-kerning:16.0pt;
+	font-weight:bold;}
+h2
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 2 Char";
+	mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:14.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;
+	font-style:italic;}
+h6
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 6 Char";
+	mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:6;
+	font-size:11.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{mso-style-unhide:no;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-unhide:no;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+pre
+	{mso-style-unhide:no;
+	mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 1";
+	mso-ansi-font-size:14.0pt;
+	mso-bidi-font-size:14.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#365F91;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	font-weight:bold;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 2";
+	mso-ansi-font-size:13.0pt;
+	mso-bidi-font-size:13.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#4F81BD;
+	mso-themecolor:accent1;
+	font-weight:bold;}
+span.Heading6Char
+	{mso-style-name:"Heading 6 Char";
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 6";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#243F60;
+	mso-themecolor:accent1;
+	mso-themeshade:127;
+	font-style:italic;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"HTML Preformatted";
+	font-family:Consolas;
+	mso-ascii-font-family:Consolas;
+	mso-hansi-font-family:Consolas;}
+p.Copyright1, li.Copyright1, div.Copyright1
+	{mso-style-name:Copyright1;
+	mso-style-unhide:no;
+	margin-top:102.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:40.3pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.Copyright2, li.Copyright2, div.Copyright2
+	{mso-style-name:Copyright2;
+	mso-style-unhide:no;
+	mso-style-parent:Copyright1;
+	margin-top:3.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:40.3pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.Default, li.Default, div.Default
+	{mso-style-name:Default;
+	mso-style-unhide:no;
+	mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	mso-layout-grid-align:none;
+	text-autospace:none;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:478886207;
+	mso-list-template-ids:4103270;}
+@list l1
+	{mso-list-id:1150099879;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1927253352 67698703 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l1:level1
+	{mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level2
+	{mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level3
+	{mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level5
+	{mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level6
+	{mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level8
+	{mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level9
+	{mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="4098"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
+
+<div class=WordSection1>
+
+<h1><span style='mso-fareast-font-family:"Times New Roman"'>NVIDIA Direct3D 11
+SDK – Release Notes <o:p></o:p></span></h1>
+
+<h1><span style='mso-fareast-font-family:"Times New Roman"'>Version 11.0,
+February 2011<o:p></o:p></span></h1>
+
+<p class=MsoNormal><a href="mailto:sdkfeedback@nvidia.com">sdkfeedback@nvidia.com</a></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>The NVIDIA Direct3D 11 SDK demonstrates some of the cool,
+next-generation techniques that are possible with Microsoft’s DirectX 11.<span
+style='mso-spacerun:yes'>    </span>The SDK includes both Direct3D code samples
+and whitepapers explaining the effects in detail. The latest version of the
+NVIDIA SDK is available at <a href="http://developer.nvidia.com">developer.nvidia.com</a>.
+</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>This NVIDIA SDK is entirely new for DirectX 11.<span
+style='mso-spacerun:yes'>  </span>It stands alongside the previous NVIDIA SDK
+10.0, rather than <span class=SpellE>superceding</span> it.</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<h2><span style='mso-fareast-font-family:"Times New Roman"'>Prerequisites<o:p></o:p></span></h2>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>To run the NVIDIA SDK, you require a graphics card which
+supports DirectX 11, such as the <span class=SpellE>GeForce</span> 400 Series. <span
+style='mso-spacerun:yes'> </span></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>Full source is provided.<span style='mso-spacerun:yes'> 
+</span>To compile the samples, you additionally require:</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<ol style='margin-top:0in' start=1 type=1>
+ <li class=MsoNormal style='mso-list:l1 level1 lfo3;tab-stops:list .5in'><a
+     href="http://msdn2.microsoft.com/en-us/xna/aa937781.aspx">Microsoft
+     DirectX SDK</a> from June 2010;</li>
+ <li class=MsoNormal style='mso-list:l1 level1 lfo3;tab-stops:list .5in'>Microsoft
+     Visual Studio 2008;</li>
+</ol>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>In the absence of these items, the SDK contains short movies
+which demonstrate the features of each sample.<span style='mso-spacerun:yes'> 
+</span>These can be accessed via the SDK Browser.</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<h2><span style='mso-fareast-font-family:"Times New Roman"'>Getting Started<o:p></o:p></span></h2>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>Install the package.<span style='mso-spacerun:yes'> 
+</span>It will place an icon on your desktop: NVIDIA Direct3D SDK 11
+Browser.<span style='mso-spacerun:yes'>  </span>Click on this to launch the
+browser.<span style='mso-spacerun:yes'>  </span>You can use the browser to
+examine an overview of each sample.<span style='mso-spacerun:yes'> 
+</span>There are links leading to the executable demos, short videos,
+whitepapers and the source files.</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<h2><span style='mso-fareast-font-family:"Times New Roman"'>File Structure<o:p></o:p></span></h2>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>In a typical installation, the SDK is installed at:</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:.5in'>C:\Program Files\NVIDIA
+Corporation\NVIDIA SDK 11\NVIDIA Direct3D SDK</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>Within this top-level directory, the file structure is as
+follows:</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<pre><span lang=EN style='font-size:9.0pt;mso-ansi-language:EN'><span style='mso-spacerun:yes'> </span>+-Bin<span style='mso-spacerun:yes'>                  </span>&lt;- directory for executables/shared <span
+class=SpellE>dll's</span>/<span class=SpellE>pdb's</span> (configured as Output Directory in VS)<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-<b
+style='mso-bidi-font-weight:normal'>MyCoolDemo.exe</b><o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-<b
+style='mso-bidi-font-weight:normal'>MyCoolDemod.exe</b><span style='mso-spacerun:yes'>  </span>&lt;- debug version<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-MyCoolDemod.pdb<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-zlib.dll<span style='mso-spacerun:yes'>         </span>&lt;- shared <span
+class=SpellE>dll</span><o:p></o:p></span></pre><pre><span lang=EN
+style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> +-Include<span style='mso-spacerun:yes'>             </span>&lt;- &quot;interface&quot; header files for shared <span
+class=SpellE>libs</span><o:p></o:p></span></pre><pre><span lang=EN
+style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-DXUT<span style='mso-spacerun:yes'>             </span>&lt;- header files for <span
+class=SpellE>dxut</span> library<o:p></o:p></span></pre><pre><span lang=EN
+style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>|</span><span style='mso-spacerun:yes'>  </span>+-<span
+class=SpellE>DXUT.h</span><o:p></o:p></span></pre><pre><span lang=EN
+style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>  </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-NVUT<span style='mso-spacerun:yes'>             </span>&lt;- header files for NVIDIA utilities<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>     </span>+-<span
+class=SpellE>NVUT.h</span><o:p></o:p></span></pre><pre><span lang=EN
+style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>     </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> +-Lib<span style='mso-spacerun:yes'>                 </span>&lt;- shared lib files <o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'><span style='mso-spacerun:yes'> </span><span
+class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-DXUT.lib<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-DXUTd.lib<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> +-Media<span style='mso-spacerun:yes'>               </span>&lt;- shared media files<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-<span
+class=SpellE>lightsource.x</span><o:p></o:p></span></pre><pre><span lang=EN
+style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-texture.jpg<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> +-Source<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-<span
+class=SpellE>MyCoolDemo</span><o:p></o:p></span></pre><pre><span lang=EN
+style='font-size:9.0pt;mso-ansi-language:EN'> </span><span lang=FR
+style='font-size:9.0pt;mso-ansi-language:FR'>|<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>+-doc<o:p></o:p></span></pre><pre><span
+lang=FR style='font-size:9.0pt;mso-ansi-language:FR'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>|<span style='mso-spacerun:yes'>  </span>+-<b
+style='mso-bidi-font-weight:normal'>MyCoolDemo.pdf</b><span style='mso-spacerun:yes'>    </span>&lt;- Documentation <span
+class=SpellE>describing</span> technique/<span class=SpellE>algorithm</span> etc.<o:p></o:p></span></pre><pre><span
+lang=FR style='font-size:9.0pt;mso-ansi-language:FR'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>|<o:p></o:p></span></pre><pre><span
+lang=FR style='font-size:9.0pt;mso-ansi-language:FR'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>+-MyCoolDemo.cpp<o:p></o:p></span></pre><pre><span
+lang=FR style='font-size:9.0pt;mso-ansi-language:FR'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>+-<span
+class=SpellE>MyCoolDemo.h</span><o:p></o:p></span></pre><pre><span lang=FR
+style='font-size:9.0pt;mso-ansi-language:FR'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>+-<span
+class=SpellE>MyCoolDemo.fx</span><o:p></o:p></span></pre><pre><span lang=FR
+style='font-size:9.0pt;mso-ansi-language:FR'> </span><span lang=EN
+style='font-size:9.0pt;mso-ansi-language:EN'>|<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>+-<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>|</span><span style='mso-spacerun:yes'>    </span>+-<span
+class=SpellE><b style='mso-bidi-font-weight:normal'>MyCoolDemo.vcproj</b></span> &lt;- project to build MyCoolDemo.exe/MyCoolDemod.exe<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>+</span>-Common<span style='mso-spacerun:yes'>            </span>&lt;- source code for common <span
+class=SpellE>libs</span><o:p></o:p></span></pre><pre><span lang=EN
+style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>|</span><span style='mso-spacerun:yes'>    </span>+-DXUT<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>|</span><span style='mso-spacerun:yes'>    </span>|<span style='mso-spacerun:yes'>  </span>+-DXUT.cpp<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>|</span><span style='mso-spacerun:yes'>    </span>|<span style='mso-spacerun:yes'>  </span>+-<span
+class=SpellE>DXUT.h</span><o:p></o:p></span></pre><pre><span lang=EN
+style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>|</span><span style='mso-spacerun:yes'>    </span>|<span style='mso-spacerun:yes'>  </span>+-<span
+class=SpellE>DXUT.vcproj</span> &lt;- project to build DXUT.lib/DXUTd.lib<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>|<span style='mso-spacerun:yes'>  </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>|<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>|</span><span style='mso-spacerun:yes'>    </span>+-NVUT<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> <span class=GramE>|<span style='mso-spacerun:yes'>  </span>|</span><span style='mso-spacerun:yes'>    </span>|<span style='mso-spacerun:yes'>  </span>+-NVUT.cpp<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>|<span style='mso-spacerun:yes'>  </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>|<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<span style='mso-spacerun:yes'>    </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>|<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<span style='mso-spacerun:yes'>  </span>+-...<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> +-Temp<span style='mso-spacerun:yes'>                 </span>&lt;- Directory for temporary files generated by build process<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> |<o:p></o:p></span></pre><pre><span
+lang=EN style='font-size:9.0pt;mso-ansi-language:EN'> +-<b style='mso-bidi-font-weight:
+normal'>Samples_2008.sln</b><span style='mso-spacerun:yes'>     </span>&lt;- VS solution links to .<span
+class=SpellE>vcproj</span> for each sample<o:p></o:p></span></pre>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<h2 style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='mso-fareast-font-family:"Times New Roman"'>Compilation Setup<br
+style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>To
+compile the samples Visual Studio must first be configured with the correct
+paths for the DirectX SDK.<span style='mso-spacerun:yes'>  </span>(Tools menu
+-&gt; Options; Go to Projects and Solutions category, then VC++ Directories
+page.)<span style='mso-spacerun:yes'>  </span>Settings are required for include
+directories and libraries.<span style='mso-spacerun:yes'>  </span>In a typical
+installation these are:</p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:.5in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>C:\Program
+Files\Microsoft DirectX SDK (June 2010)\Include </p>
+
+<p class=MsoNormal style='margin-left:.5in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>C:\Program
+Files\Microsoft DirectX SDK (June 2010)\Lib\x86</p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>The
+DirectX 11 setup program may set these for you.<span style='mso-spacerun:yes'> 
+</span>(The NVIDIA SDK installer cannot set these paths because the details may
+differ on your system.)</p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>There
+is a top level solution for all samples located at:</p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:.5in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>Visual
+Studio 2008: Source\Samples_2008.sln</p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>(See
+the above diagram of the directory structure.)</p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>Individual
+projects do not have their own solutions.<span style='mso-spacerun:yes'> 
+</span>You can create individual solutions by opening the <span class=SpellE>vcproj</span>
+project files.<span style='mso-spacerun:yes'>  </span>In this case,
+dependencies will have to be added: all projects depend upon <span
+class=SpellE>DXUTCore.vcproj</span> and <span class=SpellE>DXUTOptional.vcproj</span>;
+many also depend upon D3DXEffects11.vcproj.</p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>Debug
+binaries of the shared libraries are not included. To build a debug version of
+the samples, <span class=GramE>first<span style='mso-spacerun:yes'> 
+</span>build</span> debug libraries using the solution provided in “&lt;root&gt;\Source\Common”.</p>
+
+<h2 style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='mso-fareast-font-family:"Times New Roman"'>Known Issues<o:p></o:p></span></h2>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>The
+NVIDIA Direct3D 11 SDK uses the DXUT framework library for window management,
+user interface, etc.<span style='mso-spacerun:yes'>  </span>There are known
+issues.<span style='mso-spacerun:yes'>  </span>In particular, many options in
+the Change device dialog cause crashes.</p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>The
+<span class=SpellE>TerrainTessellation</span> sample may cause a user-mode
+crash in a 266.58 driver.<span style='mso-spacerun:yes'>  </span>This has been
+fixed in newer driver releases.<span style='mso-spacerun:yes'>  </span>Please
+update your driver to the latest available from www.nvidia.com.</p>
+
+<h2 style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='mso-fareast-font-family:"Times New Roman"'>Updates<o:p></o:p></span></h2>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>Check
+<a href="http://developer.nvidia.com/">http://developer.nvidia.com</a> for
+regular updates.</p>
+
+<p class=Copyright1 style='margin-left:0in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>Notice</p>
+
+<p class=Copyright2 style='margin-left:0in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>ALL
+NVIDIA DESIGN SPECIFICATIONS, REFERENCE BOARDS, FILES, DRAWINGS, DIAGNOSTICS,
+LISTS, AND OTHER DOCUMENTS (TOGETHER AND SEPARATELY, “MATERIALS”) ARE BEING
+PROVIDED “AS IS.” NVIDIA MAKES NO WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR
+OTHERWISE WITH RESPECT TO THE MATERIALS, AND EXPRESSLY DISCLAIMS ALL IMPLIED
+WARRANTIES OF NONINFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR
+PURPOSE.</p>
+
+<p class=Copyright2 style='margin-left:0in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>Information
+furnished is believed to be accurate and reliable. However, NVIDIA Corporation
+assumes no responsibility for the consequences of use of such information or
+for any infringement of patents or other rights of third parties that may
+result from its use. No license is granted by implication or otherwise under
+any patent or patent rights of NVIDIA Corporation. Specifications mentioned in
+this publication are subject to change without notice. This publication
+supersedes and replaces all information previously supplied. NVIDIA Corporation
+products are not authorized for use as critical components in life support
+devices or systems without express written approval of NVIDIA Corporation.</p>
+
+<h6 style='margin-bottom:0in;margin-bottom:.0001pt;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-size:8.0pt;mso-bidi-font-size:11.0pt;font-family:"Verdana","sans-serif";
+mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></h6>
+
+<p class=Copyright2 style='margin-left:0in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><b
+style='mso-bidi-font-weight:normal'>Trademarks<o:p></o:p></b></p>
+
+<p class=Copyright2 style='margin-left:0in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-family:"Verdana","sans-serif";mso-bidi-font-family:Verdana'>NVIDIA
+and the NVIDIA logo are trademarks or registered trademarks of NVIDIA
+Corporation <span style='color:black'>in the <st1:place w:st="on"><st1:country-region
+ w:st="on">United States</st1:country-region></st1:place> and other countries</span>.
+Other company and product names may be trademarks of the respective companies
+with which they are associated.</span></p>
+
+<h6 style='margin-bottom:0in;margin-bottom:.0001pt;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-size:8.0pt;mso-bidi-font-size:11.0pt;font-family:"Verdana","sans-serif";
+mso-fareast-font-family:"Times New Roman";font-weight:normal'><o:p>&nbsp;</o:p></span></h6>
+
+<p class=Copyright2 style='margin-left:0in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><b
+style='mso-bidi-font-weight:normal'>Copyright<o:p></o:p></b></p>
+
+<p class=Copyright2 style='margin-left:0in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>©
+2011 NVIDIA Corporation. All rights reserved. </p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-size:8.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><o:p>&nbsp;</o:p></p>
+
+</div>
+
+</body>
+
+</html>
