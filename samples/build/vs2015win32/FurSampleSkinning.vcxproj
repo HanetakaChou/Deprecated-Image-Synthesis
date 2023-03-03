@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+	<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+	</ProjectConfiguration>
+	<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+	</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ApplicationEnvironment>title</ApplicationEnvironment>
+		<!-- - - - -->
+		<PlatformToolset>v110</PlatformToolset>
+		<MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../../bin/win32\</OutDir>
+		<IntDir>./Win32/FurSampleSkinning/debug\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>FurSampleSkinning.win32.D</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/fp:fast /W4 /MTd /Zi /Oi /Oy- /EHsc /GS /Gd /nologo /wd4100 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../include;./../../FurSampleCommon;./../../../external/DXUT11/DXUT/Core;./../../../external/DXUT11/DXUT/Optional;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_UNICODE;UNICODE;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_LIB;_DEBUG;PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /SUBSYSTEM:WINDOWS /NOLOGO /DEBUG</AdditionalOptions>
+			<AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dxgi.lib;comctl32.lib;Usp10.lib;dxut.lib;dxutopt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)FurSampleSkinning.win32.D.exe</OutputFile>
+			<AdditionalLibraryDirectories>./../../../lib;./../../../external/DXUT11/DXUT/Lib/VC14/win32/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../../bin/win32\</OutDir>
+		<IntDir>./Win32/FurSampleSkinning/release\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>FurSampleSkinning.win32</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/fp:fast /W4 /MT /Zi /O2 /Oi /Oy- /GL /EHsc /GS /Gy /nologo /wd4100 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../include;./../../FurSampleCommon;./../../../external/DXUT11/DXUT/Core;./../../../external/DXUT11/DXUT/Optional;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_UNICODE;UNICODE;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /SUBSYSTEM:WINDOWS /NOLOGO</AdditionalOptions>
+			<AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dxgi.lib;comctl32.lib;Usp10.lib;dxut.lib;dxutopt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)FurSampleSkinning.win32.exe</OutputFile>
+			<AdditionalLibraryDirectories>./../../../lib;./../../../external/DXUT11/DXUT/Lib/VC14/win32/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\FurSampleSkinning\FurSampleSkinning.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\FurSampleSkinning\SkinningMatrices.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\FurSampleCommon\FurSampleAppBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\FurSampleCommon\FurSampleCommon.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\FurSampleCommon\FurSampleHairWorksHelper.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\FurSampleCommon\FurSampleMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\FurSampleCommon\FurSampleShadowMap.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\FurSampleCommon\FurSampleAppBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\FurSampleCommon\FurSampleCommon.h">
+		</ClInclude>
+		<ClInclude Include="..\..\FurSampleCommon\FurSampleHairWorksHelper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\FurSampleCommon\FurSampleMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\FurSampleCommon\FurSampleShadowMap.h">
+		</ClInclude>
+		<ClInclude Include="..\..\FurSampleCommon\FurSampleVector.h">
+		</ClInclude>
+		<ClInclude Include="..\..\FurSampleCommon\stb_image.h">
+		</ClInclude>
+		<ClCompile Include="..\..\FurSampleCommon\stb_image.c">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<CustomBuild Include="..\..\FurSampleSkinning\HairWorksSampleShader.hlsl">
+			<Command Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">"$(WindowsSdkDir)/bin/x86/fxc.exe" /T ps_5_0 /Fh ../../../samples/FurSampleSkinning/generated/HairWorksSampleShader.h /Eps_main ../../../samples/FurSampleSkinning/HairWorksSampleShader.hlsl</Command>
+			<Message Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">Compile shaders</Message>
+			<Outputs Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../../samples/FurSampleSkinning/generated/HairWorksSampleShader.h;</Outputs>
+			<Command Condition="'$(Configuration)|$(Platform)'=='release|Win32'">"$(WindowsSdkDir)/bin/x86/fxc.exe" /T ps_5_0 /Fh ../../../samples/FurSampleSkinning/generated/HairWorksSampleShader.h /Eps_main ../../../samples/FurSampleSkinning/HairWorksSampleShader.hlsl</Command>
+			<Message Condition="'$(Configuration)|$(Platform)'=='release|Win32'">Compile shaders</Message>
+			<Outputs Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../../samples/FurSampleSkinning/generated/HairWorksSampleShader.h;</Outputs>
+		</CustomBuild>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

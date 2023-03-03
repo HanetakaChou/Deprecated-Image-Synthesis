@@ -1,0 +1,15 @@
+Getting Started
+#################
+
+
+How to run HairWorks Viewer
+----------------------------
+Run bin\\win64\\FurViewer.win64.exe
+
+(or bin\\win32\\FurViewer.win32.exe on 32 bit OS)
+
+For more info, select from menu: Help > Documentation
+
+How to open Art Samples
+----------------------------
+Open any project file in ``media/`` from within the Viewer.

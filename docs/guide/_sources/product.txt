@@ -1,0 +1,50 @@
+.. Replace existing content with product specific content. Layout for this page should be consistent for all products. 
+
+|PRODUCTNAME| |VERSION|
+======================================
+
+.. Replace the content. Layout should not change
+
+About HairWorks
+##############
+
+This document covers using the HairWorks viewer that accents the art pipeline. Please refer to the individual documentation in the DCC Nvidia HairWorks plug-ins for details on how HairWorks applies 3dsMax and Maya in more detail.
+
+The benefits of using HairWorks for dynamic fur simulation range from workflow to final results. Fur can add significant visual fidelity enhancements such as dynamic secondary motion, interaction with wind, and more life like higher fidelity of hair by rendering individual strands of hair vs clumps of static polygon strips. On the authoring side, a fur groom can be generated using standard VFX tools such Shave and Haircut in Maya and Hair and Fur in 3dsmax or any other tool that can produce guide curves with the correct requirements. Many times, this work-flow can remove the tedious process of building and texturing individual poly strip fur.
+
+.. image:: \_static\hwViewer_Manjaladon_Hair.jpg
+	:height: 400px
+	:align: center
+
+	
+Overview
+##############
+
+HairWorks is based on a using a series of guide curves and a growth mesh to generate fur. The growth mesh is common among many grooming tools and is used typically a modified version of the graphics mesh that is ideal for grooming fur. The guide curves only need to meet the requirement that a single root of a given guide is at the same position as a vertex on a growth mesh. Currently, the native Hair and Fur modifier in 3dsmax and the 3rd party Maya plug in, Shave and a Haircut have been tested for grooming compatibility. 
+
+Upon editing the fur in the HairWorks viewer or a game engine, each strand of fur is interpolated between the guide curves giving us the potentially dense and lush fur. There are rendering and simulation components that work very close together to give HairWorks its final look. 
+
+There are plenty of attributes to help the artist or designer visually sculpt the look and behaviour of HairWorks. Most of these attributes can be changed in real-time making for fast iteration cycles and potentially new and interesting game mechanics. 
+
+**Art Pipeline**
+
+.. image:: \_static\HairWorks_Art_Pipeline.jpg
+	:height: 400px
+	
+	
+.. Un-comment out if section is used
+.. Additional Links
+.. ################   
+
+.. Possible content here includes any of the following:
+.. * User guide
+.. * Videos
+.. * Forums
+.. * Etc.
+
+   
+.. Reference your chapters here. Chapters will not be listed if not defined here. 
+
+
+.. Example of Getting Start Guide link
+.. _Getting Started Guide: gettingstarted.html

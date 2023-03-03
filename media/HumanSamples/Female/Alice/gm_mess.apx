@@ -1,0 +1,650 @@
+<!DOCTYPE NvParameters>
+<NvParameters numObjects="4" version="1.0" >
+<value name="" type="Ref" className="HairWorksInfo" version="1.1" checksum="0xd225a2e5 0x1295b170 0x7b7dfeef 0x7230aea">
+  <struct name="">
+    <value name="fileVersion" type="String">1.1</value>
+    <value name="toolVersion" type="String">Fur Viewer Version 1.1. HairWorks manual-build.WIN764BU-78C12E.Wed 04/01/2015.22:53:38.54.x64.release</value>
+    <value name="sourcePath" type="String">f:\p4sw\media\Art_Depot\Characters and Creatures\HumanFemale\Hair\HumanFemale_HairStyle_2.max</value>
+    <value name="authorName" type="String">azoellner</value>
+    <value name="lastModified" type="String">2015-04-06 15:42:38 UTC</value>
+  </struct>
+</value>
+<value name="" type="Ref" className="HairSceneDescriptor" version="1.1" checksum="0x299b335f 0x2cad8b54 0xcaf3c98f 0xa3094fa7">
+  <struct name="">
+    <value name="densityTexture" type="String">Alice_density.tga</value>
+    <value name="rootColorTexture" type="String">Alice_rootColor.tga</value>
+    <value name="tipColorTexture" type="String">Alice_midColor.tga</value>
+    <value name="widthTexture" type="String"></value>
+    <value name="rootWidthTexture" null="1" type="String"></value>
+    <value name="tipWidthTexture" null="1" type="String"></value>
+    <value name="stiffnessTexture" type="String"></value>
+    <value name="rootStiffnessTexture" type="String"></value>
+    <value name="clumpScaleTexture" type="String"></value>
+    <value name="clumpRoundnessTexture" type="String"></value>
+    <value name="clumpNoiseTexture" null="1" type="String"></value>
+    <value name="waveScaletexture" type="String"></value>
+    <value name="waveFreqTexture" type="String"></value>
+    <value name="strandTexture" type="String"></value>
+    <value name="lengthTexture" type="String"></value>
+    <value name="specularTexture" type="String"></value>
+  </struct>
+</value>
+<value name="" type="Ref" className="HairAssetDescriptor" version="1.1" checksum="0xce296058 0xc3539e0a 0x34d9e87f 0xd878cd3">
+  <struct name="">
+    <value name="numGuideHairs" type="U32">54</value>
+    <value name="numVertices" type="U32">216</value>
+    <array name="vertices" size="216" type="Vec3">
+      7.26916218 -2.30192542 173.0168, 7.31556225 -1.84708798 172.532272, 7.45656872 -1.90561175 171.843735, 7.60906124 -2.13487005 171.189423, 6.94092655 -3.57793355 172.814758, 7.08307457 -3.12035966 172.521042, 7.22162533 -2.57971311 172.249008, 7.43849277 -2.25397539 171.761734, 7.60512352 -1.43700504 173.211655, 7.47183418 -1.63296747 172.837921, 7.53273344 -1.70153928 172.4021, 7.70498466 -1.68240559 171.988708, 7.0979867 -1.61953354 174.264313, 7.48152781 -1.7817713 173.844696, 7.73652458 -2.12009454 173.359604, 7.95003319 -2.09528756 172.741089, 
+      -7.31042099 -2.30187583 173.0168, -7.51060629 -1.84744358 172.532089, -7.76829958 -1.90418196 171.849182, -8.0100441 -2.13356471 171.192383, -6.98218155 -3.57793355 172.814758, -7.21181202 -3.06459379 172.532715, -7.4828968 -2.54371858 172.215561, -7.83451748 -2.24036455 171.728851, -7.64637852 -1.43700504 173.211655, -7.64183807 -1.64174139 172.799438, -7.83062601 -1.69924426 172.375809, -8.09547901 -1.67873049 171.988892, -7.1392417 -1.61953354 174.264313, -7.49161577 -2.00282717 173.90152, -7.76245356 -2.12415838 173.331726, -7.959023 -2.09265327 172.717407, 
+      7.10443354 -2.45174789 175.307648, 7.52909756 -2.53505349 174.573395, 8.12531853 -2.87032676 173.692459, 8.57661343 -1.96159244 173.051147, 6.98290396 -3.88954282 175.325562, 7.19117594 -3.54941559 174.500595, 7.47519159 -3.63649964 173.492462, 7.62721348 -2.731287 172.927948, 7.28523731 -1.39051902 175.660706, 7.41133213 -1.78885913 175.151901, 7.46410656 -2.38704395 174.293945, 7.60027552 -2.48320699 173.606339, -7.03297663 -3.88445115 175.332077, -7.31843615 -4.13978958 174.295349, -7.61095524 -3.65865207 173.399643, -7.78556204 -2.69126892 172.901627, 
+      -7.14590693 -2.45190239 175.308273, -7.61945248 -3.10356092 174.5504, -7.89701366 -3.14672852 173.655762, -7.9011693 -2.12424803 173.135574, -7.32659483 -1.3903302 175.660568, -7.30836201 -1.97809541 175.010651, -7.32840395 -2.82333279 174.367416, -7.52300739 -2.81190515 173.627686, 5.01635361 1.63147628 167.99115, 4.93454456 2.62208414 167.315979, 4.86654806 3.33087826 166.369293, 4.83000183 3.52130032 165.185532, 1.55057299 5.45299578 165.186325, 1.65249527 6.43049145 164.737228, 1.28719378 7.04733086 163.928177, 0.683883667 7.39967299 163.087692, 
+      3.1905036 4.89315844 164.992676, 2.99529767 5.45574808 164.527985, 3.16452336 5.83109426 163.894089, 3.44949389 6.15522957 163.261292, -0.0206274539 5.20363665 165.136566, 0.0472639613 6.12381601 164.90274, -0.101725608 6.75858879 164.23024, -0.348123252 7.03228951 163.347702, 4.42949438 3.46167016 164.459198, 4.32035398 4.47335243 163.983917, 4.54971266 5.24994946 163.070786, 5.05641174 5.94245148 162.20433, 4.28492355 2.17164898 165.406815, 4.61393547 3.31227064 164.602112, 4.78185225 4.78426886 164.510971, 4.89154911 6.15322685 164.159271, 
+      6.94358444 -0.123790897 172.062027, 7.09834146 0.996159017 170.955429, 7.07813311 1.20355618 169.468201, 6.9010148 0.441054136 168.087494, 7.10844421 0.65247637 172.93779, 7.6104579 1.89081264 171.978882, 7.49231958 2.19099498 170.457123, 7.54370975 1.80112791 168.901489, 7.222085 0.956300318 173.466263, 7.57313919 2.60787892 173.235336, 7.90553999 4.27462196 173.443527, 8.28940201 5.87993431 173.888229, -5.0576086 1.63147628 167.99115, -4.97866631 2.68630075 167.44014, -4.88500643 3.35348082 166.467361, -4.82956028 3.5110178 165.279968, 
+      -1.59182787 5.45299578 165.186325, -1.59179795 6.29682541 164.831253, -1.36333394 6.92206335 164.216034, -0.989078522 7.31623507 163.477478, -3.23175859 4.89315844 164.992676, -3.04550123 5.41114426 164.559784, -2.85936403 5.92842817 164.125992, -2.68815541 6.36572933 163.611816, -4.32617855 2.17164898 165.406815, -4.72961664 2.97744727 164.123276, -4.91348982 4.30563736 163.464417, -4.93460178 5.14110374 162.593536, -4.47074938 3.46167016 164.459198, -4.27902794 4.58485794 164.112091, -4.42612028 5.58780003 163.43251, -4.83778524 6.21034241 162.471893, 
+      -7.14974546 0.65249598 172.937759, -7.60887241 1.61408341 171.704666, -7.41287422 2.00183034 170.170029, -7.68415642 1.7968837 168.671921, -7.26331949 0.956289291 173.466263, -7.46855927 2.51820564 172.833618, -7.56180525 4.21482754 172.96196, -7.57780409 5.82728195 173.536575, -6.98494816 -0.123741969 172.061966, -7.34404135 -0.106834114 170.525467, -7.04733419 0.456354916 169.101013, -7.61190653 0.857655466 168.087189, -5.84939861 1.24208748 169.556564, -5.85728359 1.29894686 168.70192, -5.97937965 1.62378085 167.921814, -6.19828749 2.09301519 167.238556, 
+      -6.64742565 0.65662843 171.649872, -7.05269194 1.23991203 169.788895, -6.78771162 2.56123853 168.323563, -6.55972481 2.22504663 166.453445, 6.60617304 0.649420559 171.649872, 7.07122421 1.21105981 169.793152, 6.75274515 2.37613225 168.19664, 6.57066011 2.12164187 166.316086, 5.82405472 1.26254225 169.606918, 5.84779072 1.29848063 168.733337, 5.97641563 1.52641475 167.899719, 6.20651293 1.94060946 167.165115, 6.01720619 1.72582519 170.400772, 6.12261724 2.33700562 169.169388, 5.99191999 2.82414865 167.888229, 6.19732141 3.18281174 166.584106, 
+      6.76928425 1.39506996 172.388443, 7.11106396 2.56047344 171.373886, 7.26096487 3.98386145 170.740891, 7.34737301 5.49990559 171.045166, -0.0206274539 5.33879137 167.530716, 0.0260694008 6.44189501 167.540283, -0.00801239721 7.45984316 167.957153, -0.149394944 8.30316734 168.655319, 1.48150706 5.58517122 167.399521, 1.43273354 6.46005774 167.303589, 1.44539618 7.29808378 167.541443, 1.52103198 7.99150801 168.077362, 2.90112543 5.07325602 167.192963, 2.78267312 5.94786739 166.824005, 2.73261809 6.84965754 166.416946, 2.86291242 7.71468258 165.96106, 
+      3.85439372 3.79294395 166.701599, 3.86254382 5.13717079 165.716049, 3.76974487 6.79682255 165.970642, 3.67249632 8.48732948 166.080673, 7.34028578 1.13342345 174.49295, 7.58420229 0.856968641 173.672958, 7.80292702 0.84382695 172.661438, 7.88648081 1.51099181 171.989792, -6.05846119 1.72572982 170.400772, -6.16695642 2.4395237 169.211288, -6.06855917 3.04501057 167.98909, -6.2378006 3.27950525 166.649918, -6.81053925 1.39507043 172.388443, -7.01446676 2.71882272 171.559952, -7.06824875 4.26576042 171.386978, -6.94420433 5.66460705 172.090836, 
+      -1.52276194 5.58517122 167.399521, -1.44837892 6.45833254 167.304703, -1.42794228 7.29470158 167.551636, -1.47133195 7.99412298 168.08287, -2.94238043 5.07325602 167.192963, -2.80025935 5.95978689 166.818634, -2.7333982 6.85862637 166.412643, -2.86185098 7.72092676 165.957199, -3.89564872 3.79294395 166.701599, -3.86725736 5.1425128 165.713272, -3.76774526 6.80381489 165.973557, -3.67208433 8.49700165 166.078247, -7.38122606 1.13326764 174.493011, -7.63211536 0.865411401 173.525742, -7.83445358 0.835753798 172.517578, -7.83556271 1.45613337 171.752777, 
+      -7.1516571 1.44975853 173.498276, -7.28279114 2.86637354 172.831802, -7.39948034 4.42427778 172.729492, -7.43605614 5.94300556 173.1353, 7.09435558 1.45539236 173.473526, 7.40136003 2.97400975 173.339813, 7.71802187 4.49258804 173.397842, 8.07907581 5.98180103 173.658524, 5.10634804 2.1040585 168.67804, 5.40100574 3.24116778 168.790115, 5.60691357 4.36801815 169.069321, 5.7571826 5.39732933 169.613678, 4.37005329 2.60015631 166.982101, 4.35559607 3.54722428 166.972519, 4.36307144 4.48467684 166.834351, 4.42717218 5.34102249 166.451721, 
+      -5.14886189 2.10112977 168.6772, -5.28634214 3.22439623 169.005157, -5.34301329 4.31714153 169.436035, -5.29558516 5.31746387 170.012299, -4.41130638 2.6001482 166.982071, -4.41084242 3.54152751 166.990036, -4.39299536 4.47191477 166.80603, -4.43253183 5.32651138 166.407944
+    </array>
+    <array name="endIndices" size="54" type="U32">
+      3 7 11 15 19 23 27 31 35 39 43 47 51 55 59 63 67 71 75 79 83 87 91 95 99 103 107 111 115 119 123 127 
+      131 135 139 143 147 151 155 159 163 167 171 175 179 183 187 191 195 199 203 207 211 215
+    </array>
+    <value name="numFaces" type="U32">48</value>
+    <array name="faceIndices" size="144" type="U32">
+      8 9 1 1 0 8 2 3 8 8 0 2 5 11 12 12 4 5 6 4 12 12 7 6 7 12 13 8 3 10 33 34 
+      35 35 36 33 17 37 38 38 15 17 15 38 39 39 16 15 16 39 40 40 18 16 18 40 19 21 20 33 33 36 21 42 
+      52 23 23 31 42 46 26 53 26 23 52 52 53 26 42 31 32 32 43 42 44 37 17 17 24 44 24 25 45 45 44 24 
+      46 45 25 25 27 46 26 46 27 28 43 32 32 30 28 47 48 29 28 29 48 48 43 28 41 22 49 49 22 21 21 36 
+      49 35 34 14 14 50 35 19 51 50 50 14 19 51 19 40
+    </array>
+    <array name="faceUVs" size="144" type="Vec2">
+      0.226905942 0.794805288, 0.211002678 0.79558444, 0.202327177 0.834092736, 0.202327177 0.834092736, 0.215681255 0.842556238, 0.226905942 0.794805288, 0.230049849 0.841271996, 0.233732909 0.819061041, 0.226905942 0.794805288, 0.226905942 0.794805288, 0.215681255 0.842556238, 0.230049849 0.841271996, 0.798733413 0.833897233, 0.790666759 0.795309186, 0.773916006 0.794707537, 0.773916006 0.794707537, 
+      0.785370052 0.842337906, 0.798733413 0.833897233, 0.771003008 0.841028988, 0.785370052 0.842337906, 0.773916006 0.794707537, 0.773916006 0.794707537, 0.767343938 0.818811655, 0.771003008 0.841028988, 0.767343938 0.818811655, 0.773916006 0.794707537, 0.753832102 0.797130466, 0.226905942 0.794805288, 0.233732909 0.819061041, 0.247275889 0.79744494, 0.279465914 0.844253123, 0.273553193 0.883396208, 
+      0.288128734 0.874748826, 0.288128734 0.874748826, 0.297661364 0.83250761, 0.279465914 0.844253123, 0.500782847 0.977104247, 0.500674367 0.946490526, 0.44997111 0.949438751, 0.44997111 0.949438751, 0.446409643 0.97619617, 0.500782847 0.977104247, 0.446409643 0.97619617, 0.44997111 0.949438751, 0.405338526 0.949428856, 0.405338526 0.949428856, 0.398160338 0.973573506, 0.446409643 0.97619617, 
+      0.398160338 0.973573506, 0.405338526 0.949428856, 0.355921149 0.944430947, 0.355921149 0.944430947, 0.348032236 0.96779412, 0.398160338 0.973573506, 0.348032236 0.96779412, 0.355921149 0.944430947, 0.302713662 0.947229147, 0.290826142 0.816957772, 0.267283142 0.824803174, 0.279465914 0.844253123, 0.279465914 0.844253123, 0.297661364 0.83250761, 0.290826142 0.816957772, 0.713274837 0.873523474, 
+      0.707625866 0.902449906, 0.72320509 0.911616087, 0.72320509 0.911616087, 0.728116333 0.883740246, 0.713274837 0.873523474, 0.643020928 0.945017815, 0.698177099 0.946891665, 0.68714267 0.931809068, 0.698177099 0.946891665, 0.72320509 0.911616087, 0.707625866 0.902449906, 0.707625866 0.902449906, 0.68714267 0.931809068, 0.698177099 0.946891665, 0.713274837 0.873523474, 0.728116333 0.883740246, 
+      0.721528053 0.84395951, 0.721528053 0.84395951, 0.703354597 0.832617819, 0.713274837 0.873523474, 0.54983747 0.948902428, 0.500674367 0.946490526, 0.500782847 0.977104247, 0.500782847 0.977104247, 0.55202353 0.975808501, 0.54983747 0.948902428, 0.55202353 0.975808501, 0.601168394 0.973282576, 0.594778657 0.949148238, 0.594778657 0.949148238, 0.54983747 0.948902428, 0.55202353 0.975808501, 
+      0.643020928 0.945017815, 0.594778657 0.949148238, 0.601168394 0.973282576, 0.601168394 0.973282576, 0.663333714 0.960783482, 0.643020928 0.945017815, 0.698177099 0.946891665, 0.643020928 0.945017815, 0.663333714 0.960783482, 0.710195005 0.816642761, 0.703354597 0.832617819, 0.721528053 0.84395951, 0.721528053 0.84395951, 0.733729959 0.82453239, 0.710195005 0.816642761, 0.699124336 0.786309361, 
+      0.696665108 0.808359742, 0.704642296 0.807985723, 0.710195005 0.816642761, 0.704642296 0.807985723, 0.696665108 0.808359742, 0.696665108 0.808359742, 0.703354597 0.832617819, 0.710195005 0.816642761, 0.302076578 0.786964834, 0.296387315 0.808311224, 0.303575605 0.808659196, 0.303575605 0.808659196, 0.296387315 0.808311224, 0.290826142 0.816957772, 0.290826142 0.816957772, 0.297661364 0.83250761, 
+      0.303575605 0.808659196, 0.288128734 0.874748826, 0.273553193 0.883396208, 0.277720869 0.91190666, 0.277720869 0.91190666, 0.294382811 0.903781831, 0.288128734 0.874748826, 0.302713662 0.947229147, 0.313051999 0.93105346, 0.294382811 0.903781831, 0.294382811 0.903781831, 0.277720869 0.91190666, 0.302713662 0.947229147, 0.313051999 0.93105346, 0.302713662 0.947229147, 0.355921149 0.944430947
+      
+    </array>
+    <value name="numBones" type="U32">5</value>
+    <array name="boneIndices" size="54" type="Vec4">
+      0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 2 3 0, 0 1 2 3, 
+      0 1 2 3, 0 2 3 4, 0 1 2 3, 0 1 2 3, 0 2 0 0, 0 2 0 0, 0 2 0 0, 0 2 4 0, 0 1 2 4, 0 1 2 4, 0 1 2 4, 0 1 2 4, 0 2 0 0, 0 2 0 0, 0 2 0 0, 0 2 0 0, 
+      0 2 0 0, 0 2 0 0, 0 2 0 0, 0 2 0 0, 0 2 0 0, 0 2 0 0, 0 2 0 0, 0 1 2 3, 0 1 2 3, 0 0 0 0, 0 2 0 0, 0 2 0 0, 0 2 0 0, 0 1 2 4, 0 1 2 4, 0 0 0 0, 
+      0 2 0 0, 0 2 0 0, 0 2 3 0, 0 1 2 3, 0 2 4 0, 0 1 2 4
+    </array>
+    <array name="boneWeights" size="54" type="Vec4">
+      1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 1 0 0 0, 0.800853074 0.199116454 3.04765417e-005 0, 0.494091928 6.83275702e-012 0.505528927 0.00037913752, 
+      0.487888098 1.42094674e-008 0.504029095 0.00808278285, 0.483209342 0.516740441 2.51125603e-005 2.51108759e-005, 0.449380755 5.41451243e-007 0.5149858 0.0356329344, 0.562584937 9.57349542e-008 0.426224291 0.0111906892, 0.999929249 7.07749641e-005 0 0, 0.999955714 4.42961209e-005 0 0, 0.999999642 3.69405001e-007 0 0, 0.800628424 0.199341103 3.04738096e-005 0, 0.49409312 6.83106566e-012 0.505527735 0.000379119068, 0.487888336 1.420951e-008 0.504028916 0.00808275957, 0.562472343 9.57420525e-008 0.426336795 0.0111907767, 0.449378103 5.41469376e-007 0.514986575 0.0356347114, 0.999955714 4.42783494e-005 0 0, 0.999999642 3.71218249e-007 0 0, 0.999928534 7.14407361e-005 0 0, 0.952844441 0.0471555814 0 0, 
+      0.998533309 0.00146669254 0 0, 0.998546064 0.00145391293 0 0, 0.954572737 0.0454272628 0 0, 0.982487023 0.017512951 0 0, 0.999554574 0.000445407204 0 0, 0.637719452 0.362280548 0 0, 0.661444545 0.338555455 0 0, 0.678694844 2.27575007e-011 0.321196675 0.000108475368, 0.656826735 1.42669132e-009 0.341544777 0.00162848353, 1 0 0 0, 0.982496977 0.0175030008 0 0, 0.999554873 0.000445113896 0 0, 0.661444843 0.338555187 0 0, 0.67869544 2.27586717e-011 0.321196079 0.000108480621, 0.656708062 1.42673939e-009 0.341663539 0.00162841182, 1 0 0 0, 
+      0.999978721 2.12519353e-005 0 0, 0.999972641 2.73343903e-005 0 0, 0.863366663 0.136631668 1.68572205e-006 0, 0.691689909 1.3670369e-010 0.307146609 0.00116351747, 0.863321364 0.136676982 1.66265863e-006 0, 0.691411912 1.36707187e-010 0.307424664 0.00116340874
+    </array>
+    <array name="boneNames" size="40" type="U8">
+      72 101 97 100 0 83 112 105 110 101 48 51 0 78 101 99 107 0 67 108 97 118 105 99 108 101 95 76 0 67 108 97 118 105 99 108 101 95 82 0
+    </array>
+    <array name="boneNameList" size="5" type="String">
+      <value type="String">Head</value>
+      <value type="String">Spine03</value>
+      <value type="String">Neck</value>
+      <value type="String">Clavicle_L</value>
+      <value type="String">Clavicle_R</value>
+    </array>
+    <array name="bindPoses" size="5" type="Mat44">
+      1.40004801e-007 -0.102122925 0.994771779 0 -1.40986083e-006 -0.994771779 -0.102122925 0 1 -1.388192e-006 -2.8325195e-007 0 -3.19205583e-007 0.962279439 165.344025 1, -2.68691707e-007 0.195995554 0.980604827 0 -1.42928252e-006 -0.980604827 0.195995554 0 1 -1.34889888e-006 5.43613339e-007 0 -2.13275143e-007 -2.76220989 131.008942 1, 3.5901266e-007 -0.261879712 0.965100586 0 -1.45053718e-006 -0.965100586 -0.261879712 0 1 -1.30589638e-006 -7.26349583e-007 0 -3.11762801e-006 2.2741282 159.010925 1, 0.978882968 -0.0402240381 -0.200425074 0 -1.35303901e-006 0.980448425 -0.19677636 0 0.20442158 0.192621306 0.959744215 0 3.50656915 1.53189528 154.264221 1, -0.978882849 -0.0402267203 -0.200425074 0 -1.33516789e-006 0.980448425 -0.19677636 0 0.204422116 -0.192620739 -0.959744215 0 -3.50658107 1.53188574 154.264221 1
+    </array>
+    <array name="boneParents" size="5" type="I32">
+      2 -1 1 2 2
+    </array>
+    <value name="numBoneSpheres" type="U32">0</value>
+    <array name="boneSpheres" size="0" type="Struct" structElements="boneSphereIndex(I32),boneSphereRadius(F32),boneSphereLocalPos(Vec3)"></array>
+    <value name="numBoneCapsules" type="U32">0</value>
+    <array name="boneCapsuleIndices" size="0" type="U32"></array>
+    <value name="numPinConstraints" type="U32">0</value>
+    <array name="pinConstraints" size="0" type="Struct" structElements="boneSphereIndex(I32),boneSphereRadius(F32),boneSphereLocalPos(Vec3)"></array>
+    <value name="sceneUnit" type="F32">1</value>
+    <value name="upAxis" type="U32">2</value>
+    <value name="handedness" type="U32">1</value>
+  </struct>
+</value>
+<value name="" type="Ref" className="HairInstanceDescriptor" version="1.1" checksum="0x4998e6df 0xd4ef511d 0x91f15d9d 0x29c4b445">
+  <struct name="">
+    <array name="materials" size="4" type="Struct">
+      <struct>
+        <value name="name" null="1" type="String"></value>
+        <value name="densityTextureChan" type="U32">0</value>
+        <value name="widthTextureChan" type="U32">0</value>
+        <value name="rootWidthTextureChan" type="U32">0</value>
+        <value name="tipWidthTextureChan" type="U32">0</value>
+        <value name="clumpScaleTextureChan" type="U32">0</value>
+        <value name="clumpNoiseTextureChan" type="U32">0</value>
+        <value name="clumpRoundnessTextureChan" type="U32">0</value>
+        <value name="waveScaleTextureChan" type="U32">0</value>
+        <value name="waveFreqTextureChan" type="U32">0</value>
+        <value name="lengthTextureChan" type="U32">0</value>
+        <value name="stiffnessTextureChan" type="U32">0</value>
+        <value name="rootStiffnessTextureChan" type="U32">0</value>
+        <value name="splineMultiplier" type="U32">3</value>
+        <value name="width" type="F32">0.150000006</value>
+        <value name="widthNoise" type="F32">0</value>
+        <value name="clumpNoise" type="F32">0</value>
+        <value name="clumpNumSubclumps" type="U32">0</value>
+        <value name="clumpRoundness" type="F32">1.28999996</value>
+        <value name="clumpScale" type="F32">0.660000026</value>
+        <value name="clumpPerVertex" type="Bool">true</value>
+        <value name="density" type="F32">0.300000012</value>
+        <value name="lengthNoise" type="F32">0.280000001</value>
+        <value name="lengthScale" type="F32">1</value>
+        <value name="widthRootScale" type="F32">1</value>
+        <value name="widthTipScale" type="F32">0.300000012</value>
+        <value name="waveRootStraighten" type="F32">0</value>
+        <value name="waveScale" type="F32">0</value>
+        <value name="waveScaleNoise" type="F32">0</value>
+        <value name="waveFreq" type="F32">1.54999995</value>
+        <value name="waveFreqNoise" type="F32">0</value>
+        <value name="waveScaleStrand" type="F32">1</value>
+        <value name="waveScaleClump" type="F32">0</value>
+        <value name="enableDistanceLOD" type="Bool">true</value>
+        <value name="distanceLODStart" type="F32">8</value>
+        <value name="distanceLODEnd" type="F32">15</value>
+        <value name="distanceLODFadeStart" type="F32">10</value>
+        <value name="distanceLODDensity" type="F32">0</value>
+        <value name="distanceLODWidth" type="F32">1</value>
+        <value name="enableDetailLOD" type="Bool">true</value>
+        <value name="detailLODStart" type="F32">1.5</value>
+        <value name="detailLODEnd" type="F32">0.25</value>
+        <value name="detailLODDensity" type="F32">0.200000003</value>
+        <value name="detailLODWidth" type="F32">0.0500000007</value>
+        <value name="colorizeLODOption" type="U32">0</value>
+        <value name="useViewfrustrumCulling" type="Bool">true</value>
+        <value name="useBackfaceCulling" type="Bool">true</value>
+        <value name="backfaceCullingThreshold" type="F32">-0.800000012</value>
+        <value name="usePixelDensity" type="Bool">false</value>
+        <value name="alpha" type="F32">0</value>
+        <value name="strandBlendScale" type="F32">1</value>
+        <value name="baseColor" type="Vec4">0 0 0 0</value>
+        <value name="diffuseBlend" type="F32">0.730000019</value>
+        <value name="diffuseScale" type="F32">1</value>
+        <value name="diffuseHairNormalWeight" type="F32">0</value>
+        <value name="diffuseBoneIndex" type="U32">0</value>
+        <value name="diffuseBoneLocalPos" type="Vec3">0 0 0</value>
+        <value name="diffuseNoiseFreqU" type="F32">64</value>
+        <value name="diffuseNoiseFreqV" type="F32">64</value>
+        <value name="diffuseNoiseScale" type="F32">0</value>
+        <value name="diffuseNoiseGain" type="F32">0</value>
+        <value name="textureBrightness" type="F32">1</value>
+        <value name="diffuseColor" type="Vec4">0 0 0 0</value>
+        <value name="rootColor" type="Vec4">0.0627451017 0.0156862754 0.0117647061 1</value>
+        <value name="tipColor" type="Vec4">0.0823529437 0.0117647061 0.00784313772 1</value>
+        <value name="glintStrength" type="F32">0.319999993</value>
+        <value name="glintCount" type="F32">18.6700001</value>
+        <value name="glintExponent" type="F32">1</value>
+        <value name="rootAlphaFalloff" type="F32">0.100000001</value>
+        <value name="rootTipColorWeight" type="F32">0.449999988</value>
+        <value name="rootTipColorFalloff" type="F32">0.730000019</value>
+        <value name="shadowSigma" type="F32">1.51999998</value>
+        <value name="specularColor" type="Vec4">0.36470589 0.239215687 0.20784314 1</value>
+        <value name="specularPrimary" type="F32">0.779999971</value>
+        <value name="specularNoiseScale" type="F32">0</value>
+        <value name="specularEnvScale" type="F32">0.25</value>
+        <value name="specularPrimaryBreakup" type="F32">0.389999986</value>
+        <value name="specularSecondary" type="F32">0.49000001</value>
+        <value name="specularSecondaryOffset" type="F32">0.660000026</value>
+        <value name="specularPowerPrimary" type="F32">128.369995</value>
+        <value name="specularPowerSecondary" type="F32">47.9799995</value>
+        <value name="strandBlendMode" type="U32">0</value>
+        <value name="useTextures" type="Bool">true</value>
+        <value name="useShadows" type="Bool">false</value>
+        <value name="shadowDensityScale" type="F32">1</value>
+        <value name="castShadows" type="Bool">true</value>
+        <value name="receiveShadows" type="Bool">true</value>
+        <value name="backStopRadius" type="F32">0.74000001</value>
+        <value name="bendStiffness" type="F32">0.720000029</value>
+        <value name="interactionStiffness" type="F32">0</value>
+        <value name="pinStiffness" type="F32">1</value>
+        <value name="collisionOffset" type="F32">0</value>
+        <value name="useCollision" type="Bool">false</value>
+        <value name="useDynamicPin" type="Bool">false</value>
+        <value name="damping" type="F32">0.0399999991</value>
+        <value name="friction" type="F32">0</value>
+        <value name="massScale" type="F32">1.5</value>
+        <value name="gravity" type="Vec3">0 0 -1</value>
+        <value name="inertiaScale" type="F32">0</value>
+        <value name="inertiaLimit" type="F32">0</value>
+        <value name="rootStiffness" type="F32">0.629999995</value>
+        <value name="tipStiffness" type="F32">0</value>
+        <value name="simulate" type="Bool">true</value>
+        <value name="stiffness" type="F32">0.100000001</value>
+        <value name="stiffnessStrength" type="F32">0.709999979</value>
+        <value name="stiffnessDamping" type="F32">0.540000021</value>
+        <value name="stiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="stiffnessStrengthCurve" type="Vec4">1 1 1 1</value>
+        <value name="stiffnessDampingCurve" type="Vec4">1 1 1 1</value>
+        <value name="bendStiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="interactionStiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="wind" type="Vec3">0 0 0</value>
+        <value name="windNoise" type="F32">0</value>
+        <value name="visualizeBones" type="Bool">false</value>
+        <value name="visualizeBoundingBox" type="Bool">false</value>
+        <value name="visualizeCapsules" type="Bool">false</value>
+        <value name="visualizeControlVertices" type="Bool">false</value>
+        <value name="visualizeCullSphere" type="Bool">false</value>
+        <value name="visualizeDiffuseBone" type="Bool">false</value>
+        <value name="visualizeFrames" type="Bool">false</value>
+        <value name="visualizeGrowthMesh" type="Bool">false</value>
+        <value name="visualizeGuideHairs" type="Bool">false</value>
+        <value name="visualizeHairInteractions" type="Bool">false</value>
+        <value name="visualizeHairSkips" type="U32">0</value>
+        <value name="visualizeLocalPos" type="Bool">false</value>
+        <value name="visualizePinConstraints" type="Bool">false</value>
+        <value name="visualizeShadingNormals" type="Bool">false</value>
+        <value name="visualizeSkinnedGuideHairs" type="Bool">false</value>
+        <value name="drawRenderHairs" type="Bool">true</value>
+        <value name="enable" type="Bool">true</value>
+      </struct>
+      <struct>
+        <value name="name" null="1" type="String"></value>
+        <value name="densityTextureChan" type="U32">0</value>
+        <value name="widthTextureChan" type="U32">0</value>
+        <value name="rootWidthTextureChan" type="U32">0</value>
+        <value name="tipWidthTextureChan" type="U32">0</value>
+        <value name="clumpScaleTextureChan" type="U32">0</value>
+        <value name="clumpNoiseTextureChan" type="U32">0</value>
+        <value name="clumpRoundnessTextureChan" type="U32">0</value>
+        <value name="waveScaleTextureChan" type="U32">0</value>
+        <value name="waveFreqTextureChan" type="U32">0</value>
+        <value name="lengthTextureChan" type="U32">0</value>
+        <value name="stiffnessTextureChan" type="U32">0</value>
+        <value name="rootStiffnessTextureChan" type="U32">0</value>
+        <value name="splineMultiplier" type="U32">0</value>
+        <value name="width" type="F32">0.100000001</value>
+        <value name="widthNoise" type="F32">0.479999989</value>
+        <value name="clumpNoise" type="F32">0</value>
+        <value name="clumpNumSubclumps" type="U32">0</value>
+        <value name="clumpRoundness" type="F32">1.53999996</value>
+        <value name="clumpScale" type="F32">1</value>
+        <value name="clumpPerVertex" type="Bool">true</value>
+        <value name="density" type="F32">0.0500000007</value>
+        <value name="lengthNoise" type="F32">1</value>
+        <value name="lengthScale" type="F32">0.910000026</value>
+        <value name="widthRootScale" type="F32">1</value>
+        <value name="widthTipScale" type="F32">0.100000001</value>
+        <value name="waveRootStraighten" type="F32">0</value>
+        <value name="waveScale" type="F32">0</value>
+        <value name="waveScaleNoise" type="F32">0</value>
+        <value name="waveFreq" type="F32">1.54999995</value>
+        <value name="waveFreqNoise" type="F32">0</value>
+        <value name="waveScaleStrand" type="F32">1</value>
+        <value name="waveScaleClump" type="F32">0</value>
+        <value name="enableDistanceLOD" type="Bool">true</value>
+        <value name="distanceLODStart" type="F32">8</value>
+        <value name="distanceLODEnd" type="F32">15</value>
+        <value name="distanceLODFadeStart" type="F32">10</value>
+        <value name="distanceLODDensity" type="F32">0</value>
+        <value name="distanceLODWidth" type="F32">1</value>
+        <value name="enableDetailLOD" type="Bool">true</value>
+        <value name="detailLODStart" type="F32">2</value>
+        <value name="detailLODEnd" type="F32">1</value>
+        <value name="detailLODDensity" type="F32">0.300000012</value>
+        <value name="detailLODWidth" type="F32">0.0299999993</value>
+        <value name="colorizeLODOption" type="U32">0</value>
+        <value name="useViewfrustrumCulling" type="Bool">true</value>
+        <value name="useBackfaceCulling" type="Bool">false</value>
+        <value name="backfaceCullingThreshold" type="F32">-0.200000003</value>
+        <value name="usePixelDensity" type="Bool">false</value>
+        <value name="alpha" type="F32">0</value>
+        <value name="strandBlendScale" type="F32">1</value>
+        <value name="baseColor" type="Vec4">0 0 0 0</value>
+        <value name="diffuseBlend" type="F32">0.730000019</value>
+        <value name="diffuseScale" type="F32">1</value>
+        <value name="diffuseHairNormalWeight" type="F32">0.49000001</value>
+        <value name="diffuseBoneIndex" type="U32">0</value>
+        <value name="diffuseBoneLocalPos" type="Vec3">0 0 0</value>
+        <value name="diffuseNoiseFreqU" type="F32">64</value>
+        <value name="diffuseNoiseFreqV" type="F32">64</value>
+        <value name="diffuseNoiseScale" type="F32">0</value>
+        <value name="diffuseNoiseGain" type="F32">0</value>
+        <value name="textureBrightness" type="F32">1</value>
+        <value name="diffuseColor" type="Vec4">0 0 0 0</value>
+        <value name="rootColor" type="Vec4">0.0627451017 0.0156862754 0.0117647061 1</value>
+        <value name="tipColor" type="Vec4">0.0823529437 0.0117647061 0.00784313772 1</value>
+        <value name="glintStrength" type="F32">0.389999986</value>
+        <value name="glintCount" type="F32">10.4799995</value>
+        <value name="glintExponent" type="F32">4.0999999</value>
+        <value name="rootAlphaFalloff" type="F32">0.209999993</value>
+        <value name="rootTipColorWeight" type="F32">0.449999988</value>
+        <value name="rootTipColorFalloff" type="F32">0.730000019</value>
+        <value name="shadowSigma" type="F32">0.360000014</value>
+        <value name="specularColor" type="Vec4">0.36470589 0.239215687 0.20784314 1</value>
+        <value name="specularPrimary" type="F32">0.25999999</value>
+        <value name="specularNoiseScale" type="F32">0</value>
+        <value name="specularEnvScale" type="F32">0.25</value>
+        <value name="specularPrimaryBreakup" type="F32">0.449999988</value>
+        <value name="specularSecondary" type="F32">0.150000006</value>
+        <value name="specularSecondaryOffset" type="F32">-0.0199999996</value>
+        <value name="specularPowerPrimary" type="F32">16.4799995</value>
+        <value name="specularPowerSecondary" type="F32">163.860001</value>
+        <value name="strandBlendMode" type="U32">0</value>
+        <value name="useTextures" type="Bool">true</value>
+        <value name="useShadows" type="Bool">false</value>
+        <value name="shadowDensityScale" type="F32">1</value>
+        <value name="castShadows" type="Bool">true</value>
+        <value name="receiveShadows" type="Bool">true</value>
+        <value name="backStopRadius" type="F32">0.74000001</value>
+        <value name="bendStiffness" type="F32">0.720000029</value>
+        <value name="interactionStiffness" type="F32">0</value>
+        <value name="pinStiffness" type="F32">1</value>
+        <value name="collisionOffset" type="F32">0</value>
+        <value name="useCollision" type="Bool">false</value>
+        <value name="useDynamicPin" type="Bool">false</value>
+        <value name="damping" type="F32">0.00999999978</value>
+        <value name="friction" type="F32">0</value>
+        <value name="massScale" type="F32">1.5</value>
+        <value name="gravity" type="Vec3">0 0 -1</value>
+        <value name="inertiaScale" type="F32">0</value>
+        <value name="inertiaLimit" type="F32">0</value>
+        <value name="rootStiffness" type="F32">0.629999995</value>
+        <value name="tipStiffness" type="F32">0</value>
+        <value name="simulate" type="Bool">true</value>
+        <value name="stiffness" type="F32">0.100000001</value>
+        <value name="stiffnessStrength" type="F32">0.550000012</value>
+        <value name="stiffnessDamping" type="F32">0</value>
+        <value name="stiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="stiffnessStrengthCurve" type="Vec4">1 1 1 1</value>
+        <value name="stiffnessDampingCurve" type="Vec4">1 1 1 1</value>
+        <value name="bendStiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="interactionStiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="wind" type="Vec3">0 0 0</value>
+        <value name="windNoise" type="F32">0</value>
+        <value name="visualizeBones" type="Bool">false</value>
+        <value name="visualizeBoundingBox" type="Bool">false</value>
+        <value name="visualizeCapsules" type="Bool">false</value>
+        <value name="visualizeControlVertices" type="Bool">false</value>
+        <value name="visualizeCullSphere" type="Bool">false</value>
+        <value name="visualizeDiffuseBone" type="Bool">false</value>
+        <value name="visualizeFrames" type="Bool">false</value>
+        <value name="visualizeGrowthMesh" type="Bool">false</value>
+        <value name="visualizeGuideHairs" type="Bool">false</value>
+        <value name="visualizeHairInteractions" type="Bool">false</value>
+        <value name="visualizeHairSkips" type="U32">0</value>
+        <value name="visualizeLocalPos" type="Bool">false</value>
+        <value name="visualizePinConstraints" type="Bool">false</value>
+        <value name="visualizeShadingNormals" type="Bool">false</value>
+        <value name="visualizeSkinnedGuideHairs" type="Bool">false</value>
+        <value name="drawRenderHairs" type="Bool">true</value>
+        <value name="enable" type="Bool">true</value>
+      </struct>
+      <struct>
+        <value name="name" null="1" type="String"></value>
+        <value name="densityTextureChan" type="U32">0</value>
+        <value name="widthTextureChan" type="U32">0</value>
+        <value name="rootWidthTextureChan" type="U32">0</value>
+        <value name="tipWidthTextureChan" type="U32">0</value>
+        <value name="clumpScaleTextureChan" type="U32">0</value>
+        <value name="clumpNoiseTextureChan" type="U32">0</value>
+        <value name="clumpRoundnessTextureChan" type="U32">0</value>
+        <value name="waveScaleTextureChan" type="U32">0</value>
+        <value name="waveFreqTextureChan" type="U32">0</value>
+        <value name="lengthTextureChan" type="U32">0</value>
+        <value name="stiffnessTextureChan" type="U32">0</value>
+        <value name="rootStiffnessTextureChan" type="U32">0</value>
+        <value name="splineMultiplier" type="U32">0</value>
+        <value name="width" type="F32">0.100000001</value>
+        <value name="widthNoise" type="F32">0.479999989</value>
+        <value name="clumpNoise" type="F32">0</value>
+        <value name="clumpNumSubclumps" type="U32">0</value>
+        <value name="clumpRoundness" type="F32">1.53999996</value>
+        <value name="clumpScale" type="F32">1</value>
+        <value name="clumpPerVertex" type="Bool">true</value>
+        <value name="density" type="F32">0.0500000007</value>
+        <value name="lengthNoise" type="F32">1</value>
+        <value name="lengthScale" type="F32">0.910000026</value>
+        <value name="widthRootScale" type="F32">1</value>
+        <value name="widthTipScale" type="F32">0.100000001</value>
+        <value name="waveRootStraighten" type="F32">0</value>
+        <value name="waveScale" type="F32">0</value>
+        <value name="waveScaleNoise" type="F32">0</value>
+        <value name="waveFreq" type="F32">1.54999995</value>
+        <value name="waveFreqNoise" type="F32">0</value>
+        <value name="waveScaleStrand" type="F32">1</value>
+        <value name="waveScaleClump" type="F32">0</value>
+        <value name="enableDistanceLOD" type="Bool">true</value>
+        <value name="distanceLODStart" type="F32">8</value>
+        <value name="distanceLODEnd" type="F32">15</value>
+        <value name="distanceLODFadeStart" type="F32">10</value>
+        <value name="distanceLODDensity" type="F32">0</value>
+        <value name="distanceLODWidth" type="F32">1</value>
+        <value name="enableDetailLOD" type="Bool">true</value>
+        <value name="detailLODStart" type="F32">2</value>
+        <value name="detailLODEnd" type="F32">1</value>
+        <value name="detailLODDensity" type="F32">0.300000012</value>
+        <value name="detailLODWidth" type="F32">0.0299999993</value>
+        <value name="colorizeLODOption" type="U32">0</value>
+        <value name="useViewfrustrumCulling" type="Bool">true</value>
+        <value name="useBackfaceCulling" type="Bool">false</value>
+        <value name="backfaceCullingThreshold" type="F32">-0.200000003</value>
+        <value name="usePixelDensity" type="Bool">false</value>
+        <value name="alpha" type="F32">0</value>
+        <value name="strandBlendScale" type="F32">1</value>
+        <value name="baseColor" type="Vec4">0 0 0 0</value>
+        <value name="diffuseBlend" type="F32">0.730000019</value>
+        <value name="diffuseScale" type="F32">1</value>
+        <value name="diffuseHairNormalWeight" type="F32">0.49000001</value>
+        <value name="diffuseBoneIndex" type="U32">0</value>
+        <value name="diffuseBoneLocalPos" type="Vec3">0 0 0</value>
+        <value name="diffuseNoiseFreqU" type="F32">64</value>
+        <value name="diffuseNoiseFreqV" type="F32">64</value>
+        <value name="diffuseNoiseScale" type="F32">0</value>
+        <value name="diffuseNoiseGain" type="F32">0</value>
+        <value name="textureBrightness" type="F32">1</value>
+        <value name="diffuseColor" type="Vec4">0 0 0 0</value>
+        <value name="rootColor" type="Vec4">0.0627451017 0.0156862754 0.0117647061 1</value>
+        <value name="tipColor" type="Vec4">0.0823529437 0.0117647061 0.00784313772 1</value>
+        <value name="glintStrength" type="F32">0.389999986</value>
+        <value name="glintCount" type="F32">10.4799995</value>
+        <value name="glintExponent" type="F32">4.0999999</value>
+        <value name="rootAlphaFalloff" type="F32">0.209999993</value>
+        <value name="rootTipColorWeight" type="F32">0.449999988</value>
+        <value name="rootTipColorFalloff" type="F32">0.730000019</value>
+        <value name="shadowSigma" type="F32">0.360000014</value>
+        <value name="specularColor" type="Vec4">0.36470589 0.239215687 0.20784314 1</value>
+        <value name="specularPrimary" type="F32">0.25999999</value>
+        <value name="specularNoiseScale" type="F32">0</value>
+        <value name="specularEnvScale" type="F32">0.25</value>
+        <value name="specularPrimaryBreakup" type="F32">0.449999988</value>
+        <value name="specularSecondary" type="F32">0.150000006</value>
+        <value name="specularSecondaryOffset" type="F32">-0.0199999996</value>
+        <value name="specularPowerPrimary" type="F32">16.4799995</value>
+        <value name="specularPowerSecondary" type="F32">163.860001</value>
+        <value name="strandBlendMode" type="U32">0</value>
+        <value name="useTextures" type="Bool">true</value>
+        <value name="useShadows" type="Bool">false</value>
+        <value name="shadowDensityScale" type="F32">1</value>
+        <value name="castShadows" type="Bool">true</value>
+        <value name="receiveShadows" type="Bool">true</value>
+        <value name="backStopRadius" type="F32">0.74000001</value>
+        <value name="bendStiffness" type="F32">0.720000029</value>
+        <value name="interactionStiffness" type="F32">0</value>
+        <value name="pinStiffness" type="F32">1</value>
+        <value name="collisionOffset" type="F32">0</value>
+        <value name="useCollision" type="Bool">false</value>
+        <value name="useDynamicPin" type="Bool">false</value>
+        <value name="damping" type="F32">0.00999999978</value>
+        <value name="friction" type="F32">0</value>
+        <value name="massScale" type="F32">1.5</value>
+        <value name="gravity" type="Vec3">0 0 -1</value>
+        <value name="inertiaScale" type="F32">0</value>
+        <value name="inertiaLimit" type="F32">0</value>
+        <value name="rootStiffness" type="F32">0.629999995</value>
+        <value name="tipStiffness" type="F32">0</value>
+        <value name="simulate" type="Bool">true</value>
+        <value name="stiffness" type="F32">0.100000001</value>
+        <value name="stiffnessStrength" type="F32">0.550000012</value>
+        <value name="stiffnessDamping" type="F32">0</value>
+        <value name="stiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="stiffnessStrengthCurve" type="Vec4">1 1 1 1</value>
+        <value name="stiffnessDampingCurve" type="Vec4">1 1 1 1</value>
+        <value name="bendStiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="interactionStiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="wind" type="Vec3">0 0 0</value>
+        <value name="windNoise" type="F32">0</value>
+        <value name="visualizeBones" type="Bool">false</value>
+        <value name="visualizeBoundingBox" type="Bool">false</value>
+        <value name="visualizeCapsules" type="Bool">false</value>
+        <value name="visualizeControlVertices" type="Bool">false</value>
+        <value name="visualizeCullSphere" type="Bool">false</value>
+        <value name="visualizeDiffuseBone" type="Bool">false</value>
+        <value name="visualizeFrames" type="Bool">false</value>
+        <value name="visualizeGrowthMesh" type="Bool">false</value>
+        <value name="visualizeGuideHairs" type="Bool">false</value>
+        <value name="visualizeHairInteractions" type="Bool">false</value>
+        <value name="visualizeHairSkips" type="U32">0</value>
+        <value name="visualizeLocalPos" type="Bool">false</value>
+        <value name="visualizePinConstraints" type="Bool">false</value>
+        <value name="visualizeShadingNormals" type="Bool">false</value>
+        <value name="visualizeSkinnedGuideHairs" type="Bool">false</value>
+        <value name="drawRenderHairs" type="Bool">true</value>
+        <value name="enable" type="Bool">true</value>
+      </struct>
+      <struct>
+        <value name="name" null="1" type="String"></value>
+        <value name="densityTextureChan" type="U32">0</value>
+        <value name="widthTextureChan" type="U32">0</value>
+        <value name="rootWidthTextureChan" type="U32">0</value>
+        <value name="tipWidthTextureChan" type="U32">0</value>
+        <value name="clumpScaleTextureChan" type="U32">0</value>
+        <value name="clumpNoiseTextureChan" type="U32">0</value>
+        <value name="clumpRoundnessTextureChan" type="U32">0</value>
+        <value name="waveScaleTextureChan" type="U32">0</value>
+        <value name="waveFreqTextureChan" type="U32">0</value>
+        <value name="lengthTextureChan" type="U32">0</value>
+        <value name="stiffnessTextureChan" type="U32">0</value>
+        <value name="rootStiffnessTextureChan" type="U32">0</value>
+        <value name="splineMultiplier" type="U32">0</value>
+        <value name="width" type="F32">0.100000001</value>
+        <value name="widthNoise" type="F32">0.479999989</value>
+        <value name="clumpNoise" type="F32">0</value>
+        <value name="clumpNumSubclumps" type="U32">0</value>
+        <value name="clumpRoundness" type="F32">1.53999996</value>
+        <value name="clumpScale" type="F32">1</value>
+        <value name="clumpPerVertex" type="Bool">true</value>
+        <value name="density" type="F32">0.0500000007</value>
+        <value name="lengthNoise" type="F32">1</value>
+        <value name="lengthScale" type="F32">0.910000026</value>
+        <value name="widthRootScale" type="F32">1</value>
+        <value name="widthTipScale" type="F32">0.100000001</value>
+        <value name="waveRootStraighten" type="F32">0</value>
+        <value name="waveScale" type="F32">0</value>
+        <value name="waveScaleNoise" type="F32">0</value>
+        <value name="waveFreq" type="F32">1.54999995</value>
+        <value name="waveFreqNoise" type="F32">0</value>
+        <value name="waveScaleStrand" type="F32">1</value>
+        <value name="waveScaleClump" type="F32">0</value>
+        <value name="enableDistanceLOD" type="Bool">true</value>
+        <value name="distanceLODStart" type="F32">8</value>
+        <value name="distanceLODEnd" type="F32">15</value>
+        <value name="distanceLODFadeStart" type="F32">10</value>
+        <value name="distanceLODDensity" type="F32">0</value>
+        <value name="distanceLODWidth" type="F32">1</value>
+        <value name="enableDetailLOD" type="Bool">true</value>
+        <value name="detailLODStart" type="F32">2</value>
+        <value name="detailLODEnd" type="F32">1</value>
+        <value name="detailLODDensity" type="F32">0.300000012</value>
+        <value name="detailLODWidth" type="F32">0.0299999993</value>
+        <value name="colorizeLODOption" type="U32">0</value>
+        <value name="useViewfrustrumCulling" type="Bool">true</value>
+        <value name="useBackfaceCulling" type="Bool">false</value>
+        <value name="backfaceCullingThreshold" type="F32">-0.200000003</value>
+        <value name="usePixelDensity" type="Bool">false</value>
+        <value name="alpha" type="F32">0</value>
+        <value name="strandBlendScale" type="F32">1</value>
+        <value name="baseColor" type="Vec4">0 0 0 0</value>
+        <value name="diffuseBlend" type="F32">0.730000019</value>
+        <value name="diffuseScale" type="F32">1</value>
+        <value name="diffuseHairNormalWeight" type="F32">0.49000001</value>
+        <value name="diffuseBoneIndex" type="U32">0</value>
+        <value name="diffuseBoneLocalPos" type="Vec3">0 0 0</value>
+        <value name="diffuseNoiseFreqU" type="F32">64</value>
+        <value name="diffuseNoiseFreqV" type="F32">64</value>
+        <value name="diffuseNoiseScale" type="F32">0</value>
+        <value name="diffuseNoiseGain" type="F32">0</value>
+        <value name="textureBrightness" type="F32">1</value>
+        <value name="diffuseColor" type="Vec4">0 0 0 0</value>
+        <value name="rootColor" type="Vec4">0.0627451017 0.0156862754 0.0117647061 1</value>
+        <value name="tipColor" type="Vec4">0.0823529437 0.0117647061 0.00784313772 1</value>
+        <value name="glintStrength" type="F32">0.389999986</value>
+        <value name="glintCount" type="F32">10.4799995</value>
+        <value name="glintExponent" type="F32">4.0999999</value>
+        <value name="rootAlphaFalloff" type="F32">0.209999993</value>
+        <value name="rootTipColorWeight" type="F32">0.449999988</value>
+        <value name="rootTipColorFalloff" type="F32">0.730000019</value>
+        <value name="shadowSigma" type="F32">0.360000014</value>
+        <value name="specularColor" type="Vec4">0.36470589 0.239215687 0.20784314 1</value>
+        <value name="specularPrimary" type="F32">0.25999999</value>
+        <value name="specularNoiseScale" type="F32">0</value>
+        <value name="specularEnvScale" type="F32">0.25</value>
+        <value name="specularPrimaryBreakup" type="F32">0.449999988</value>
+        <value name="specularSecondary" type="F32">0.150000006</value>
+        <value name="specularSecondaryOffset" type="F32">-0.0199999996</value>
+        <value name="specularPowerPrimary" type="F32">16.4799995</value>
+        <value name="specularPowerSecondary" type="F32">163.860001</value>
+        <value name="strandBlendMode" type="U32">0</value>
+        <value name="useTextures" type="Bool">true</value>
+        <value name="useShadows" type="Bool">false</value>
+        <value name="shadowDensityScale" type="F32">1</value>
+        <value name="castShadows" type="Bool">true</value>
+        <value name="receiveShadows" type="Bool">true</value>
+        <value name="backStopRadius" type="F32">0.74000001</value>
+        <value name="bendStiffness" type="F32">0.720000029</value>
+        <value name="interactionStiffness" type="F32">0</value>
+        <value name="pinStiffness" type="F32">1</value>
+        <value name="collisionOffset" type="F32">0</value>
+        <value name="useCollision" type="Bool">false</value>
+        <value name="useDynamicPin" type="Bool">false</value>
+        <value name="damping" type="F32">0.00999999978</value>
+        <value name="friction" type="F32">0</value>
+        <value name="massScale" type="F32">1.5</value>
+        <value name="gravity" type="Vec3">0 0 -1</value>
+        <value name="inertiaScale" type="F32">0</value>
+        <value name="inertiaLimit" type="F32">0</value>
+        <value name="rootStiffness" type="F32">0.629999995</value>
+        <value name="tipStiffness" type="F32">0</value>
+        <value name="simulate" type="Bool">true</value>
+        <value name="stiffness" type="F32">0.100000001</value>
+        <value name="stiffnessStrength" type="F32">0.550000012</value>
+        <value name="stiffnessDamping" type="F32">0</value>
+        <value name="stiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="stiffnessStrengthCurve" type="Vec4">1 1 1 1</value>
+        <value name="stiffnessDampingCurve" type="Vec4">1 1 1 1</value>
+        <value name="bendStiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="interactionStiffnessCurve" type="Vec4">1 1 1 1</value>
+        <value name="wind" type="Vec3">0 0 0</value>
+        <value name="windNoise" type="F32">0</value>
+        <value name="visualizeBones" type="Bool">false</value>
+        <value name="visualizeBoundingBox" type="Bool">false</value>
+        <value name="visualizeCapsules" type="Bool">false</value>
+        <value name="visualizeControlVertices" type="Bool">false</value>
+        <value name="visualizeCullSphere" type="Bool">false</value>
+        <value name="visualizeDiffuseBone" type="Bool">false</value>
+        <value name="visualizeFrames" type="Bool">false</value>
+        <value name="visualizeGrowthMesh" type="Bool">false</value>
+        <value name="visualizeGuideHairs" type="Bool">false</value>
+        <value name="visualizeHairInteractions" type="Bool">false</value>
+        <value name="visualizeHairSkips" type="U32">0</value>
+        <value name="visualizeLocalPos" type="Bool">false</value>
+        <value name="visualizePinConstraints" type="Bool">false</value>
+        <value name="visualizeShadingNormals" type="Bool">false</value>
+        <value name="visualizeSkinnedGuideHairs" type="Bool">false</value>
+        <value name="drawRenderHairs" type="Bool">true</value>
+        <value name="enable" type="Bool">true</value>
+      </struct>
+    </array>
+  </struct>
+</value>
+</NvParameters>

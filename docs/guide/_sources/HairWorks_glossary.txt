@@ -1,0 +1,173 @@
+Glossary
+------------------
+
+* **Ambient Scale**
+
+  - The strength of ambient light in the scene.
+
+    - A value range of 0 to 1 can be used. 
+
+
+* **Backstop**
+
+  - A representation of the GrowthMesh that helps keep the fur from penetrating the surface.
+
+    - A value range of 0(not applied) to 1(applied at a radius determined by the length of fur and mesh density) can be used. 
+
+* **Clump Noise**
+
+  - The strength of noise used to determine which fur strands are included in various clumps.
+
+    - A value range of 0(no noise applied) to 1(maximum noise applied) can be used. 
+
+* **Clump Scale**
+
+  - The strength that clumping is applied to fur.
+
+    - A value range of 0(no clumping) to 1(maximum clumping) can be used. 
+
+    - A black and white control texture can be used as multiplier. 
+
+* **Clump Shape**
+
+  - Determines the shape of each clump.
+
+    - A value range of 0.2 (concave profile to the clump) to 2(convex profile to each clump) can be used. 
+
+    - A black and white control texture can be used as multiplier. 
+
+* **Damping**
+
+  - The strength of damping applied to fur. Damping is the effect of reducing oscillations in a system.
+
+    - A value range of 0(not applied) to .1(maximum amount applied) can be used. 
+
+* **Density**
+
+  - How dense the interpolation of strands are between guide curves. Max is 64 per face.
+
+    - A value range of 0(no Fur strands) to 1(maximum Fur strands applied) can be used. 
+
+    - A black and white control texture can be used as multiplier. 
+
+* **Diffuse Blend**
+
+  - The strength of blend between the fur and body shader.
+
+    - A value range of 0 to 1 can be used. 
+
+* **Diffuse Scale**
+
+  - The strength of diffuse materials in the scene.
+
+    - A value range of 0 to 1 can be used. 
+
+* **Global Stiffness**
+
+  - The stiffness of the entire fur strand.
+
+    - A value range of 0(not stiff) to 1(maximum stiffness) can be used. 
+
+    - A black and white control texture can be used as multiplier. 
+
+* **Gravity**
+
+  - What goes up, must come down. The direction for gravity relative to fur.
+
+* **Root Stiffness**
+
+  - The stiffness of the root of the fur strand.
+
+    - A value range of 0(not stiff) to 1(maximum stiffness) can be used. 
+
+    - A black and white control texture can be used as multiplier. 
+
+* **Root Width Scale**
+
+  - The width of the root of each fur strand. This value is multiplied by the Width control
+
+    - A value range of 0(thin) to 1(wide) can be used. 
+
+    - A black and white control texture can be used as multiplier. 
+
+* **Shadow Attenuation**
+
+  - Define.
+
+* **Specular Color**
+
+  - The color(RGB) that is applied to primary and secondary specular components.
+
+* **Specular Primary Scale**
+
+  - The strength of the primary specular component. 
+
+    - A value range of 0 to 1can be used. 
+
+* **Specular Primary Shininess**
+
+  - The strength of the fall off for the primary specular component. 
+
+    - A value range of 0 (soft falloff) to 1(hard falloff) can be used. 
+
+* **Specular Secondary Scale**
+
+  - The strength of the secondary specular component. The secondary specular pattern or hot spots can be slightly different from the primary.
+
+    - A value range of 0 to 1 can be used. 
+
+* **Specular Secondary Shininess**
+
+  - The strength of the fall off for the secondary specular component. 
+
+    - A value range of 0 (soft falloff) to 1(hard falloff) can be used. 
+
+* **Specular Secondary Tangent Offset**
+
+  - The strength for how much the secondary specular component will be offset from the primary specular component based on the lighting direction. 
+
+    - A value range of -1 to 1 can be used. 0 is the default and would line up with the primary specular component. 
+
+* **Tip Width Scale**
+
+  - The width of the tip of each fur strand. This value is multiplied by the Width control
+
+    - A value range of 0(thin) to 1(wide) can be used. 
+
+    - A black and white control texture can be used as multiplier. 
+
+* **Waviness Frequency**
+
+  - The strength of Waviness Frequency applied to each fur strand.
+
+    - A value range of 1(1 sin wave ) to 10(10 sin waves applied) can be used. 
+
+* **Waviness Frequency Noise**
+
+  - The strength of noise applied to Waviness Frequency for each fur strand.
+
+    - A value range of 0(not applied) to 1(maximum amount applied) can be used. 
+
+* **Waviness Scale**
+ 
+  - The strength of Waviness Frequency applied to each fur strand.
+
+    - A value range of 0(not applied) to 1(maximum amount applied) can be used. 
+
+* **Waviness Scale Noise**
+ 
+  - The strength of noise applied to Waviness Scale for each fur strand.
+
+    - A value range of 0(not applied) to 1(maximum amount applied) can be used. 
+
+* **Width**
+ 
+  - The overall Width of each fur strand. This value multiplies Root Width and Tip Width globally across the asset.
+
+    - A value range of 1(results in base values for Root Width and Tip Width) to 10(maximum Width) can be used. 
+
+* **Wind Noise**
+ 
+  - The strength of random noise applied to Wind. This generates a random oscillation on the fur that respects wind direction if one is applied.
+
+    - A value range of 0 to 1 can be used. 

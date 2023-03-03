@@ -1,0 +1,66 @@
+.. Replace existing content with product specific content. Layout for this page should be consistent for all products. 
+
+Release Notes 
+=======================================
+
+|PRODUCTNAMEDOCRELEASEBOLD|
+
+NVIDIA HairWorks is a library for simulating and rendering dynamic hair and fur.
+
+What's New
+-----------------------
+
+**General**
+
+.. * This is a sub point release and is mainly about small improvements and bug fixes. 
+
+|VERSIONBOLD|
+
+* Multi Sample Anti-Aliasing (MSAA) exposed for custom rendering
+* Shadow map resolution alterable in viewer
+* Light control improved in viewer
+* New viewer samples (Female/Sakura, Caterpillar)
+* Sample projects for Visual Studio 2013 & 2015
+* Samples use DXUT 11  (https://dxut.codeplex.com/)
+* Small bug fixes and improvements  
+
+Known Limitations
+------------------
+
+* No multi material support for any mesh type in the HairWorks viewer.
+
+* Currently there is no support for adding extra animation files via fbx in the HairWorks viewer.
+
+* Shadows may flicker a bit depending on the asset in HairWorks viewer. This is due to shadow resolution and depends on the shadow sampling techniques used in a given game engine.
+
+* Guide hairs must be placed on the vertex of a growth mesh. DCC plug ins will move guides to closest vertex if they are not properly aligned.
+
+* Only one guide per vertex is supported. Extra guides on vertex will be ignored at export.
+
+* Number of cv/knot sampling per guide hair is the same per asset. Sampling is adjusted in DCC.
+
+* Hair Interaction does not opperate between hairs of different assets.
+
+* Alpha sorting is not supported.  So the root alpha feature must be used with limited range.
+
+* The viewer currently supports only one character. However the character can have multiple hair assets.
+
+Source Sample Assets
+------------------
+* Source files were generated with:
+
+  - 3dsmax 2013 native 3dsMax Hair and Fur modifier. 
+
+  - Maya 2013.5 Shave and a Haircut from http://www.joealter.com 
+.. -----------------------
+
+.. * `Forums`_
+
+.. * `Report a bug`_
+
+.. If links above are used, replace URL below. 
+.. _Forums: http://devtalk.nvidia.com
+.. _Report a bug: http://developer.nvidia.com/contact
+
+.. toctree::
+   :maxdepth: 1

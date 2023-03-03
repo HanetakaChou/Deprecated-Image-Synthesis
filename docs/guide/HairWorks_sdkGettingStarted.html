@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+    
+    <title>SDK Getting Started &mdash; NVIDIA HairWorks 1.1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/breathe.css" type="text/css" />
+    <link rel="stylesheet" href="_static/application.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styleguide.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/bootstrap.js"></script>
+    <script type="text/javascript" src="_static/jquery.cookie.js"></script>
+    <script type="text/javascript" src="_static/jquery.storageapi.js"></script>
+    <link rel="top" title="NVIDIA HairWorks 1.1.1 documentation" href="index.html" />
+    <link rel="next" title="Release Notes" href="releasenotes.html" />
+    <link rel="prev" title="SDK Samples" href="HairWorks_sdkSamples.html" /> 
+  </head>
+  <body>
+<nav class="navbar navbar-inverse navbar-default">
+  <div class="row">
+      <div class="navbar-brand">
+             <img class="logo" src="_static/developerzone_gameworks_logo.png" alt="Logo"/>
+      </div>
+<div id="searchbox" style="display: none; float:right; padding-top:4px; padding-right:4px">
+    <form class="search form-inline" action="search.html" method="get">
+      <div class="form-group">
+      <input type="text" name="q" class="form-control" />
+      <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+</nav>
+<div class="masthead">
+    <div class="row">
+      <ul class="breadcrumb">
+        <li><a href="index.html">NVIDIA HairWorks 1.1.1 documentation</a></li> 
+      </ul>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-3 bs-sidenav" style="white-space: nowrap; overflow: auto;">
+<div class="bs-sidebar">
+  <div id="sidebar_toc">
+  <h4>Table Of Contents</h4>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="product.html">NVIDIA HairWorks 1.1.1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="product.html#about-hairworks">About HairWorks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product.html#overview">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_gettingStarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_gettingStarted.html#how-to-run-hairworks-viewer">How to run HairWorks Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_gettingStarted.html#how-to-open-art-samples">How to open Art Samples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_viewerReference.html">Viewer Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#user-interface">User Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#layout">Layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#texture-input-buttons">Texture Input Buttons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#curve-editor">Curve Editor</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#menus">Menus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#file">File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#view">View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#help">Help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#toolbar">Toolbar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#hair-tab">Hair Tab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#asset-selection">Asset Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#general-settings">General Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#visualization">Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#physical">Physical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#style">Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#graphics">Graphics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#level-of-detail">Level of Detail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#control-texture-channels">Control Texture Channels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#display-tab">Display Tab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#scene">Scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#light">Light</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#display-meshes">Display Meshes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#display-mesh-materials">Display Mesh Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#keyboard-shortcuts">Keyboard Shortcuts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#file-types">File Types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Using_HairWorks.html">Using NVIDIA HairWorks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#asset-preparation">Asset Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#maya-and-3dsmax">Maya and 3dsMax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#control-textures">Control Textures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#using-hairworks-viewer">Using HairWorks Viewer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_sdkSamples.html">SDK Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#how-to-build-run-sample-project">How to build/run sample project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursamplecommon">FurSampleCommon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#loading-hair-sdk">Loading Hair SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursamplesimple">FurSampleSimple</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#illustrated-features">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#running-instructions">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#details">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#declaring-hairworks-variables">Declaring HairWorks variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#upon-d3d-device-creation">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#rendering-each-frame">Rendering each frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#example-shader">Example shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursampleshading">FurSampleShading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id1">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id2">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id3">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id4">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id5">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#setting-up-texture-resources">Setting up texture resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id6">Rendering each frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id7">Example shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursampleshadow">FurSampleShadow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id8">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id9">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id10">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id11">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#global-variables">Global variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id12">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#rendering-hairs-to-shadow-map">Rendering hairs to shadow map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#preparing-custom-constant-buffers">Preparing custom constant buffers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#preparing-custom-shader-resources">Preparing custom shader resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#computing-shadows-in-the-shader">Computing shadows in the shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursampleskinning">FurSampleSkinning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id13">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id14">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id15">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id16">Details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">SDK Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#directory-structure">Directory structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api-overview">API Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#initialization">Initialization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#loading-the-library">Loading the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hair-assets-and-instances">Hair Assets and Instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loading-the-hair-asset">Loading the hair asset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initializing-d3d-runtime">Initializing D3D runtime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-and-deleting-hair-instances">Creating and deleting hair instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runtime-controls">Runtime Controls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-context-and-camera">Setting context and camera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#updating-control-parameters">Updating control parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#animating-hairs">Animating Hairs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#updating-skinning-data">Updating skinning data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulating-animating-hair">Simulating/Animating Hair</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rendering">Rendering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#managing-custom-hair-shaders">Managing custom hair shaders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rendering-hair-instance">Rendering hair instance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customizing-shader-resources-and-constant-buffers">Customizing shader resources and constant buffers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#clean-up-and-shutdown">Clean up and shutdown</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="releasenotes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#what-s-new">What&#8217;s New</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#source-sample-assets">Source Sample Assets</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="HairWorks_sdkSamples.html"
+                        title="previous chapter">SDK Samples</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="releasenotes.html"
+                        title="next chapter">Release Notes</a></p>
+<div id="searchbox" style="display: none">
+  <h4>Quick search</h4>
+    <form class="search form-inline" action="search.html" method="get">
+      <div class="form-group">
+      <input type="text" name="q" class="form-control" />
+      <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+</div>
+  </div>
+    <div class="document col-md-8">
+          <div class="body">
+            
+  <div class="section" id="sdk-getting-started">
+<h1>SDK Getting Started<a class="headerlink" href="#sdk-getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="directory-structure">
+<h2>Directory structure<a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>bin : Executables and DLL files</li>
+<li>docs : Documentations for DCC Plugin and Viewer</li>
+<li>external: DXUT libraries used to run samples</li>
+<li>include : Header files for HairWorks library integration</li>
+<li>media : Sample art resources</li>
+<li>samples : Sample projects for HairWorks library integration</li>
+</ul>
+<a class="reference internal image-reference" href="_images/HairWorks_API_Overview_Diagram.jpg"><img alt="_images/HairWorks_API_Overview_Diagram.jpg" src="_images/HairWorks_API_Overview_Diagram.jpg" style="width: 800px;" /></a>
+</div>
+<div class="section" id="api-overview">
+<h2>API Overview<a class="headerlink" href="#api-overview" title="Permalink to this headline">¶</a></h2>
+<p>HairWorks SDK provides various API functions to manage assets and GPU resources, render and simulate hairs.
+Above diagram summarizes how each API calls relates to user inputs (left) and internal resources (right).
+Main header file is located in <strong>include\GFSDK_HairWorks.h</strong> and must be included to use HairWorks data structures and runtime APIs.
+All the API functions are encapsuled by an abstract API class <strong>GFSDK_HairSDK</strong>.
+HairWorks runs in any DirectX11 capable GPU devices and require dx11 runtime.</p>
+</div>
+<div class="section" id="initialization">
+<h2>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="loading-the-library">
+<h3>Loading the library<a class="headerlink" href="#loading-the-library" title="Permalink to this headline">¶</a></h3>
+<p>The first step is to locate and load the HairWorks dll (located in <strong>bin\win32</strong> and <strong>bin\win64</strong>).
+Make sure your runtime path points to the directory or copy the dll to your bin path.</p>
+<p>To load the library:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &quot;GFSDK_HairWorks.h&quot; </span><span class="c1">// hairworks main header file</span>
+
+<span class="n">GFSDK_HairSDK</span><span class="o">*</span> <span class="n">g_hairSDK</span> <span class="o">=</span> <span class="n">GFSDK_LoadHairSDK</span><span class="p">(</span><span class="s">&quot;GFSDK_HairWorks.win64.dll&quot;</span><span class="p">,</span>
+                                              <span class="n">GFSDK_HAIRWORKS_VERSION</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>A custom memory allocator may be supplied as an optional argument.  See the header file.</p>
+</div>
+<div class="section" id="hair-assets-and-instances">
+<h3>Hair Assets and Instances<a class="headerlink" href="#hair-assets-and-instances" title="Permalink to this headline">¶</a></h3>
+<p>HairWorks defines two different types of hair data - asset (<strong>GFSDK_HairAssetDescriptor</strong>)
+and instance (<strong>GFSDK_HairInstanceDescriptor</strong>).</p>
+<p>A hair asset stores all the geometry data such as hair curves, skinning weights, etc., which are authored outside of
+HairWorks runtime and do not change during runtime.  All the asset data reside in CPU memory once loaded
+and do not consume any GPU memory, thus do not require DirectX runtime to exist.</p>
+<p>From each asset, users can instantiate multiple hair instances and its runtime behavior is controlled by the instance descriptor.
+Creation of each instance requires GPU buffers to be allocated and managed, thus requires DirectX runtime to be initialized beforehand.
+Separation of assets from instances allows users to share the same hair asset to create multiple characters, and efficiently manage GPU resources when
+hairs are not needed in certain parts of game.</p>
+</div>
+<div class="section" id="loading-the-hair-asset">
+<h3>Loading the hair asset<a class="headerlink" href="#loading-the-hair-asset" title="Permalink to this headline">¶</a></h3>
+<p>HairWorks provides multiple ways to load hair asset data.</p>
+<ol class="arabic">
+<li><p class="first">You can load a hair asset from the .apx/.apb file (generated by DCC tool or FurViewer) using the API:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">LoadHairAssetFromFile</span><span class="p">(</span>
+        <span class="s">&quot;test.apx&quot;</span><span class="p">,</span>  <span class="c1">// file path to the .apx/.apb file</span>
+        <span class="o">&amp;</span><span class="n">hairAssetID</span><span class="p">);</span> <span class="c1">// output hair asset ID from HairWorks</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">, or you can directly load it from memory buffer (e.g. when custom file system is used) using the API:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">LoadHairAssetFromMemory</span><span class="p">(</span>
+        <span class="n">memoryBuffer</span><span class="p">,</span>  <span class="c1">// user pointer that stores the entire apx file in memory</span>
+        <span class="n">memoryBufferSizeBytes</span><span class="p">,</span> <span class="c1">// size of the user memory buffer</span>
+        <span class="o">&amp;</span><span class="n">hairAssetID</span><span class="p">);</span> <span class="c1">// output hair asset ID from HairWorks</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">, or you can manually fill in the asset descriptor (GFSDK_HairAssetDescriptor) and create a hair asset from it:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">GFSDK_HairAssetDescriptor</span> <span class="n">hairAssetDescriptor</span><span class="p">;</span>
+<span class="n">hairAssetDescriptor</span><span class="p">.</span><span class="n">m_NumGuideHairs</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">// number of guide hairs</span>
+<span class="n">hairAssetDescriptor</span><span class="p">.</span><span class="n">m_NumVertices</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>  <span class="c1">// number of total hair cvs</span>
+<span class="n">hairAssetDescriptor</span><span class="p">.</span><span class="n">m_pVertices</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">;</span> <span class="c1">// cv position data</span>
+<span class="n">hairAssetDescriptor</span><span class="p">.</span><span class="n">m_pEndIndices</span> <span class="o">=</span> <span class="n">endIndices</span><span class="p">;</span> <span class="c1">// index to last cv for each guide curve</span>
+<span class="p">...</span>
+
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">CreateHairAsset</span><span class="p">(</span><span class="n">hairAssetDescriptor</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hairAssetID</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>All above APIs output a unique hair asset ID (GFSDK_HairAssetID) that can be later used to identify the hair asset
+for further modification and instance creation, so save this ID somewhere.</p>
+</div>
+<div class="section" id="initializing-d3d-runtime">
+<h3>Initializing D3D runtime<a class="headerlink" href="#initializing-d3d-runtime" title="Permalink to this headline">¶</a></h3>
+<p>When D3D device is created and intialized, initialize HairWorks runtime using the API:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">InitRenderResources</span><span class="p">(</span><span class="n">d3dDevice</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This will initialize all the global GPU resources used by HairWorks runtime such as shaders, etc.</p>
+</div>
+<div class="section" id="creating-and-deleting-hair-instances">
+<h3>Creating and deleting hair instances<a class="headerlink" href="#creating-and-deleting-hair-instances" title="Permalink to this headline">¶</a></h3>
+<p>Once the DirectX runtime was initialized, we can start creating hair instances using the API:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">GFSDK_HairInstanceID</span> <span class="n">hairInstanceID</span><span class="p">;</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">CreateHairInstance</span><span class="p">(</span><span class="n">hairAssetID</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hairInstanceID</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>When hair instances are no longer needed, delete the resource using the API:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">FreeHairInstance</span><span class="p">(</span><span class="n">hairInstanceID</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="runtime-controls">
+<h3>Runtime Controls<a class="headerlink" href="#runtime-controls" title="Permalink to this headline">¶</a></h3>
+<p>To simulate and render hairs, use the API functions described in this section.
+In many situations, users may want to separate code path for animation/simulation from rendering control flow.
+For each such code path, one needs to set the followings.</p>
+</div>
+<div class="section" id="setting-context-and-camera">
+<h3>Setting context and camera<a class="headerlink" href="#setting-context-and-camera" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">set render context for HairWorks:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">SetCurrentContext</span><span class="p">(</span><span class="n">d3dContext</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">set view matrix and projection matrix:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">XMMATRIX</span> <span class="n">projection</span><span class="p">;</span> <span class="c1">// ... get projection matrix from your camera definition</span>
+<span class="n">XMMATRIX</span> <span class="n">view</span><span class="p">;</span>           <span class="c1">// ... get model view matrix from your camera definition</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">SetViewProjection</span><span class="p">((</span><span class="k">const</span> <span class="n">gfsdk_float4x4</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">view</span><span class="p">,(</span><span class="k">const</span> <span class="n">gfsdk_float4x4</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">projection</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>A hint about handedness of the camera may be supplied (used for backface culling feature).
+It is important to provide correct camera information as many features such as LOD rely on camera info.
+If your application has multiple windows with different camera settings, make sure to provide each camera info properly
+before calling the APIs below.</p>
+</div>
+<div class="section" id="updating-control-parameters">
+<h3>Updating control parameters<a class="headerlink" href="#updating-control-parameters" title="Permalink to this headline">¶</a></h3>
+<p>By default, HairWorks use control parameters stored in the asset.
+By updating instance descriptor, users can change all the control parameters anytime during runtime:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">GFSDK_HairInstanceDescriptor</span> <span class="n">hairInstanceDescriptor</span><span class="p">;</span>
+<span class="n">hairInstanceDescriptor</span><span class="p">.</span><span class="n">m_width</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span>
+<span class="n">hairInstanceDescriptor</span><span class="p">.</span><span class="n">m_density</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">hairInstanceDescriptor</span><span class="p">.</span><span class="n">m_lengthNoise</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+<span class="n">hairInstanceDescriptor</span><span class="p">.</span><span class="n">m_simulate</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">UpdateInstanceDescriptor</span><span class="p">(</span><span class="n">hairInstanceID</span><span class="p">,</span> <span class="n">hairInstanceDescriptor</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="animating-hairs">
+<h2>Animating Hairs<a class="headerlink" href="#animating-hairs" title="Permalink to this headline">¶</a></h2>
+<p>To move and animate hairs, a typical process is to give it an animation first,
+by updating bones used to skin animated hair shapes.
+Once skinning data are set, we call StepSimulation() to simulate motion of hairs for each frame.</p>
+<div class="section" id="updating-skinning-data">
+<h3>Updating skinning data<a class="headerlink" href="#updating-skinning-data" title="Permalink to this headline">¶</a></h3>
+<p>A skinning matrix is defined as <strong>inverse(bind pose) * world space bone matrix</strong>.
+This is exactly the same matrix you would use to skin underlying character mesh vertices.</p>
+<p>Note that number of bones and bone orders must match the ones defined in the asset descriptor.
+(see the <strong>SetBoneRemapping()</strong> API to deal with bone number/order mismatch issue).</p>
+<p>HairWorks provide the following options to update skinning.</p>
+<ol class="arabic">
+<li><p class="first">Updating the skinning with linear matrix:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">UpdateSkinningMatrices</span><span class="p">(</span><span class="n">hairInstanceID</span><span class="p">,</span> <span class="n">numBones</span><span class="p">,</span> <span class="n">skinningMatrices</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Updating the skinning with dual quaternion:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">UpdateSkinningDQs</span><span class="p">(</span><span class="n">hairInstanceID</span><span class="p">,</span> <span class="n">numBones</span><span class="p">,</span> <span class="n">dualQuats</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Note: If skinning update APIs are not used, HairWorks uses identity transform for all the skinning data.</p>
+</div>
+<div class="section" id="simulating-animating-hair">
+<h3>Simulating/Animating Hair<a class="headerlink" href="#simulating-animating-hair" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">To activate simulation, <strong>m_simulate</strong> member of <strong>GFSDK_HairInstanceDescriptor</strong> must be set to true:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// store hairInstanceDescriptor somewhere</span>
+
+<span class="n">hairInstanceDescriptor</span><span class="p">.</span><span class="n">m_simulate</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">UpdateInstanceDescriptor</span><span class="p">(</span><span class="n">hairInstanceID</span><span class="p">,</span> <span class="n">hairInstanceDescriptor</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">To simulate hairs, use the following API:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">StepSimulation</span><span class="p">();</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>This function simulates <em>all</em> active hair instances in a batch call.
+Note that if <strong>m_simulate</strong> is set to <em>false</em>, hairs will be animated due to the skinning data.
+So it is important to use this function even if you only want skinning based animation.</p>
+</div>
+</div>
+<div class="section" id="rendering">
+<h2>Rendering<a class="headerlink" href="#rendering" title="Permalink to this headline">¶</a></h2>
+<p>To render hairs, users need to set device context and camera info as above.
+Then users would set pixel shader and other rendering resources if needed.
+Then calling <strong>RenderHairs()</strong> API will draw hairs onto current render target buffers.</p>
+<div class="section" id="managing-custom-hair-shaders">
+<h3>Managing custom hair shaders<a class="headerlink" href="#managing-custom-hair-shaders" title="Permalink to this headline">¶</a></h3>
+<p>To provide maximum flexibility in hair rendering, HairWorks doesn&#8217;t use any hair shaders.
+Instead, we provide various example hair shaders in the included sample codes.
+Users can use such hair shaders or modified version of them which suit their needs the best.
+It is user&#8217;s responsibility to create and manage such shaders.</p>
+<p>Set your hair pixel shader before rendering hairs:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">d3dContext</span><span class="o">-&gt;</span><span class="n">PSSetShader</span><span class="p">(</span><span class="n">myCustomHairWorksShader</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rendering-hair-instance">
+<h3>Rendering hair instance<a class="headerlink" href="#rendering-hair-instance" title="Permalink to this headline">¶</a></h3>
+<p>To render a hair instance, use the API:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">RenderHairs</span><span class="p">(</span><span class="n">hairInstanceID</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="customizing-shader-resources-and-constant-buffers">
+<h3>Customizing shader resources and constant buffers<a class="headerlink" href="#customizing-shader-resources-and-constant-buffers" title="Permalink to this headline">¶</a></h3>
+<p>HairWorks provide the following APIs for customized shader resource managment.</p>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>GFSDK_HairShaderSettings</dt>
+<dd><p class="first last">In <strong>RenderHairs()</strong> call, users can provide additional shader settings to indicate what part of shader pipeline will be customized by the users.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>PrepareShaderConstantBuffer()</dt>
+<dd><p class="first last">HairWorks shaders need some global info such as camera projection, hair materials to be defined in a constant buffer.
+This API facilitate preparation of such constant buffers.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>See sample codes for more details of how these APIs and hair shaders work.</p>
+</div>
+</div>
+<div class="section" id="clean-up-and-shutdown">
+<h2>Clean up and shutdown<a class="headerlink" href="#clean-up-and-shutdown" title="Permalink to this headline">¶</a></h2>
+<p>To release the instance, asset, render resource and library, call the following APIs:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">FreeHairInstance</span><span class="p">(</span><span class="n">hairInstanceID</span><span class="p">);</span> <span class="c1">// deletes a hair instance</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">FreeHairAsset</span><span class="p">(</span><span class="n">hairAssetID</span><span class="p">);</span> <span class="c1">// deletes a hair asset</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">FreeRenderResources</span><span class="p">();</span> <span class="c1">// shut down global GPU resources</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">Release</span><span class="p">();</span> <span class="c1">// deletes the SDK</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<div class="masthead">
+    <div class="row">
+      <ul class="breadcrumb">
+        <li><a href="index.html">NVIDIA HairWorks 1.1.1 documentation</a></li> 
+      </ul>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-boilerplate">
+        <div class="row">
+            <div class="boilerplate">
+                Copyright &copy; 2014-2015, NVIDIA Corporation &nbsp; | &nbsp; <a href="http://www.nvidia.com/object/about-nvidia.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/about-nvidia.html_1&quot;;return this.s_oc?this.s_oc(e):true">About NVIDIA </a>&nbsp; | &nbsp; <a href="http://www.nvidia.com/object/legal_info.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/legal_info.html_1&quot;;return this.s_oc?this.s_oc(e):true">Legal Information </a>&nbsp; | &nbsp; <a href="http://www.nvidia.com/object/privacy_policy.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/privacy_policy.html_1&quot;;return this.s_oc?this.s_oc(e):true">Privacy Policy </a>
+            </div>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+var treestatename = 'GWDocsTreeState';
+var protocol = location.href.split('/')[0].toLowerCase();
+var storage;
+if (protocol.substring(0,4) == 'http') {
+  storage = $.cookieStorage;
+  storage.setPath('/');
+} else {
+  storage = $.localStorage;
+}
+
+if (storage.isEmpty(treestatename)) {
+  storage.set(treestatename, {});
+}
+
+var treestate = storage.get(treestatename);
+
+$.each($("#sidebar_toc ul li"), toc_walker);
+
+function toc_walker(key, value) {
+    var handleSpan = $("<span></span>")
+        .addClass("toc_handle").prependTo(value);
+    handleSpan.attr("id", $(value).closest("div").attr("id") + "." + key);
+
+    if($(value).has("ul li").size() > 0) {
+        var id = handleSpan.attr("id");
+        if (!(id in treestate)) {
+          treestate[id] = false;
+        }
+        handleSpan.addClass("toc_expanded").click(function() {
+            $(this).toggleClass("toc_expanded toc_collapsed").siblings("ul").toggle();
+            treestate[$(this).attr('id')] = $(this).hasClass('toc_expanded');
+            storage.set(treestatename, treestate);
+        });
+        if(!($(this).hasClass('current') || treestate[id])) {
+            handleSpan.click();
+        }
+        if($(this).hasClass('current')) {
+            treestate[handleSpan.attr('id')] = handleSpan.hasClass('toc_expanded');
+            storage.set(treestatename, treestate);
+        }
+    }
+}
+</script>
+  </body>
+</html>

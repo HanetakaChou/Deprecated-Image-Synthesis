@@ -1,0 +1,67 @@
+.. Replace existing content with product specific content. Layout for this page should be consistent for all products. 
+   Use the root `toctree` directive to include documents
+
+|PRODUCTNAME| 
+======================================
+
+.. Replace the content. Layout should not change
+
+NVIDIA HairWorks enables users to simulate and render hair and fur to provide a truly interactive game experience. The technology originates from multiple simulation and rendering technologies that NVIDIA has developed in the past. This combines rendering technologies for human hair (GDC 2008) as well as various simulation technologies shown in multiple events (Fur Demo - GDC2012). To make the hair/fur technologies a product, NVIDIA engineers have put together these existing technologies and added new techniques to ensure a smooth pipeline for a variety of characters and deformation.
+
++-------------------------------------------------------+-----------+	
+|                                                       |           |
+| **Features**                                          | |MJP|     |
+|                                                       |           |
+| * Supports off-the shelf grooming tools               |           |
+|                                                       |           |
+| * Shape & style control                               |           |
+|                                                       |           |
+| * Self shadowing                                      |           |
+|                                                       |           |
+| * Body to hair shadow casting                         |           |
+|                                                       |           |
+| * Wind interaction                                    |           |
+|                                                       |           |
+| * Continuous Level of Detail                                     |           |
+|                                                       |           |
+| * Scalability                                         |           |
+|                                                       |           |
+| * Real time editing in HairWorks Viewer               |           |
++-------------------------------------------------------+-----------+
+
+.. |MJP| image:: \_static\hwViewer_Manjaladon_Hair.jpg
+	:height: 250px
+
+Learn more about |PRODUCTNAME| 
+------------------------------
+* Visit the `product home page`_ on `NVIDIA Developer`_
+
+* Watch the `NVIDIA HairWorks Tutorials`_
+
+* View Documentation :ref:`search`
+
+.. _NVIDIA HairWorks Tutorials: https://developer.nvidia.com/hairworks-tutorials
+
+.. Other links to highlight:
+.. Link to archived docs
+.. Any other archived (version-specific) docs can be linked here as well.
+
+**Browse Documentation**
+
+.. toctree::
+   :maxdepth: 1
+   
+   product
+   HairWorks_gettingStarted
+   HairWorks_viewerReference 
+   Using_HairWorks
+   HairWorks_sdkSamples
+   HairWorks_sdkGettingStarted
+   releasenotes.rst
+.. Reference only product TOT pages here. 
+..   productOld
+..   productOlder
+
+
+
+

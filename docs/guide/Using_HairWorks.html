@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+    
+    <title>Using NVIDIA HairWorks &mdash; NVIDIA HairWorks 1.1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/breathe.css" type="text/css" />
+    <link rel="stylesheet" href="_static/application.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styleguide.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/bootstrap.js"></script>
+    <script type="text/javascript" src="_static/jquery.cookie.js"></script>
+    <script type="text/javascript" src="_static/jquery.storageapi.js"></script>
+    <link rel="top" title="NVIDIA HairWorks 1.1.1 documentation" href="index.html" />
+    <link rel="next" title="SDK Samples" href="HairWorks_sdkSamples.html" />
+    <link rel="prev" title="Viewer Reference" href="HairWorks_viewerReference.html" /> 
+  </head>
+  <body>
+<nav class="navbar navbar-inverse navbar-default">
+  <div class="row">
+      <div class="navbar-brand">
+             <img class="logo" src="_static/developerzone_gameworks_logo.png" alt="Logo"/>
+      </div>
+<div id="searchbox" style="display: none; float:right; padding-top:4px; padding-right:4px">
+    <form class="search form-inline" action="search.html" method="get">
+      <div class="form-group">
+      <input type="text" name="q" class="form-control" />
+      <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+</nav>
+<div class="masthead">
+    <div class="row">
+      <ul class="breadcrumb">
+        <li><a href="index.html">NVIDIA HairWorks 1.1.1 documentation</a></li> 
+      </ul>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-3 bs-sidenav" style="white-space: nowrap; overflow: auto;">
+<div class="bs-sidebar">
+  <div id="sidebar_toc">
+  <h4>Table Of Contents</h4>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="product.html">NVIDIA HairWorks 1.1.1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="product.html#about-hairworks">About HairWorks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product.html#overview">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_gettingStarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_gettingStarted.html#how-to-run-hairworks-viewer">How to run HairWorks Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_gettingStarted.html#how-to-open-art-samples">How to open Art Samples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_viewerReference.html">Viewer Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#user-interface">User Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#layout">Layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#texture-input-buttons">Texture Input Buttons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#curve-editor">Curve Editor</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#menus">Menus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#file">File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#view">View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#help">Help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#toolbar">Toolbar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#hair-tab">Hair Tab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#asset-selection">Asset Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#general-settings">General Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#visualization">Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#physical">Physical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#style">Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#graphics">Graphics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#level-of-detail">Level of Detail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#control-texture-channels">Control Texture Channels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#display-tab">Display Tab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#scene">Scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#light">Light</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#display-meshes">Display Meshes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#display-mesh-materials">Display Mesh Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#keyboard-shortcuts">Keyboard Shortcuts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#file-types">File Types</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Using NVIDIA HairWorks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#asset-preparation">Asset Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maya-and-3dsmax">Maya and 3dsMax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#control-textures">Control Textures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-hairworks-viewer">Using HairWorks Viewer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_sdkSamples.html">SDK Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#how-to-build-run-sample-project">How to build/run sample project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursamplecommon">FurSampleCommon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#loading-hair-sdk">Loading Hair SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursamplesimple">FurSampleSimple</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#illustrated-features">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#running-instructions">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#details">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#declaring-hairworks-variables">Declaring HairWorks variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#upon-d3d-device-creation">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#rendering-each-frame">Rendering each frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#example-shader">Example shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursampleshading">FurSampleShading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id1">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id2">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id3">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id4">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id5">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#setting-up-texture-resources">Setting up texture resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id6">Rendering each frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id7">Example shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursampleshadow">FurSampleShadow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id8">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id9">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id10">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id11">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#global-variables">Global variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id12">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#rendering-hairs-to-shadow-map">Rendering hairs to shadow map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#preparing-custom-constant-buffers">Preparing custom constant buffers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#preparing-custom-shader-resources">Preparing custom shader resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#computing-shadows-in-the-shader">Computing shadows in the shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursampleskinning">FurSampleSkinning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id13">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id14">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id15">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id16">Details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_sdkGettingStarted.html">SDK Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#directory-structure">Directory structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#api-overview">API Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#initialization">Initialization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#loading-the-library">Loading the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#hair-assets-and-instances">Hair Assets and Instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#loading-the-hair-asset">Loading the hair asset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#initializing-d3d-runtime">Initializing D3D runtime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#creating-and-deleting-hair-instances">Creating and deleting hair instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#runtime-controls">Runtime Controls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#setting-context-and-camera">Setting context and camera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#updating-control-parameters">Updating control parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#animating-hairs">Animating Hairs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#updating-skinning-data">Updating skinning data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#simulating-animating-hair">Simulating/Animating Hair</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#rendering">Rendering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#managing-custom-hair-shaders">Managing custom hair shaders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#rendering-hair-instance">Rendering hair instance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#customizing-shader-resources-and-constant-buffers">Customizing shader resources and constant buffers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#clean-up-and-shutdown">Clean up and shutdown</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="releasenotes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#what-s-new">What&#8217;s New</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#source-sample-assets">Source Sample Assets</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="HairWorks_viewerReference.html"
+                        title="previous chapter">Viewer Reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="HairWorks_sdkSamples.html"
+                        title="next chapter">SDK Samples</a></p>
+<div id="searchbox" style="display: none">
+  <h4>Quick search</h4>
+    <form class="search form-inline" action="search.html" method="get">
+      <div class="form-group">
+      <input type="text" name="q" class="form-control" />
+      <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+</div>
+  </div>
+    <div class="document col-md-8">
+          <div class="body">
+            
+  <div class="section" id="using-nvidia-hairworks">
+<h1>Using NVIDIA HairWorks<a class="headerlink" href="#using-nvidia-hairworks" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="asset-preparation">
+<h2>Asset Preparation<a class="headerlink" href="#asset-preparation" title="Permalink to this headline">¶</a></h2>
+<p><strong>Ideal Character Mesh</strong></p>
+<ul class="simple">
+<li>For fur, the Character Mesh should be a mesh without any poly strips. Poly strips are common in some productions to create fur. They interfere with simulated fur and can cause artifacts. The base mesh of the character should be treated as if it were a &#8220;shaved&#8221; animal with no fur poly strips. Some characters are already set up like this, some are not.</li>
+<li>For hair, the Character mesh should also be a mesh without any poly strips. A human for example should be treated as bald scalp.</li>
+</ul>
+<p><strong>GrowthMesh</strong></p>
+<ul>
+<li><p class="first">A GrowthMesh is a copy of the graphics mesh that is used for strand generation and shadow mapping. There is no need to render the growth mesh in the game engine. It is only used as reference for HairWorks.</p>
+</li>
+<li><p class="first">Currently The growth mesh can only have 1 material ID. Multiple materials on a single GrowthMesh are not supported at this time. If multiple textures are used on the graphics mesh, the UVs will have to be consolidated for use on the GrowthMesh.</p>
+</li>
+<li><p class="first">A GrowthMesh must be one object, however it can be made up of multiple poly shells.  Making seperate poly shells or adding splits in single shells is a good way to control how HairWorks interpolates strands between guide hairs.</p>
+<a class="reference internal image-reference" href="_images/manjaladon_GrowthMesh_Maya.jpg"><img alt="_images/manjaladon_GrowthMesh_Maya.jpg" src="_images/manjaladon_GrowthMesh_Maya.jpg" style="width: 400px;" /></a>
+</li>
+</ul>
+<p><strong>Strand Interpolation</strong></p>
+<ul>
+<li><p class="first">Hair strands are interpolated between the many guide hairs that make up a given hair asset. Sometimes there is a part in human hair, or places where you do not want the hair to interpolate.  The way to control this is to cut a gap into the growth mesh. This prevents those guides from interpolating becvause there is no surface connecting them.</p>
+<a class="reference internal image-reference" href="_images/Human_growthMesh.jpg"><img alt="_images/Human_growthMesh.jpg" src="_images/Human_growthMesh.jpg" style="width: 600px;" /></a>
+</li>
+</ul>
+<p><strong>Groom</strong></p>
+<p>It should be noted that HairWorks can support many workflows so long as certain requirements are met.</p>
+<ul class="simple">
+<li>1 Material ID is used on the GrowthMesh</li>
+<li>Hair Guides are generated near the vertices of the growth mesh.<ul>
+<li>HairGuides will be moved to the nearst vertex if they are not aligned with it.</li>
+<li>Only one guide curve can correspond to a vertex. Extras will not be exported.</li>
+</ul>
+</li>
+<li>Skinning envelopes on the GrowthMesh must have the a subset of the same bone list that occurs on the base character mesh in order for deformation and collision to work as expected.</li>
+</ul>
+<p>A variety of grooming tools off the shelf or custom can therefore be used.</p>
+<p>For more detailed information on the asset preparation, please see 3dsMax or Maya HairWorks documentation.</p>
+</div>
+<div class="section" id="maya-and-3dsmax">
+<h2>Maya and 3dsMax<a class="headerlink" href="#maya-and-3dsmax" title="Permalink to this headline">¶</a></h2>
+<p>The following example workflow is for Maya and the 3rd party plugin Shave and a Haircut(www.joealter.com ), in addition to 3dsMax and the Hair and Fur modifier.  These tools are very similar to one another.</p>
+<p>For more detailed information on the Maya or 3dsMax HairWorks plugin, please see the plug documentation.</p>
+<a class="reference internal image-reference" href="_images/manjaladon_Maya.jpg"><img alt="_images/manjaladon_Maya.jpg" src="_images/manjaladon_Maya.jpg" style="width: 600px;" /></a>
+<p><strong>Grooming</strong></p>
+<ul class="simple">
+<li>Use the Shave shelf and menu items to create a Shave node(Maya) or the hair and Fur modifier(3dsMax) on the growth mesh. Use these tools to groom and shape the curves.</li>
+<li>Reduce detail in the growth mesh where it&#8217;s not needed. Places like the mouth cavity, eyes, hands, feet, etc.. These areas likely won&#8217;t have fur and will just get in the way while grooming fur. If these areas can be removed, it will make iterating better.</li>
+<li>This is because the shadow map uses the growth mesh as shadow casting reference.</li>
+</ul>
+<img alt="_images/Maya_Shave_Create.jpg" src="_images/Maya_Shave_Create.jpg" />
+<a class="reference internal image-reference" href="_images/manjaladon_GrowthMesh_Maya.jpg"><img alt="_images/manjaladon_GrowthMesh_Maya.jpg" src="_images/manjaladon_GrowthMesh_Maya.jpg" style="width: 600px;" /></a>
+<p><strong>Convert</strong></p>
+<ul class="simple">
+<li>Convert the guide curves to splines(Maya) or a line shape(3dsMax).</li>
+</ul>
+<img alt="_images/Maya_Shave_Convert.jpg" src="_images/Maya_Shave_Convert.jpg" />
+<a class="reference internal image-reference" href="_images/manjaladon_GuideCurves_Maya.jpg"><img alt="_images/manjaladon_GuideCurves_Maya.jpg" src="_images/manjaladon_GuideCurves_Maya.jpg" style="width: 600px;" /></a>
+<p><strong>Naming</strong>
+This isn&#8217;t a requirement but it&#8217;s good practice, especially if you have a busy scene file.</p>
+<ul class="simple">
+<li>Name the guide curves something like HairGuides.</li>
+<li>Name the growth mesh something like GrowthMesh.</li>
+</ul>
+<p><strong>Add HairWorks</strong>
+On the growth mesh that represents your asset, add HairWorks from the main menu. Link the guide curve group node under the General rollout.</p>
+<p><strong>Export</strong></p>
+<ul class="simple">
+<li>Export the asset FBX. Export your FBX file with any animation you would like to preview. Only export the objects that you intend to preview to keep the weight of the FBX file down. Export with the same up axis as you source scene.</li>
+<li>Export the hair file to APB or APX. The export option is located with via the Export Menu -HairWorks (.APB, .APX)</li>
+</ul>
+<p><strong>Import</strong></p>
+<ul class="simple">
+<li>Import hair file into a game engine with HairWorks or the HairWorks Viewer(with FBX) for further iterations.</li>
+</ul>
+</div>
+<div class="section" id="control-textures">
+<h2>Control Textures<a class="headerlink" href="#control-textures" title="Permalink to this headline">¶</a></h2>
+<p>Textures can be used to control the the graphical look of the fur as well as physical behavior. Use textures based on the UVs of the growth mesh to use as control textures for the various attributes. Texture inputs can influence the fur per pixel in UV space or per vertex in UV space, depending on the control. In per pixel sampling, every interpolated hair will have proper texture samples from interpolated UVs. In per vertex sampling, values are sampled only at the guide hair (growth mesh vertex) location and interpolated. Color textures should be used color fields such as root and tip color. Black and white textures should be used for control of physical attributes such as density. A black and white texture is treated the same as in DCC tools; black = 0.0, white = 1.0, and acts as a multiplier against that attribute&#8217;s constant value.</p>
+<p>For example, if a density map is provided then setting the Density constant to 1.0 will provide the exact value of the texture. If using a value of .5, then it essentially scales the density down by half.</p>
+<p>The same control texture can be used to control multiple attributes.</p>
+<p>Attributes that accept control textures are currently:</p>
+<ul class="simple">
+<li>Physical Material Attributes<ul>
+<li>Global Stiffness (per vertex)</li>
+<li>Root Stiffness (per vertex only)</li>
+<li>Density (per vertex or per pixel)</li>
+<li>Length Scale (per pixel)</li>
+<li>Strand Width (per pixel)</li>
+<li>Clump Scale (per pixel)</li>
+<li>Clump Roundness (per pixel)</li>
+<li>Waviness Scale (per pixel)</li>
+<li>Waviness Frequency (per pixel)</li>
+</ul>
+</li>
+<li>Graphics Material Attributes<ul>
+<li>Root Color (per pixel)</li>
+<li>Tip Color (per pixel)</li>
+<li>Per Strand Texture</li>
+<li>Specular Color ((per pixel)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Examples</strong></p>
+<p><strong>Density Map</strong></p>
+<a class="reference internal image-reference" href="_images/fur_density_map_example.jpg"><img alt="_images/fur_density_map_example.jpg" src="_images/fur_density_map_example.jpg" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/hwViewer_Manjaladon_GrowthMesh_DensityMap.jpg"><img alt="_images/hwViewer_Manjaladon_GrowthMesh_DensityMap.jpg" src="_images/hwViewer_Manjaladon_GrowthMesh_DensityMap.jpg" style="width: 600px;" /></a>
+<p><a href="#id1"><span class="problematic" id="id2">**</span></a>Root Color **</p>
+<a class="reference internal image-reference" href="_images/hwViewer_Manjaladon_Hair.jpg"><img alt="_images/hwViewer_Manjaladon_Hair.jpg" src="_images/hwViewer_Manjaladon_Hair.jpg" style="width: 600px;" /></a>
+</div>
+<div class="section" id="using-hairworks-viewer">
+<h2>Using HairWorks Viewer<a class="headerlink" href="#using-hairworks-viewer" title="Permalink to this headline">¶</a></h2>
+<p><strong>Projects</strong></p>
+<p>The HairWorks Viewer allows an artist to save and load the entire scene with associated file references as a project file (.furproj). This makes the iteration process faster and more convenient. Numerous project files can reference the same set of external files.</p>
+<p>It is best practice to organize external file references such as textures, hair files, and FBX files in the same directory as the fur project file. However, this is not necessary.</p>
+<p><strong>Fast Iterations</strong></p>
+<p>The HairWorks viewer operates as place for a wide range of team members to iterate HairWorks assets.</p>
+<p>Once the initial groom and growth mesh has been created in 3dsMax or Maya and exported to a hair file and FBX, HairWorks takes over as the go-to iteration tool. This allows more team members than just the ones who have DCC seats to iterate on the assets. For example, a character artist could build the growth mesh, groom the hair, and then send the results to HairWorks where the VFX team can tune and iterate on the look and performance of the fur. All the attributes are editable in real time allowing for lighting fast iterations.</p>
+<p>Using the import options allows artists to selectively import parts of different hair files helping to facilitate more non-destructive and therefore freely creative workflow.</p>
+<p>After an asset has been tuned, it can be resaved as the same or new hair file and set to the game engine for use.</p>
+<p><strong>Team Reviews</strong></p>
+<p>HairWorks also operates as great team review tool. A review session with many team members can happen more frequently without the heavy weight of a game engine or the need to wait for integrations. Using HairWorks presentation mode removes all the UI elements so that the team can strictly focus on the asset to be reviewed. And because there can many combinations of project and hair files, teams can make better comparisons on the aesthetics of their assets, again without the weight and burden of a large engine.</p>
+</div>
+</div>
+
+
+          </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<div class="masthead">
+    <div class="row">
+      <ul class="breadcrumb">
+        <li><a href="index.html">NVIDIA HairWorks 1.1.1 documentation</a></li> 
+      </ul>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-boilerplate">
+        <div class="row">
+            <div class="boilerplate">
+                Copyright &copy; 2014-2015, NVIDIA Corporation &nbsp; | &nbsp; <a href="http://www.nvidia.com/object/about-nvidia.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/about-nvidia.html_1&quot;;return this.s_oc?this.s_oc(e):true">About NVIDIA </a>&nbsp; | &nbsp; <a href="http://www.nvidia.com/object/legal_info.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/legal_info.html_1&quot;;return this.s_oc?this.s_oc(e):true">Legal Information </a>&nbsp; | &nbsp; <a href="http://www.nvidia.com/object/privacy_policy.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/privacy_policy.html_1&quot;;return this.s_oc?this.s_oc(e):true">Privacy Policy </a>
+            </div>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+var treestatename = 'GWDocsTreeState';
+var protocol = location.href.split('/')[0].toLowerCase();
+var storage;
+if (protocol.substring(0,4) == 'http') {
+  storage = $.cookieStorage;
+  storage.setPath('/');
+} else {
+  storage = $.localStorage;
+}
+
+if (storage.isEmpty(treestatename)) {
+  storage.set(treestatename, {});
+}
+
+var treestate = storage.get(treestatename);
+
+$.each($("#sidebar_toc ul li"), toc_walker);
+
+function toc_walker(key, value) {
+    var handleSpan = $("<span></span>")
+        .addClass("toc_handle").prependTo(value);
+    handleSpan.attr("id", $(value).closest("div").attr("id") + "." + key);
+
+    if($(value).has("ul li").size() > 0) {
+        var id = handleSpan.attr("id");
+        if (!(id in treestate)) {
+          treestate[id] = false;
+        }
+        handleSpan.addClass("toc_expanded").click(function() {
+            $(this).toggleClass("toc_expanded toc_collapsed").siblings("ul").toggle();
+            treestate[$(this).attr('id')] = $(this).hasClass('toc_expanded');
+            storage.set(treestatename, treestate);
+        });
+        if(!($(this).hasClass('current') || treestate[id])) {
+            handleSpan.click();
+        }
+        if($(this).hasClass('current')) {
+            treestate[handleSpan.attr('id')] = handleSpan.hasClass('toc_expanded');
+            storage.set(treestatename, treestate);
+        }
+    }
+}
+</script>
+  </body>
+</html>

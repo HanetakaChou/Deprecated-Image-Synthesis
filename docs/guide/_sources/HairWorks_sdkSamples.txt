@@ -1,0 +1,836 @@
+SDK Samples
+###########
+
+How to build/run sample project
+===============================
+
+1. Goto the directory samples/build 
+
+2. Select the directory with the visual studio version and if you want 32 or 64 bit
+
+3. Open HairWorks_Samples.sln - this contains the sub projects for all of the samples
+
+4. Build and run the FurSampleXXX project
+
+5. Choose a sample by right clicking on the subproject and select 'Set As StartUp Project'
+
+FurSampleCommon
+===============
+
+All the codes that are not directly related to HairWorks are encapsulated in common sources.
+To simplify D3D runtime management, we use DXUT for camera control and DX device management.
+However, DXUT is not needed when HairWorks is used in your own DirectX 11 based application.
+
+Feel free to modify/copy/adapt codes in the sample codes to suit your need.
+All the sample functions are implemented for illustration purpose only, 
+and does not represent how certain features should be implemented in any way.
+
+In the codes, all the HairWorks data types start with GFSDK_* (classes) or gfsdk_* (simple types) prefix.
+
+Each sample project has its own hair shader, HairWorksSampleShader.hlsl in the src/ directory.
+
+.. highlight:: cpp
+
+Loading Hair SDK
+----------------
+
+All the sample codes use the following convenience function to load SDK::
+
+	GFSDK_HairSDK* FurSample_LoadHairWorksDLL(void)
+	{
+		// Load HairWorks dll
+	#ifdef _WIN64
+		const char* coreDLLPath = "GFSDK_HairWorks.win64.dll";
+	#else
+		const char* coreDLLPath = "GFSDK_HairWorks.win32.dll";
+	#endif
+		return GFSDK_LoadHairSDK(coreDLLPath, GFSDK_HAIRWORKS_VERSION);
+	}
+
+FurSampleSimple
+===============
+
+.. figure:: \_static\HairWorks_FurSampleSimpleScreenshot.jpg
+	:width: 400 px
+	
+	Screenshot of FurSampleSimple sample.
+
+Summary
+-------
+
+This sample creates a simple hair asset made of two triangles (a quad), and creates a hair instance out of the asset.
+A very simple hair asset made of a quad with 2 triangles and 4 guide hairs are created.
+Once hair assets are created, we use HairWorks to render hairs on the faces of the growth mesh.
+
+Each rendered hair is drawn in white, and the guide hairs are visualized in red. 
+The growth mesh is drawn as yellow triangles, using default visualization features of HairWorks.
+
+Illustrated Features
+--------------------
+
+This code sample shows
+
+1. How to initialize and cleanup the HairWorks runtime
+2. How to create a hair asset and modify the parameter (instance descriptor)
+3. How to set camera information
+4. How to draw hairs with minimal rendering
+5. How to draw visualization for guide hairs and the growth mesh
+
+Running Instructions
+-------------------------
+
+- Camer Zoom : Mouse Wheel
+- Camera Orbit : RMB
+
+
+Details
+-------
+
+Declaring HairWorks variables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We declare a few global variables to maintain HairWorks related variables.
+In actual game integration, these need to be maintained as part of HairWorks runtime integration::
+
+	namespace {
+		GFSDK_HairSDK*                  g_hairSDK = NULL; // HairWorks SDK runtime 
+		GFSDK_HairAssetDescriptor       g_hairAssetDescriptor;		// hair asset descriptor
+		GFSDK_HairAssetID               g_hairAssetID = GFSDK_HairAssetID_NULL;	// hair asset ID
+		GFSDK_HairInstanceDescriptor    g_hairInstanceDescriptor;	// hair instance descriptor
+		GFSDK_HairInstanceID            g_hairInstanceID = GFSDK_HairInstanceID_NULL; // hair instance ID
+
+		ID3D11PixelShader*              g_customHairWorksShader = NULL; // custom pixel shader 
+	}
+
+Upon D3D device creation
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+When the D3D device is created, we first load HairWorks runtime, then create a hair asset and an instance.
+
+This sample manually creates hair asset by filling in the **GFSDK_HairAssetDescriptor** struct 
+in **InitHairAssetDescriptor()**.  
+
+Note also that we create a simple pixel shader that renders every hair color white.
+
+::
+
+	HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DESC* backBufferSurfaceDesc, void* userContext)
+	{
+		HRESULT hr;
+		.....
+
+		// load HairWorks dll
+		g_hairSDK = FurSample_LoadHairWorksDLL();
+		if (g_hairSDK == NULL)
+			return E_FAIL;
+
+		// Initialize hair asset descriptor and hair instance descriptor
+		InitHairAssetDescriptor(g_hairAssetDescriptor);
+		InitHairInstanceDescriptor(g_hairInstanceDescriptor);
+
+		// Create the hair asset
+		g_hairSDK->CreateHairAsset(g_hairAssetDescriptor, &g_hairAssetID);
+
+		// Create custom hair shader
+		hr = FurSample_CreatePixelShader(device, "samples\\FurSampleSimple\\HairWorksSampleShader.hlsl", &g_customHairWorksShader);
+		if (FAILED(hr))
+			return hr;
+
+		// Initialize DirectX settings for HairWorks runtime
+		g_hairSDK->InitRenderResources(device);
+
+		// Create hair instance.  
+		g_hairSDK->CreateHairInstance(g_hairAssetID, &g_hairInstanceID);
+
+		// Update instance descriptor 
+		g_hairSDK->UpdateInstanceDescriptor(g_hairInstanceID, g_hairInstanceDescriptor);
+
+		.....
+
+	}
+
+
+Rendering each frame
+^^^^^^^^^^^^^^^^^^^^
+
+At each frame, we render hairs and visualization.  
+
+The first step is to set device context and camera info.
+
+Then, we set our pixel shader and call render APIs.
+
+::
+
+	void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* context, double time, float elapsedTime, void* yserContext)
+	{
+		.....
+
+		// Set render context for HairWorks
+		g_hairSDK->SetCurrentContext(context);
+
+		// Set view matrix and projection matrix
+		XMMATRIX projection = FurSampleAppBase::GetCameraProjection();
+		XMMATRIX view = FurSampleAppBase::GetCameraViewMatrix();
+		g_hairSDK->SetViewProjection((const gfsdk_float4x4*)&view,(const gfsdk_float4x4*)&projection, GFSDK_HAIR_LEFT_HANDED);
+
+		// Set your hair pixel shader before rendering hairs
+		g_hairSDK->PSSetShader(g_customHairWorksShader, NULL, 0);
+
+		// Render the hair instance
+		g_hairSDK->RenderHairs(g_hairInstanceID);
+
+		// Render visualization the hair instance
+		g_hairSDK->RenderVisualization(g_hairInstanceID);
+
+		.....
+	}
+
+Example shader
+^^^^^^^^^^^^^^
+
+FurSampleSimple\\HairWorksSampleShader.hlsl is a very simple pixel shader that returns a constant color.
+
+Note that we include the common shader header file GFSDK_HairWorks_ShaderCommon.h.
+
+This header provides all the functions needed to implement HairWorks related shading functions.
+
+::
+
+	//////////////////////////////////////////////////////////////////////////////
+	// HairWorks shader header file must be included
+	//////////////////////////////////////////////////////////////////////////////
+	#include "GFSDK_HairWorks_ShaderCommon.h" 
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	// Simple pixel shader that returns white color for all hair fragments
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	[earlydepthstencil] float4 ps_main(GFSDK_Hair_PixelShaderInput input) : SV_Target
+	{        
+		return float4(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+
+
+
+FurSampleShading
+================
+
+.. figure:: \_static\HairWorks_FurSampleShadingScreenshot.jpg
+	:width: 400 px
+
+	Screenshot of FurSampleShading sample.
+
+Summary
+-------
+
+The sample loads a hair asset from .apx file and textures.
+It also creates a custom pixel shader to render hair with textures.
+Then it simulates and renders hairs.
+
+Illustrated Features
+--------------------
+
+This code sample shows
+
+1. How to load a hair asset from .apx file and modify the parameters.
+2. How to create and set up custom pixel shader for hair rendering
+3. How to set up hair control textures
+
+Running Instructions
+--------------------
+
+- Camer Zoom : Mouse Wheel
+- Camera Orbit : RMB
+
+
+Details
+-------
+
+Code structures are similar to previous sample.
+
+We add a few more API calls to load hair asset and set up textures, etc.
+
+Upon D3D device creation
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Note that we now use file load API to load hair asset from .apx file.
+
+As the sample asset file was exported in DCC that uses different coordinate system, we provide conversion settings
+when we load the .apx file.
+
+We also copy default instance descriptor from the asset for later updates.
+
+::
+
+	HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DESC* backBufferSurfaceDesc, void* userContext)
+	{
+		.....
+
+		// conversion settings to load apx file into.  We use l.h.s / y-up camera in this example.
+		GFSDK_HairConversionSettings conversionSettings;
+		{
+			conversionSettings.m_targetHandednessHint	= GFSDK_HAIR_LEFT_HANDED;
+			conversionSettings.m_targetUpAxisHint		= GFSDK_HAIR_Y_UP;
+			conversionSettings.m_targetSceneUnit		= 1.0 ; // centimeter
+		}
+
+		// Load hair asset from .apx file
+		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->LoadHairAssetFromFile(g_apxFilePath, &g_hairAssetID, 0, &conversionSettings))
+			return E_FAIL;
+
+		// Copy default instance descriptor from the loaded asset
+		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->CopyDefaultInstanceDescriptor(g_hairAssetID, g_hairInstanceDescriptor))
+			return E_FAIL;
+
+		.....
+	}
+
+Setting up texture resources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Once the hair asset is loaded, we get texture file names from the asset, and create texture resources.
+
+These shader resources are then set to HairWorks runtime.
+
+The process is implemented in **FurSampleCommon/FurSampleHairWorksHelper.cpp**.
+
+In the function **FurSample_SetupTextureResource()**, we go through each known hair texture type::
+
+	for (int t = 0; t < GFSDK_HAIR_NUM_TEXTURES; ++t)
+	{
+		...
+
+In each loop, we use **GetTextureName()** API to retrieve texture file name::
+
+	if (GFSDK_HAIR_RETURN_OK != hairSDK->GetTextureName(assetID, (GFSDK_HAIR_TEXTURE_TYPE)t, textureFileName))
+		continue;
+
+Then we create a shader resource view for the texture, and set it for HairWorks runtime::
+
+	ID3D11ShaderResourceView* textureSRV = NULL;
+	FurSample_CreateTextureSRV(device, textureFilePath, &textureSRV);
+
+	if (GFSDK_HAIR_RETURN_OK != hairSDK->SetTextureSRV(instanceID, 
+		(GFSDK_HAIR_TEXTURE_TYPE)t, textureSRV))
+		return E_FAIL;
+		
+	SAFE_RELEASE(textureSRV);
+
+Note that texture shader resource may be separately maintained by the game engine.
+
+In that case, one may implement different mechanism to identify and retreive shader resources.
+
+Rendering each frame
+^^^^^^^^^^^^^^^^^^^^
+
+At each frame, we render hairs and visualization.
+
+::
+
+	void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* context, double time, float elapsedTime, void* userContext)
+	{
+		.....
+
+		// Set render context for HairWorks
+		g_hairSDK->SetCurrentContext(context);
+
+		// Set view matrix and projection matrix
+		XMMATRIX projection = FurSampleAppBase::GetCameraProjection();
+		XMMATRIX view = FurSampleAppBase::GetCameraViewMatrix();
+		g_hairSDK->SetViewProjection((const gfsdk_float4x4*)&view,(const gfsdk_float4x4*)&projection, GFSDK_HAIR_LEFT_HANDED);
+
+		.....
+
+First, we set d3d context and camera info, as in previous sample.
+
+Note that HairWorks does not change D3D state such as sampler, shader resource, etc., so users must provide such resources
+when needed.
+
+**GetShaderResources()** call returns standard shader attributes such as tangents, normals, etc.  
+As our shader needs such resources for proper lighting, we get the resources from HairWorks and pass them to our shader by
+the standard D3D **PSSetShaderResources()** call.  
+
+In addition, we map two texture (root color and tip color) resources to our shader.
+
+::
+
+		.....
+
+		// set texture sampler for texture color in hair shader
+		ID3D11SamplerState* states[] = { FurSampleAppBase::GetSamplerLinear() };
+		context->PSSetSamplers( 0, 1, states );
+
+		// get standard shader resources for attribute interpolation
+		ID3D11ShaderResourceView* srvs[GFSDK_HAIR_NUM_SHADER_RESOUCES];
+		g_hairSDK->GetShaderResources(g_hairInstanceID, srvs);
+
+		// set to resource slot for our shader
+		context->PSSetShaderResources( 0, GFSDK_HAIR_NUM_SHADER_RESOUCES, srvs);
+
+		// set textures
+		ID3D11ShaderResourceView* textureSRVs[2];
+
+		g_hairSDK->GetTextureSRV(g_hairInstanceID, GFSDK_HAIR_TEXTURE_ROOT_COLOR, &textureSRVs[0]);  
+		g_hairSDK->GetTextureSRV(g_hairInstanceID, GFSDK_HAIR_TEXTURE_TIP_COLOR, &textureSRVs[1]);   
+
+		// set to resource slot for our shader
+		context->PSSetShaderResources( GFSDK_HAIR_NUM_SHADER_RESOUCES, 2, textureSRVs);
+	
+		.....
+	
+
+Example shader
+^^^^^^^^^^^^^^
+
+The provided example shader in FurSampleShading/HairWorksSampleShader.hlsl shows a complete hair shader that can be used to render textured hairs.
+
+First we declare standard shader resource that we mapped in above C++ code. (**GetShaderResources()**)::
+
+	GFSDK_HAIR_DECLARE_SHADER_RESOURCES(t0, t1, t2); // shader resources
+
+This defines resources that are needed for a HairWorks shader to retrieve standard attributes such as tangents and normals.
+
+Then we define two texture buffers, one for root and another for tip color::
+
+	Texture2D	g_rootHairColorTexture: register(t3); // texture map for hair root colors
+	Texture2D	g_tipHairColorTexture : register(t4); // texture map for hair tip colors
+
+The next block defines a cbuffer variable bound at b0 (default location for HairWorks constant buffer)::
+
+	cbuffer cbPerFrame : register(b0)
+	{
+		GFSDK_Hair_ConstantBuffer	g_hairConstantBuffer; // HairWorks portion of constant buffer data
+	}
+
+In this sample, the content of HairWorks constant buffer is automatically filled 
+and contains all the data necessary to render hairs.
+(see **FurSampleShadow** to see how users can customize cbuffer definitions.)
+
+As the shader needs to sample textures, we provide a default sampler::
+
+	SamplerState texSampler: register(s0); // we use a texture sampler for hair textures in this sample
+
+In the **ps_main()** function, we see
+
+::
+
+	// get all the attibutes needed for hair shading with this function
+	GFSDK_Hair_ShaderAttributes attr = GFSDK_Hair_GetShaderAttributes(input, g_hairConstantBuffer);
+  
+	// set up hair material.
+	GFSDK_Hair_Material mat = g_hairConstantBuffer.defaultMaterial;
+
+The variable **GFSDK_Hair_ShaderAttributes** contains all the *per fragment* attribute required for shading,
+such as world space location, normal, tex coords, etc.
+
+The variable **GFSDK_Hair_Material** are a part of the constant buffer that contains shared material properties.
+
+All subsequent calls to hairworks shader functions require these data structures.
+
+We now see::
+
+	// sample hair color from textures
+	float3 hairColor = GFSDK_Hair_SampleHairColorTex(mat, texSampler, g_rootHairColorTexture, g_tipHairColorTexture, attr.texcoords);
+
+This returns blended hair color based on the two textures and control variables.
+In PBR context, one may think of this as the 'albedo' color for hair. Certain engines that require linear space lighting may apply gamma conversion to this color.
+
+In the main loop, we accumulate contribution from each light::
+
+	float4 color = float4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	[unroll]
+	for (int i = 0; i < NUM_LIGHTS; i++)
+	{
+		float3 Lcolor = lightColor[i];
+		float3 Ldir = normalize(lightDir[i]); // light direction defined from shaded point toward the light
+
+		color.rgb += GFSDK_Hair_ComputeHairShading(Lcolor, Ldir, attr, mat, hairColor.rgb);
+	}
+
+The shader function **GFSDK_Hair_ComputeHairShading()** computes hair color based on light color, 
+direction, and sampled hair texture color.
+
+Note that light must be pointing away from the shaded point, not into it.
+
+
+FurSampleShadow
+===============
+	
+.. figure:: \_static\HairWorks_FurSampleShadowScreenshot.jpg
+	:width: 400 px
+
+	Screenshot of the FurSampleShadow sample.
+
+Summary
+-------
+
+This sample renders hairs to a user provided shadow map and render hairs with shadows.
+
+Illustrated Features
+--------------------
+
+This code sample shows
+
+1. How to use custom constant buffer 
+2. How to render hairs to user's own shadow map
+3. How to compute hair shadows in the hair shader
+
+Running Instructions
+--------------------
+
+* Camer Zoom : Mouse Wheel
+* Camera Orbit : RMB
+* 'v' : toggle on/off shadow map visualization
+* 's' : turn on/off shadow rendering
+
+Details
+-------
+
+This sample adds new data structures and codes for custom shader resource management and controls.
+
+Global variables
+^^^^^^^^^^^^^^^^
+
+This sample addes another shader for shadow rendering pass::
+
+	// custom pixel shader for shadowmap rendering pass
+	ID3D11PixelShader*	g_customHairWorksShadowShader = NULL;
+
+We also declare custom constant buffer for use with our shader::
+
+	// custom constant buffer for use with custom pixel shader
+	ID3D11Buffer*		g_hairShaderConstantBuffer = NULL;
+
+Our custom constant buffer adds 2 new variables to the standard HairWorks constant buffer::
+
+	struct MyConstantBuffer
+	{
+		XMMATRIX	lightView;
+		XMMATRIX	lightWorldToTex;
+
+		GFSDK_HairShaderConstantBuffer	hairShaderConstantBuffer;
+	};
+
+These are used to pass light matrices to the hair shader.
+
+Upon D3D device creation
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+We create 2 shaders, one for hair shading and another for shadow pass.  
+We also create custom constant buffer.
+
+::
+
+	HRESULT hr;
+	...
+		
+	// Create custom pixel shader for hair rendering
+	hr = FurSample_CreatePixelShader(device, "samples\\FurSampleShadow\\HairWorksSampleShader.hlsl", &g_customHairWorksShader);
+	if (FAILED(hr))
+		return hr;
+
+	// Create custom pixel shader for hair shadow pass
+	hr = FurSample_CreatePixelShader(device, "samples\\FurSampleShadow\\HairWorksSampleShadowShader.hlsl", &g_customHairWorksShadowShader);
+	if (FAILED(hr))
+		return hr;
+
+	// create constant buffer for custom hair shader
+	hr = FurSample_CreateConstantBuffer(device, &g_hairShaderConstantBuffer, sizeof(MyConstantBuffer));
+	if (FAILED(hr))
+		return hr;
+
+	...
+
+Rendering hairs to shadow map
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. figure:: \_static\HairWorks_FurSampleShadowMap.jpg
+	:width: 400 px
+	:align: center
+
+	Visualization of shadow map.
+
+
+The **OnD3D11FrameRender()** function consists of two steps.  
+First, it renders hairs to a user prepared shadow render target.
+Then, it renders hair colors to the final render target.
+
+The shadow map typically contatins all the scene objects.
+If we have multiple hair instances, we use the same buffer
+so that hairs can cast shadows between them or from/to other scene objects.
+
+In shadow rendering pass, we set shadow camera's view projection matrix::
+
+	XMMATRIX projection   = FurSampleAppBase::GetLightProjection();
+	XMMATRIX view         = FurSampleAppBase::GetLightViewMatrix();
+	g_hairSDK->SetViewProjection((const gfsdk_float4x4*)&view,(const gfsdk_float4x4*)&projection, GFSDK_HAIR_LEFT_HANDED);
+
+Note that we use left handed system for shadow camera in this sample, so we provide the hint to SetViewProjection call.
+If your shadow camera is different, change it accordingly.
+
+We use **GFSDK_HairShaderSettings** to indicate we are rendering hairs for shadow map::
+
+	// use custom shadow pass shader
+	context->PSSetShader(g_customHairWorksShadowShader, NULL, 0);
+	
+	// render hairs to shadow buffer
+	GFSDK_HairShaderSettings settings;
+
+	settings.m_useCustomConstantBuffer = false; // let HairWorks fill the cbuffer
+	settings.m_shadowPass = true; // this is shadow pass
+
+	g_hairSDK->RenderHairs(g_hairInstanceID, &settings);
+
+Note that we defined **m_useCustomConstantBuffer** to be false in the above shader settings, so 
+the constant buffer used in this shader is automatically filled by HairWorks.
+
+Shadow shaders are shown below::
+
+	#include "GFSDK_HairWorks_ShaderCommon.h" 
+
+	//////////////////////////////////////////////////////////////////////////////
+	// constant buffer for render parameters
+	//////////////////////////////////////////////////////////////////////////////
+	cbuffer cbPerFrame : register(b0)
+	{
+		GFSDK_Hair_ConstantBuffer	g_hairConstantBuffer; // hairworks portion of constant buffer data
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// Pixel shader for shadow rendering pass
+	//////////////////////////////////////////////////////////////////////////////////
+	float ps_main(GFSDK_Hair_PixelShaderInput input) : SV_Target0
+	{
+		return GFSDK_Hair_ScreenToView(input.position, g_hairConstantBuffer).z;
+	}
+
+This shader simply computes linear depth (distance from camera) and write this value to the render target.
+
+
+Preparing custom constant buffers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The second half of **OnD3D11FrameRender()** function renders hairs with shadows.
+
+As we now use custom constant buffer, we have to copy the buffer using standard D3D APIs::
+
+	D3D11_MAPPED_SUBRESOURCE MappedResource;		
+	context->Map( g_hairShaderConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &MappedResource );		
+	
+	MyConstantBuffer* constantBuffer = ( MyConstantBuffer* )MappedResource.pData;
+	{
+		// copy additional data we defined (light matrices)
+		constantBuffer->lightView          = FurSampleAppBase::GetLightViewMatrix();
+		constantBuffer->lightWorldToTex    = FurSampleAppBase::GetLightWorldToTex();
+
+		// use HairWorks API to fill the HairWorks portion of constant buffer
+		g_hairSDK->PrepareShaderConstantBuffer(g_hairInstanceID, &constantBuffer->hairShaderConstantBuffer);
+	}	
+	
+	context->Unmap(g_hairShaderConstantBuffer,0);
+
+	context->PSSetConstantBuffers(0, 1, &g_hairShaderConstantBuffer);
+
+Note that we use the **PrepareShaderConstantBuffer()** API to fill HairWorks portion of the constant buffer.
+
+In addition, we copy our own data (light matrices) to the constant buffer as well.
+
+This maps to the cbuffer definition of our hair shader::
+
+	cbuffer cbPerFrame : register(b0)
+	{
+		// light projection matrices added for shadow map sampling
+		row_major float4x4	g_lightView;
+		row_major float4x4	g_lightWorldToTex;
+
+		// hairworks portion of constant buffer data
+		GFSDK_Hair_ConstantBuffer	g_hairConstantBuffer; 
+	}
+
+
+Preparing custom shader resources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+As in FurSampleShading sample, we set shader resources for the pixel shader manually.
+
+First we set the standard shader attribute resources.
+
+::
+	
+		ID3D11ShaderResourceView* srvs[GFSDK_HAIR_NUM_SHADER_RESOUCES];
+		g_hairSDK->GetShaderResources(g_hairInstanceID, srvs);
+		context->PSSetShaderResources( 0, GFSDK_HAIR_NUM_SHADER_RESOUCES, srvs);
+
+We also set color texture resources as well as shadow textures.
+
+::
+
+		ID3D11ShaderResourceView* textureSRVs[3];
+
+		g_hairSDK->GetTextureSRV(g_hairInstanceID, GFSDK_HAIR_TEXTURE_ROOT_COLOR, &textureSRVs[0]);  
+		g_hairSDK->GetTextureSRV(g_hairInstanceID, GFSDK_HAIR_TEXTURE_TIP_COLOR, &textureSRVs[1]);
+
+		// shadow srv, which is user side creation
+		textureSRVs[2] = FurSampleAppBase::GetShadowSRV();			
+
+		context->PSSetShaderResources( GFSDK_HAIR_NUM_SHADER_RESOUCES, 3, textureSRVs);
+
+We also set two texture samplers, one for color (linear) and another for shadow (point).
+
+::
+
+	ID3D11SamplerState* states[2] = {
+		FurSampleAppBase::GetSamplerLinear(), 
+		FurSampleAppBase::GetSamplerPointClamp() 
+	};
+	context->PSSetSamplers( 0, 2, states );
+
+Once constant buffers and resources are set, we now render hairs::
+
+	// set your hair pixel shader before rendering hairs
+	context->PSSetShader(g_customHairWorksShader, NULL, 0);
+
+	// set shader settings
+	GFSDK_HairShaderSettings settings;	
+	settings.m_useCustomConstantBuffer = true;
+
+	// Render the hair instance
+	g_hairSDK->RenderHairs(g_hairInstanceID, &settings);
+
+Note this example fully utilizes custom constant buffer as well as custom shader resources.
+
+
+Computing shadows in the shader
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The shader for this sample defines the following function::
+
+	float GetShadowFactor(GFSDK_Hair_ShaderAttributes attr, GFSDK_Hair_Material mat)
+	{
+		// texcoord of sample point in shadow texture
+		float2 shadowTexcoords = mul(float4(attr.P, 1), g_lightWorldToTex).xy;
+
+		// depth of this point in light's view space
+		float viewSpaceDepth = mul(float4(attr.P, 1), g_lightView).z;
+
+		// apply PCF filtering of absorption depth from linear depth texture
+		// use gain = 1.0f for right handed shadow camera.
+		float gain = -1.0f; // left handed shadow camera.
+
+		float filteredDepth = GFSDK_Hair_ShadowFilterDepth(
+			g_shadowTexture, shadowSampler, shadowTexcoords, viewSpaceDepth, gain);
+
+		// convert absorption depth into lit factor
+		float lit = GFSDK_Hair_ShadowLitFactor(mat, filteredDepth);
+
+		return lit;
+	}
+
+We compute hair shadows (lit factor) in the following steps.
+
+1. First get the world space position of our hair fragment (**attr.P**)
+2. Using the light matrix, we get corresponding texture coord of the point (shadowTexcoords).
+3. We also computes view space depth of the point using light camera used to generate the shadow map.
+4. We now compute penetration distance from the hair surface using **GFSDK_Hair_ShadowFilterDepth()**. 
+5. Finally, we convert the depth to soft shadows using **GFSDK_Hair_ShadowLitFactor()**.
+
+Note that this function may be completely bypassed if users wish to implement their own shadow sampling function,
+especially when other shadow sampling schemes are defined and widely used throughout their game engine.
+In that case, replace above function with any of such scehemes.
+
+
+FurSampleSkinning
+=================
+
+.. figure:: \_static\HairWorks_FurSampleSkinningScreenshot.jpg
+	:width: 400 px
+
+	Skinned animation of the monster sample character.
+
+Summary
+-------
+
+This sample shows how to setup skinning matrices for HairWorks.
+
+Illustrated Features
+--------------------
+
+1. This sample updates the skinning matrices using **UpdateSkinningMatrices()** API.
+2. This sample uses bone visualization feature.
+
+Running Instructions
+--------------------
+
+- Camer Zoom : Mouse Wheel
+- Camera Orbit : RMB
+- 'p' : toggle on/off animation
+- 'b' : toggle on/off bone hierarchy visualization
+- 'g' : toggle on/off growth mesh visualization
+- 'h' : toggle on/off hair rendering
+- 's' : toggle on/off hair simulation
+
+
+Details
+-------
+
+At each frame, this sample updates skinning matrices of the hair asset and run hair simulation.
+
+This sample uses precomputed skinning matrices g_skinningMatrices that are stored in *SkinningMatrices.h*.
+
+
+::
+
+	void CALLBACK OnFrameMove(double time, float elapsedTime, void* userContext)
+	{
+		....
+
+		// Set simulation context for HairWorks
+		g_hairSDK->SetCurrentContext(context);
+
+		... update frame index and frame time ...
+
+		// Update skinning matrices for the frame
+		g_hairSDK->UpdateSkinningMatrices(g_hairInstanceID, g_numSkinningBones, g_skinningMatrices[s_frame]);
+
+		// run simulation for all hairs
+		g_hairSDK->StepSimulation(elapsedTime);
+	}
+
+This sample also uses several query API to construct growth mesh from a hairworks asset.
+
+::
+
+		......
+		// Fill the vertices info (root of each hair == vertex of the mesh)
+		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->GetRootVertices(g_hairAssetID, (gfsdk_float3*)meshData.m_positions.data()))
+		{
+			return E_FAIL;
+		}
+
+		// Fill the bone indices info
+		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->GetBoneIndices(g_hairAssetID, (gfsdk_float4*)meshData.m_boneIndices.data()))
+		{
+			return E_FAIL;
+		}
+
+		// Fille the bone weights info
+		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->GetBoneWeights(g_hairAssetID, (gfsdk_float4*)meshData.m_boneWeights.data()))
+		{
+			return E_FAIL;
+		}
+
+		// Fill the face indices info
+		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->GetFaceIndices(g_hairAssetID, meshData.m_indices.data()))
+		{
+			return E_FAIL;
+		}
+
+		......
+
+Note that this is only for illustration purpose - usual game engines would have character mesh drawing/mangement in a separate code block.
+
+Number of bones and bone order should match between HairWorks asset and character.
+
+If that's not the case, please refer to the **SetBoneRemapping()** API in the header.
+
+

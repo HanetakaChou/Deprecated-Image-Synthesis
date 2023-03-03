@@ -1,0 +1,751 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+    
+    <title>Viewer Reference &mdash; NVIDIA HairWorks 1.1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/breathe.css" type="text/css" />
+    <link rel="stylesheet" href="_static/application.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styleguide.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/bootstrap.js"></script>
+    <script type="text/javascript" src="_static/jquery.cookie.js"></script>
+    <script type="text/javascript" src="_static/jquery.storageapi.js"></script>
+    <link rel="top" title="NVIDIA HairWorks 1.1.1 documentation" href="index.html" />
+    <link rel="next" title="Using NVIDIA HairWorks" href="Using_HairWorks.html" />
+    <link rel="prev" title="Getting Started" href="HairWorks_gettingStarted.html" /> 
+  </head>
+  <body>
+<nav class="navbar navbar-inverse navbar-default">
+  <div class="row">
+      <div class="navbar-brand">
+             <img class="logo" src="_static/developerzone_gameworks_logo.png" alt="Logo"/>
+      </div>
+<div id="searchbox" style="display: none; float:right; padding-top:4px; padding-right:4px">
+    <form class="search form-inline" action="search.html" method="get">
+      <div class="form-group">
+      <input type="text" name="q" class="form-control" />
+      <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+</nav>
+<div class="masthead">
+    <div class="row">
+      <ul class="breadcrumb">
+        <li><a href="index.html">NVIDIA HairWorks 1.1.1 documentation</a></li> 
+      </ul>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-3 bs-sidenav" style="white-space: nowrap; overflow: auto;">
+<div class="bs-sidebar">
+  <div id="sidebar_toc">
+  <h4>Table Of Contents</h4>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="product.html">NVIDIA HairWorks 1.1.1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="product.html#about-hairworks">About HairWorks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product.html#overview">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_gettingStarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_gettingStarted.html#how-to-run-hairworks-viewer">How to run HairWorks Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_gettingStarted.html#how-to-open-art-samples">How to open Art Samples</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Viewer Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#user-interface">User Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#layout">Layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#texture-input-buttons">Texture Input Buttons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#curve-editor">Curve Editor</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#menus">Menus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file">File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#view">View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#help">Help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#toolbar">Toolbar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hair-tab">Hair Tab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#asset-selection">Asset Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general-settings">General Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization">Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#physical">Physical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#style">Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#graphics">Graphics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#level-of-detail">Level of Detail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#control-texture-channels">Control Texture Channels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#display-tab">Display Tab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scene">Scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#light">Light</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#display-meshes">Display Meshes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#display-mesh-materials">Display Mesh Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#keyboard-shortcuts">Keyboard Shortcuts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-types">File Types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Using_HairWorks.html">Using NVIDIA HairWorks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#asset-preparation">Asset Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#maya-and-3dsmax">Maya and 3dsMax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#control-textures">Control Textures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#using-hairworks-viewer">Using HairWorks Viewer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_sdkSamples.html">SDK Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#how-to-build-run-sample-project">How to build/run sample project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursamplecommon">FurSampleCommon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#loading-hair-sdk">Loading Hair SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursamplesimple">FurSampleSimple</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#illustrated-features">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#running-instructions">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#details">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#declaring-hairworks-variables">Declaring HairWorks variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#upon-d3d-device-creation">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#rendering-each-frame">Rendering each frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#example-shader">Example shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursampleshading">FurSampleShading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id1">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id2">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id3">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id4">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id5">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#setting-up-texture-resources">Setting up texture resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id6">Rendering each frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id7">Example shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursampleshadow">FurSampleShadow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id8">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id9">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id10">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id11">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#global-variables">Global variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#id12">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#rendering-hairs-to-shadow-map">Rendering hairs to shadow map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#preparing-custom-constant-buffers">Preparing custom constant buffers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#preparing-custom-shader-resources">Preparing custom shader resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HairWorks_sdkSamples.html#computing-shadows-in-the-shader">Computing shadows in the shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkSamples.html#fursampleskinning">FurSampleSkinning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id13">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id14">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id15">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkSamples.html#id16">Details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_sdkGettingStarted.html">SDK Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#directory-structure">Directory structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#api-overview">API Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#initialization">Initialization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#loading-the-library">Loading the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#hair-assets-and-instances">Hair Assets and Instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#loading-the-hair-asset">Loading the hair asset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#initializing-d3d-runtime">Initializing D3D runtime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#creating-and-deleting-hair-instances">Creating and deleting hair instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#runtime-controls">Runtime Controls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#setting-context-and-camera">Setting context and camera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#updating-control-parameters">Updating control parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#animating-hairs">Animating Hairs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#updating-skinning-data">Updating skinning data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#simulating-animating-hair">Simulating/Animating Hair</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#rendering">Rendering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#managing-custom-hair-shaders">Managing custom hair shaders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#rendering-hair-instance">Rendering hair instance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#customizing-shader-resources-and-constant-buffers">Customizing shader resources and constant buffers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#clean-up-and-shutdown">Clean up and shutdown</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="releasenotes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#what-s-new">What&#8217;s New</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#source-sample-assets">Source Sample Assets</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="HairWorks_gettingStarted.html"
+                        title="previous chapter">Getting Started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Using_HairWorks.html"
+                        title="next chapter">Using NVIDIA HairWorks</a></p>
+<div id="searchbox" style="display: none">
+  <h4>Quick search</h4>
+    <form class="search form-inline" action="search.html" method="get">
+      <div class="form-group">
+      <input type="text" name="q" class="form-control" />
+      <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+</div>
+  </div>
+    <div class="document col-md-8">
+          <div class="body">
+            
+  <div class="section" id="viewer-reference">
+<h1>Viewer Reference<a class="headerlink" href="#viewer-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="user-interface">
+<h2>User Interface<a class="headerlink" href="#user-interface" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/hwViewer_UserInterface_Layout.jpg" src="_images/hwViewer_UserInterface_Layout.jpg" />
+<div class="section" id="layout">
+<h3>Layout<a class="headerlink" href="#layout" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>1: Menu bar</strong></li>
+<li><strong>2: Toolbar</strong> The Toolbar has animation controls and other controls that are commonly used for iterating on a project scene wide.</li>
+<li><strong>3: Attributes Panel</strong> The Attributes Panel contains everything that is settable in the scene on a per object level. It is divided into a Hair tab for hair specific attributes and visualizers, and a Display tab for scene visualizers, toggles, and display mesh management.  The Attributes Panel is dockable.</li>
+<li><strong>4: Output Window</strong> The Output Window is dockable.</li>
+<li><strong>5: Viewport</strong></li>
+<li><strong>6: Axis Indicator</strong> Indicates the world axis of the scene</li>
+<li><strong>7: Heads Up Display</strong> The Heads Up Display(HUD) contains many different statistics that are essential in tuning hair.</li>
+</ul>
+</div>
+<div class="section" id="texture-input-buttons">
+<h3>Texture Input Buttons<a class="headerlink" href="#texture-input-buttons" title="Permalink to this headline">¶</a></h3>
+<p>Throughout HairWorks Viewer there is a series of icons that pertain to texture inputs like density, root color, or background images. These buttons all have the same functionality through the user interface.</p>
+<p><img alt="OpenMenu" src="_images/hwViewer_TextureLoad.jpg" /> <strong>Open File Texture</strong>  Opens a file dialogue to load a file texture</p>
+<p><img alt="ReOpenMenu" src="_images/hwViewer_TextureLoaded.jpg" /> <strong>Reopen File Texture</strong>  Texture is currently loaded. Hover over the icon to get a tool tip with the loaded file path. Clicking the button opens a file dialog to load a different file texture.</p>
+<p><img alt="ReLoadMenu" src="_images/hwViewer_TextureReload.jpg" /> <strong>Reload File Texture</strong>  Reload a file texture if one is already loaded.</p>
+<p><img alt="RemoveMenu" src="_images/hwViewer_TextureRemove.jpg" /> <strong>Remove File Texture</strong> Remove a file texture.</p>
+</div>
+<div class="section" id="curve-editor">
+<h3>Curve Editor<a class="headerlink" href="#curve-editor" title="Permalink to this headline">¶</a></h3>
+<p>In addition to texture icons, some options will have a curve editor icon.</p>
+<p><img alt="EditCurve" src="_images/hwViewer_CurveEditor.jpg" /> <strong>Edit Curve</strong> Opens the Curve Editor at the bottom of the Attributes Panel.</p>
+<img alt="_images/hwViewer_Hair_CurveEditor.jpg" src="_images/hwViewer_Hair_CurveEditor.jpg" />
+<p>Adjusts the multiplier for the hair from the root(left) to the tip(right). The position along the horizontal access cannot be changed.</p>
+</div>
+</div>
+<div class="section" id="menus">
+<h2>Menus<a class="headerlink" href="#menus" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="file">
+<h3>File<a class="headerlink" href="#file" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/hwViewer_Menu_File.jpg" src="_images/hwViewer_Menu_File.jpg" />
+<p><strong>Clear Scene</strong> Resets HairWorks Viewer to a blank scene. There are no references to any project files, hair files, or texture files when a scene is cleared.</p>
+<p><strong>Open project file</strong> Launches a file dialog to allow the user to open a project file.</p>
+<p><strong>Save project file</strong> Saves the current project file.</p>
+<p><strong>Save project file as...</strong> Launches a file dialog to allow the user to save a project as a new file.</p>
+<p><strong>Open fbx file</strong> Launches a file dialog to allow the user to open an FBX file. Only one FBX can be loaded at a time. Opening an FBX file clears the current FBX file from the scene.</p>
+<p><strong>Open hair file</strong> Launches a file dialog to allow the user to open a hair file.</p>
+<p><strong>Save hair file</strong> Saves the current hair file.</p>
+<p><strong>Save hair file as...</strong> Launches a file dialog to allow the user to save a hair file.</p>
+<p><strong>Save all hair files</strong> Saves all hair files associated with the current project.</p>
+<p><strong>Exit</strong> Closes the HairWorks viewer.</p>
+</div>
+<div class="section" id="view">
+<h3>View<a class="headerlink" href="#view" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/hwViewer_Menu_View.png" src="_images/hwViewer_Menu_View.png" />
+<p><strong>Output</strong> Toggles the Output Window on/off.</p>
+</div>
+<div class="section" id="help">
+<h3>Help<a class="headerlink" href="#help" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/hwViewer_Menu_Help.png" src="_images/hwViewer_Menu_Help.png" />
+<p><strong>Documentation</strong> Launches this help document.</p>
+<p><strong>About</strong> Launches a dialog with various information about HairWorks including the version and web links.</p>
+</div>
+</div>
+<div class="section" id="toolbar">
+<h2>Toolbar<a class="headerlink" href="#toolbar" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/hwViewer_Toolbar.jpg" src="_images/hwViewer_Toolbar.jpg" />
+<p><strong>Open project file</strong> Launches a file dialog to allow the user to open a project file.</p>
+<p><strong>Wind Noise</strong> Generic noise that is applied globally to the wind for all hair assets.</p>
+<p><strong>Wind Strength</strong> Wind strength that is applied globally to all hair assets.  This value is always set in meter unit, regardless of what the scene scale is set to.</p>
+<p><strong>Animation List</strong> Launches a file dialog to allow the user to import additional animations via FBX. The animation will be added to the drop down list, allowing the user to choose which animation to preview. Only matching bone names will have animation updated. Currently, animation adding is not implemented and users can only select between the bind pose and the default animation.</p>
+<p><strong>Animation Speed</strong> Allows the user to adjust the speed of animation playback.</p>
+<p><strong>Lock Root Bone</strong> When toggled on, this mutes the translation animation for the selected bone with the intention of keeping the character animating in place. The user can choose the root bone from the drop down list of bones in the scene.</p>
+<p><strong>Preview LOD</strong> Allows the user to preview the Level of Detail attributes that are set on all hair assets by zooming the viewport camera in and out.</p>
+<p><strong>Transport Controls</strong></p>
+<ul class="simple">
+<li><strong>Reset Simulation on Loop</strong> Determines whether or not the simulation should reset to its initial position each time the animation loops. This control is only applied when the Loop control is enabled.</li>
+<li><img alt="Loop" src="_images/hwViewer_Toolbar_Loop.jpg" /> <strong>Loop</strong> Determines if the animation continuously loops during playback.</li>
+</ul>
+<ul class="simple">
+<li><img alt="Rewind" src="_images/hwViewer_Toolbar_Rewind.jpg" /> <strong>Rewind</strong> Set the animation playback to the beginning of the playback range.</li>
+</ul>
+<ul class="simple">
+<li><img alt="Play" src="_images/hwViewer_Toolbar_Play.jpg" /> <strong>Play/Stop</strong> Toggles playback of the animation. If Loop is toggled off and the animation is at the end of the frame range, then pressing play will automatically rewind the animation to the beginning of the playback range and play the entire sequence.</li>
+</ul>
+<ul class="simple">
+<li><img alt="Forward" src="_images/hwViewer_Toolbar_StepForward.jpg" /> <strong>Step Forward</strong> Steps the animation forward 1 frame.</li>
+</ul>
+<ul class="simple">
+<li><img alt="PlaySimulation" src="_images/hwViewer_Toolbar_Play_Simulation.jpg" /> <strong>Toggle Simulation</strong>  Toggles playback of the simulation.</li>
+</ul>
+<ul class="simple">
+<li><img alt="ForwardSimulation" src="_images/hwViewer_Toolbar_StepForward_Simulation.jpg" /> <strong>Simulation Step Forward</strong> Steps the simulation forward 1 frame.</li>
+</ul>
+</div>
+<div class="section" id="hair-tab">
+<h2>Hair Tab<a class="headerlink" href="#hair-tab" title="Permalink to this headline">¶</a></h2>
+<p>The Hair tab contains all of the attributes, visualizers, and file management to iterate quickly on hair assets.</p>
+<img alt="_images/hwViewer_Attributes_Hair.jpg" src="_images/hwViewer_Attributes_Hair.jpg" />
+<p>If an asterisk(*) appears next to the title of a field, that field is no longer set to its default value or state.</p>
+<p>Values typically range from 0 to 1. This helps provide predictable results. There are a few exceptions, including mass, inertia limit, density, clumping roundness, shininess, glint values, LOD values, shadow attenuation, and wave frequency. These larger ranges may aid in precision or in some cases, such as wave frequency, it just allows for a larger input where a limit of 1 is too restricting.</p>
+<div class="section" id="asset-selection">
+<h3>Asset Selection<a class="headerlink" href="#asset-selection" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/hwViewer_Hair_AssetSelection.jpg" src="_images/hwViewer_Hair_AssetSelection.jpg" />
+<p><strong>Selected Asset</strong> Lists the currently selected asset that all other controls in the Hair Tab apply to. Multiple hair assets can be selected at once and edited at the same time.</p>
+<blockquote>
+<div>If multiple assets are selected simultaneously, some of the fields in the Hair Tab may turn red. This means that the values assigned to the assets are not equal.</div></blockquote>
+<p><img alt="LoadAsset" src="_images/hwViewer_Hair_FileOpen.jpg" /> <strong>Load Asset From File</strong> Launches a file dialog to allow the user to open a hair file. Loading a full asset from file</p>
+<p><img alt="ImportFile" src="_images/hwViewer_Hair_FileImport.jpg" /> <strong>Import File Into Current Asset</strong> Launches a file dialog to allow the user to import a hair file into the current asset using the above import options.</p>
+<p><img alt="SaveAsset" src="_images/hwViewer_Hair_SaveOpen.jpg" /> <strong>Save Current Asset</strong> Saves the current hair file.</p>
+<p><img alt="ReloadAsset" src="_images/hwViewer_Hair_FileReload.jpg" /> <strong>Reload Current Asset</strong> Reloads the currently selected hair file.</p>
+<p><img alt="RemoveAsset" src="_images/hwViewer_Hair_FileRemove.jpg" /> <strong>Remove Current Asset</strong>  Removes the currently selected hair asset from the project.</p>
+</div>
+<div class="section" id="general-settings">
+<h3>General Settings<a class="headerlink" href="#general-settings" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/hwViewer_Hair_GeneralSettings.jpg" src="_images/hwViewer_Hair_GeneralSettings.jpg" />
+<p><strong>Import Settings</strong>  A hair file can be loaded in such a way that only specific sections of it are loaded. This is convenient for fast and effective iterations.</p>
+<ul class="simple">
+<li><strong>Groom</strong>  When importing a hair file, determines if the groomed guide curves should be imported or not.</li>
+<li><strong>Materials</strong> When importing a hair file, determines if the material attribute settings should be imported or not. This encompasses all rollouts.</li>
+<li><strong>Constraints</strong> When importing a hair file, determines if pin constraints should be imported or not.</li>
+<li><strong>Textures</strong> When importing a hair file, determines if the texture references should be imported or not.</li>
+<li><strong>Collision</strong> When importing a hair file, determines if the collision should be imported or not.</li>
+</ul>
+<p><strong>General Options</strong></p>
+<ul class="simple">
+<li><strong>Enable</strong>  Toggles hair assets on/off.</li>
+<li><strong>Spline Multiplier</strong> Number of render vertices per line segment of guide hairs. Higher value makes each hair appear smooth, but will slow down rendering.</li>
+</ul>
+</div>
+<div class="section" id="visualization">
+<h3>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/hwViewer_Hair_Visualization.jpg" src="_images/hwViewer_Hair_Visualization.jpg" />
+<p>All visualizers apply to the currently selected hair asset.</p>
+<p><strong>Hair</strong> Display the rendered hair for the currently selected asset.</p>
+<p><strong>Guide Curves</strong> Display the guide curves for the currently selected asset as red lines.</p>
+<p><strong>Skinned Guide Curves</strong> Display the guide curves at skinned location (no simulation) for the currently selected asset as yellow lines.</p>
+<p><strong>Control Points</strong> Display the control vertices for the guide curves on the selected hair asset.</p>
+<p><strong>Growth Mesh</strong> Display the growth mesh used for the currently selected asset. Sometimes this results in fighting with the display meshes. If necessary, toggle off conflicting display meshes from the Display Meshes section of the Display Tab.</p>
+<p><strong>Bones</strong> Display bones for the currently selected hair asset.</p>
+<p><strong>Bone Names</strong> Display bone names for the currently selected hair asset.</p>
+<p><strong>Bounding Box</strong> Display bounding box for the currently selected hair asset.  Yellow bounding box indicates bounds for the growth mesh only and pink bounding box indicates bounds for entire hair.</p>
+<p><strong>Collision Capsules</strong> Display collision capsules for the currently selected hair asset.</p>
+<p><strong>Hair Interaction</strong> Display links used for hair interaction. Pink means each interaction link is within original distance; green means interaction links are too stretched (interaction handling is inactive or low)</p>
+<p><strong>Pin Constraints</strong> Display the pin constraint shape.</p>
+<p><strong>Shading Normal</strong> Display normals used for shading.  Hairworks internally generates surface normal for hair surface.  This is useful for matching mesh based shading where hair normals are not defined.  Use this option to visualize and adjust hair normals.</p>
+<p><strong>Shading Normal Center</strong> Display shading normal center bone in grey sphere.  This is used to esimate hair normals.</p>
+<p><strong>Control Texture</strong> When growth mesh is visible, selected control texture is shown on the growth mesh.</p>
+<p><strong>Colorize Options</strong> Renders the hair strands in different colors depending on what the user is trying to analyze. Options are None, LOD, Tangents, Normals, and Constant Red. For LOD, greener colors indicate closer distance (more detail) and blue color indicates far distance (less detail).</p>
+</div>
+<div class="section" id="physical">
+<h3>Physical<a class="headerlink" href="#physical" title="Permalink to this headline">¶</a></h3>
+<p>All attributes apply to the currently selected hair asset.</p>
+<p><strong>General</strong></p>
+<img alt="_images/hwViewer_Hair_PhysicalGeneral.jpg" src="_images/hwViewer_Hair_PhysicalGeneral.jpg" />
+<ul class="simple">
+<li><strong>Simulate</strong>  Toggle the simulation of the hair on/off.</li>
+<li><strong>Mass Scale</strong> Determines the weight of the hair by increasing or decreasing the mass of the hair. This value is always set in meter unit, regardless of what the scene scale is set to.</li>
+<li><strong>Damping</strong> The strength of the influence of movement that slows down the fur strands such as air drag or water.</li>
+<li><strong>Inertia Scale</strong> When character moves unrealistically fast, hair simulation may produce jerky and wild motion.  Use inertia scale to tone down such behavior.  No inertia: 0, full inertia motion: 1</li>
+<li><strong>Inertia Limit</strong>  Defines velocity threshold when inertia scale should become active.</li>
+</ul>
+<p><strong>Stiffness</strong></p>
+<img alt="_images/hwViewer_Hair_PhysicalStiffness.jpg" src="_images/hwViewer_Hair_PhysicalStiffness.jpg" />
+<p>Controls how closely the hair strand stays to its initial groomed position.</p>
+<ul class="simple">
+<li><strong>Global</strong> The limits on how close each individual hair stays to the skinned position. If a texture map is used, then the texture will influence the stiffness calculation for each simulated (guide) hair.</li>
+<li><strong>Strength</strong> The strength of the spring (bounciness) of the hair to return from a simulated position to its resting stiffness. Full springiness is 0, and 1 is no spring.</li>
+<li><strong>Damping</strong> The speed of the spring (bounciness) of the hair to return from a simulated position to its resting stiffness. 1: full damping (slowest/no motion), 0: no damping (fastest).</li>
+<li><strong>Root</strong> The strength of stiffness that weakens toward the tip of the hair. If a texture map is used, then the texture will influence the stiffness calculation for each simulated (guide) hair.</li>
+<li><strong>Tip</strong> The strength of stiffness that weakens toward the root of the hair. If a texture map is used, then the texture will influence the stiffness calculation for each simulated (guide) hair.</li>
+<li><strong>Bend</strong> The strength of how hair tries to maintain initial curvy hair shapes.</li>
+</ul>
+<p><strong>Collision</strong></p>
+<img alt="_images/hwViewer_Hair_PhysicalCollision.jpg" src="_images/hwViewer_Hair_PhysicalCollision.jpg" />
+<ul class="simple">
+<li><strong>Backstop</strong> Approximates the surface of the growth mesh to use as collision. A value of 0 does not use the solution while a value of 1.0 uses the average edge length of the entire growth mesh to determine an approximation. A side effect of this is that it can artificially fluff up the root of the hairs. This can be desired or undesired.</li>
+<li><strong>Friction</strong> Hair to collision shape interaction. Typical values are from 0.0 to 0.1.</li>
+<li><strong>Capsule Collision</strong> Enables collision handling against collision shapes if they are present.</li>
+<li><strong>Hair Interaction</strong> Helps the hair simulate in groups.  1.0 means full interaction.</li>
+</ul>
+<p><strong>Pin</strong></p>
+<img alt="_images/hwViewer_Hair_PhysicalPin.jpg" src="_images/hwViewer_Hair_PhysicalPin.jpg" />
+<ul class="simple">
+<li><strong>Stiffness</strong> This refers to the strength pin constraint. The center of the pin volume will have strength equal to the Pin Stiffness value, but will falloff in strength to the outer edge of the volume.</li>
+</ul>
+</div>
+<div class="section" id="style">
+<h3>Style<a class="headerlink" href="#style" title="Permalink to this headline">¶</a></h3>
+<p>All attributes apply to the currently selected hair asset.</p>
+<p><strong>Volume</strong></p>
+<img alt="_images/hwViewer_Hair_StyleVolume.jpg" src="_images/hwViewer_Hair_StyleVolume.jpg" />
+<ul class="simple">
+<li><strong>Density</strong> The amount of hair strands produced by interpolation between the guide curves. A value of 0 produces no hair. Currently, a density value of 1.0 produces 64 hairs per each triangle of growth mesh. A value above 1.0 will scale the number of hairs correspondingly (a value of 2 would yield 128 hairs or a value of 10 would have 640). If a texture control is used, then this control becomes a multiplier for the texture. A texture control by default is sampled per vertex in UV space.</li>
+<li><strong>Use Pixel density</strong> If a texture map is used to control density, then the texture will influence the density calculation per pixel in UV space instead of the default per vertex.  Users should note, however, that using this option may result in a significant performance drop, so this option should be used only when absolutely necessary.</li>
+<li><strong>Length Scale</strong> Only grows the hair to a percentage of the full length. A value of 0 is no hair and value of 1 is 100% length. If a texture control is used, then this control becomes a multiplier for the texture. A texture control by default is sampled per vertex in UV space.</li>
+<li><strong>Length Noise</strong> The strength of random value noise that is applied to the length of the interpolated hairs resulting in non uniformly interpolated hairs.</li>
+</ul>
+<p><strong>Strand Width</strong></p>
+<img alt="_images/hwViewer_Hair_StyleStrandWidth.jpg" src="_images/hwViewer_Hair_StyleStrandWidth.jpg" />
+<ul class="simple">
+<li><strong>Width</strong> Determines the base width of each hair. All other parameters in this group as well as their textures act as multipliers to this value. This value is always set in millimeters, regardless of what the scene scale is set to.</li>
+<li><strong>Root Scale</strong> Multiplier to the width scale that applies toward the root of each individual hair. If a texture map is used, then the sampled texture values per each hair will be multiplied to this constant. The combined value then acts as multiplier to the base scale value.</li>
+<li><strong>Tip Scale</strong> Multiplier to the width scale that applies toward the tip of each individual hair.  If a texture map is used, then the sampled texture values per each hair will be multiplied to this constant. The combined value then acts as multiplier to the base scale value.</li>
+<li><strong>Noise</strong> The strength of random value noise that is applied to the overall width of individual hairs.</li>
+</ul>
+<p><strong>Clumping</strong></p>
+<img alt="_images/hwViewer_Hair_StyleClumping.jpg" src="_images/hwViewer_Hair_StyleClumping.jpg" />
+<p>Determines how much each hair follows a clumped shape. Each clump is generated for each growth mesh triangle, and this value controls how much the hair shape is bent toward the center hair. Clumps are defined per vertex.</p>
+<ul class="simple">
+<li><strong>Scale</strong> The strength of clump that is applied to each individual hair. If a texture map is used, then the sampled texture value per hair will act as a multiplier to this constant value.</li>
+<li><strong>Roundness</strong> Determines the roundness of each clump. A value of 0 is a concave clump, a value of 2.0 is a convex clump, and the default value of 1.0 is a neutral clump.</li>
+<li><strong>Noise</strong> The strength of the percentage of hairs that are included in each clump.</li>
+</ul>
+<p><strong>Waviness</strong></p>
+<img alt="_images/hwViewer_Hair_StyleWaviness.jpg" src="_images/hwViewer_Hair_StyleWaviness.jpg" />
+<p>Determines the number of sine waves applied to each individual strand, creating the look of waves or curls.</p>
+<ul class="simple">
+<li><strong>Scale</strong> Determines the amplitude of the waves. This value is always set in centimeter unit, regardless of what the scene scale is set to.</li>
+<li><strong>Scale Noise</strong> The strength of noise that is applied to the scale of each individual hair.</li>
+<li><strong>Scale Strand</strong> The strength of the waviness of individual strands. This value is multiplied against the waviness scale.</li>
+<li><strong>Scale Clump</strong> The strength of the waviness of clumped strands. This value is multiplied against the waviness scale.</li>
+<li><strong>Frequency</strong> Determines the number of waves generated down the length of each individual strand.</li>
+<li><strong>Frequency Noise</strong> The strength of noise that is applied to the frequency of each individual hair.</li>
+<li><strong>Root Straighten</strong>  Determines how much of the root of each individual hair should remain without waves. A value of 0 has no effect. A value of 1.0 makes waves linearly scale up toward the tip, where tip would get the full wave scale, while root will have no waves.</li>
+</ul>
+</div>
+<div class="section" id="graphics">
+<h3>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h3>
+<p><strong>Color</strong></p>
+<img alt="_images/hwViewer_Hair_GraphicsColor.jpg" src="_images/hwViewer_Hair_GraphicsColor.jpg" />
+<ul class="simple">
+<li><strong>Root Color</strong> The color that is used for the roots of strands. This is determined by loading a texture input and is sampled per hair.</li>
+<li><strong>Tip Color</strong> The color that is used for the tips of strands. This is determined by loading a texture input and is sampled per hair.</li>
+<li><strong>Root/Tip Color Weight</strong> Balances how much of the Root and Tip color is used along the length strands.</li>
+<li><strong>Root/Tip Color Falloff</strong> The blend between the root color and tip color. The Root/Tip Color Weight position is the center of the falloff.</li>
+<li><strong>Root Alpha Falloff</strong> Controls the transparency of the root of a strand up to a portion of the strand, but not to the tip.</li>
+</ul>
+<p><strong>Strand</strong></p>
+<img alt="_images/hwViewer_Hair_GraphicsStrand.jpg" src="_images/hwViewer_Hair_GraphicsStrand.jpg" />
+<ul class="simple">
+<li><strong>Per Strand Texture</strong> This is a texture that goes along the length of a strand, from root to tip.</li>
+<li><strong>Strand Blend Mode</strong> How the Strand Texture blends with the base root/tip colors. Modes include Overwrite, Multiply, Add, and Modulate.</li>
+<li><strong>Strand Blend Scale</strong> The strength of the blend. At 0, it is off. At 1.0 the blend is full strength.</li>
+</ul>
+<p><strong>Diffuse</strong></p>
+<img alt="_images/hwViewer_Hair_GraphicsDiffuse.jpg" src="_images/hwViewer_Hair_GraphicsDiffuse.jpg" />
+<ul class="simple">
+<li><strong>Diffuse Blend</strong> The diffuse blend attempts to match the rendered shading from the hair with the mesh surface&#8217;s shading. By setting this value to 1.0, users can ignore hair diffuse term and match mesh lighting more closely. A value of 0.0 will force hair lighting only.</li>
+<li><strong>Hair Normal Weight</strong> The strength of the normal derived from the hair normal bone to calculate shading weighted against the diffuse blend. Typically used for long hair.</li>
+<li><strong>Hair Normal Center</strong> Selector to pick a bone that is appropriate for the Hair Normal Weight.</li>
+</ul>
+<p><strong>Specular</strong></p>
+<img alt="_images/hwViewer_Hair_GraphicsSpecular.jpg" src="_images/hwViewer_Hair_GraphicsSpecular.jpg" />
+<ul class="simple">
+<li><strong>Color</strong> The color that is applied to both primary and secondary specular.</li>
+<li><strong>Primary Scale</strong> The strength that the primary specular is applied.</li>
+<li><strong>Primary Shininess</strong> How loose or tight the falloff is for primary specular.</li>
+<li><strong>Primary Breakup</strong> How wide specular highlight varies based on noise.</li>
+<li><strong>Secondary Scale</strong> The strength that the secondary specular is applied.</li>
+<li><strong>Secondary Shininess</strong> How loose or tight the falloff is for secondary specular.</li>
+<li><strong>Secondary Offset</strong> Offsets the secondary specular term from the primary specular creating separation and two distinct highlight regions. This is part of what makes hair look like hair.</li>
+</ul>
+<p><strong>Glint</strong></p>
+<img alt="_images/hwViewer_Hair_GraphicsGlint.jpg" src="_images/hwViewer_Hair_GraphicsGlint.jpg" />
+<ul class="simple">
+<li><strong>Strength</strong> The amount of the glint that is blended back into the hair.</li>
+<li><strong>Size</strong> Determines how much noise is present in the glint.</li>
+<li><strong>Power Exponent</strong> The strength of contrast applied to glint.</li>
+</ul>
+<p><strong>Shadow</strong></p>
+<img alt="_images/hwViewer_Hair_GraphicsShadow.jpg" src="_images/hwViewer_Hair_GraphicsShadow.jpg" />
+<ul class="simple">
+<li><strong>Shadow Attenuation</strong>  The strength that shadows are applied to hair.</li>
+<li><strong>Shadow Density Scale</strong>  For shadow rendering, we can use less, but thicker hairs for performance. This value is used as multiplier on top of density value.  Lower values make hair shadow rougher, but make rendering faster.  A value of 0.5 is typically a reasonable choice.</li>
+<li><strong>Cast Shadows</strong> Enables hair to cast shadows.</li>
+<li><strong>Receive Shadows</strong> Enables hair to receive shadows.</li>
+</ul>
+</div>
+<div class="section" id="level-of-detail">
+<h3>Level of Detail<a class="headerlink" href="#level-of-detail" title="Permalink to this headline">¶</a></h3>
+<p>LOD is designed to provide a visually seamless transition between lower and higher details at various distances. There is no concept of stepped or numbered LODs with HairWorks. The power of continuous LOD maintains artistic integrity of the assets fluidity through the LOD regions, creating a more seamless experience and more successfully hiding the detail changes to the end user. These distance values are always set in meter units, regardless of what the scene scale is set to.</p>
+<dl class="docutils">
+<dt><strong>Culling</strong></dt>
+<dd>These are controls that determine how strands get culled(not rendered) in different ways.</dd>
+</dl>
+<img alt="_images/hwViewer_Hair_LevelofDetailCulling.jpg" src="_images/hwViewer_Hair_LevelofDetailCulling.jpg" />
+<ul class="simple">
+<li><strong>View Frustrum Culling</strong> Culls hairs when they are off screen.</li>
+<li><strong>Backface Culling</strong> Enables the hairs to be culled when their associated face is pointing away from the camera. This is based on the Backface Culling Threshold.</li>
+<li><strong>Backface Culling Threshold</strong> Threshold that determines the strands that are culled via Backface Culling.</li>
+</ul>
+<dl class="docutils">
+<dt><strong>Continuous Distance LoD</strong></dt>
+<dd>Allows the hair strands to get wider and reduce density automatically until no hair is drawn at a distance.</dd>
+</dl>
+<img alt="_images/hwViewer_Hair_LevelofDetailDistanceLOD.jpg" src="_images/hwViewer_Hair_LevelofDetailDistanceLOD.jpg" />
+<ul class="simple">
+<li><strong>Enable</strong> Allows the user to use or not use Continuous Distance LOD.</li>
+<li><strong>Start Distance</strong> The distance from the camera where Continuous Distance LOD begins.</li>
+<li><strong>End Distance</strong> The distance from the camera where Continuous Distance LOD ends. At this point no hair is drawn.</li>
+<li><strong>Fade Start Distance</strong> The distance from the camera where Continuous Distance LOD starts to become transparent.</li>
+<li><strong>Base Width Scale</strong> When Continuous LOD reaches its end distance, the Base Width of the strands interpolates to this value. Typically, this is a larger value than what Base Width is set to in the Physical Material, resulting in larger strands when the camera is further away and density becomes lower.</li>
+<li><strong>Density Scale</strong> When Continuous LOD reaches its end distance, the overall Density interpolates to this value. Typically this value is 0, therefore removing all strands when the camera is at far LOD.</li>
+</ul>
+<dl class="docutils">
+<dt><strong>Continuous Detail LoD</strong></dt>
+<dd>Allows the the hair strands to get thinner and increase in density during close up moments.</dd>
+</dl>
+<img alt="_images/hwViewer_Hair_LevelofDetailDetailLOD.jpg" src="_images/hwViewer_Hair_LevelofDetailDetailLOD.jpg" />
+<ul class="simple">
+<li><strong>Enable</strong> Allows the user to use or not use Continuous Detail LOD.</li>
+<li><strong>Start Distance</strong> The distance from the camera where Continuous Detail LOD begins. for Detail LOD, this distance is further from the camera.</li>
+<li><strong>End Distance</strong> The distance from the camera where Continuous Detail LOD ends. For Detail LOD, this is closest to the camera and results fur at its highest density.</li>
+<li><strong>Base Width Scale</strong> When Detail LOD reaches its end distance, the Base Width of the strands interpolates to this value. Typically this is a smaller value than what Base Width is set to in the Physical Material, resulting in finer strands when the camera is closer.</li>
+<li><strong>Density Scale</strong> When Detail LOD reaches its end distance, the over all Density interpolates to this value. Typically this value is greater than one, there fore creating more fur when the camera is closer.</li>
+</ul>
+</div>
+<div class="section" id="control-texture-channels">
+<h3>Control Texture Channels<a class="headerlink" href="#control-texture-channels" title="Permalink to this headline">¶</a></h3>
+<p>Many control textures in HairWorks are single channel textures.
+It can be thus efficient to pack multiple control textures into a single texture file.
+This tab lets individual texture channels control a given attribute. Channel options are Red, Green, Blue, or Alpha.</p>
+<img alt="_images/hwViewer_Hair_ControlTextureChannels.jpg" src="_images/hwViewer_Hair_ControlTextureChannels.jpg" />
+</div>
+</div>
+<div class="section" id="display-tab">
+<h2>Display Tab<a class="headerlink" href="#display-tab" title="Permalink to this headline">¶</a></h2>
+<p>The Display tab contains options for Scene settings, Lights, Display Mesh visibility, and Display Mesh materials.  All settings made on this tab are saved with the HairWorks project file.</p>
+<blockquote>
+<div>Some options, such as Handedness, should be set before the scene is loaded for proper asset conversion.</div></blockquote>
+<div class="section" id="scene">
+<h3>Scene<a class="headerlink" href="#scene" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/hwViewer_Display_Scene.jpg" src="_images/hwViewer_Display_Scene.jpg" />
+<p><strong>Custom Hair MSAA</strong> Determines what type of anti-aliasing to use for previewing assets.  Make sure to set this before opening any assets. This does impact performace. Also note, that different anti aliasing solutions can be used depending on the engine integration.</p>
+<p><strong>Scene Unit</strong> Determines the unit scale that the scene operates in.  Make sure to set this before opening any assets.</p>
+<p><strong>Up Axis</strong> Determines the up axis for the scene. Upon project or fbx load, the viewer will attempt to correctly identify and set the up axis.</p>
+<p><strong>Handedness</strong> Left- or Right-handed coordinate system. For proper asset conversion, handedness should be set before assets are loaded.</p>
+<p><strong>Navigation Style</strong> Allows the user to switch between two familiar forms of viewport navigation, Maya and 3dsMax. Also see Keyboard Shortcuts.</p>
+<p><strong>Background Image</strong> Allows the user to set a custom image in the background of the viewport. This is helpful for seeing your scene in context with your game.</p>
+<p><strong>Camera FOV</strong> Allows camera field of view (FOV) to be changed (in degrees).</p>
+<p><strong>Visualize Wind</strong> Toggles on/off the wind indicator in the viewport.</p>
+<p><strong>Show Grid</strong>  Toggles on/off the ground plane grid in the viewport.</p>
+<p><strong>Show Axis</strong>  Toggles on/off the viewport axis in the lower left hand side of the viewport.</p>
+<p><strong>Show HUD</strong>  Toggles on/off some scene statistics via a heads up display in the upper left hand corner of the viewport. Statistics included are current frame time and fps.</p>
+<p><strong>Compute Stats</strong> When the HUD is toggled on, additional statistics are shown such as hair id, total number of hairs, average hair density, and average hair density per face.</p>
+<p><strong>Compute Profile</strong> When the HUD is toggled on, additional statistics specific to GPU/CPU rendering and updating are shown..</p>
+<p><strong>Mesh Rendering</strong> These are scene wide rendering styles that only apply to meshes.</p>
+<ul class="simple">
+<li><strong>Render Type</strong> This is the style of rendering that the scene is rendered in. Options are Wireframe, Flat(lit with no smoothing), Shaded(lit with smoothing), and Textured(lit with smoothing and textures).</li>
+<li><strong>Show Wireframe Over</strong> Overlays a black wireframe on top of the chosen Render Type.</li>
+<li><strong>Use Mesh Lighting</strong> Toggles if lighting should be applied to the meshes using the chosen Render Type.</li>
+<li><strong>Show Graphics Mesh</strong> Toggles the visibility of all Display Meshes on/off.</li>
+<li><strong>Use Skinned Mesh Only</strong> Toggles the visibility of all Display Meshes that are not skinned on/off.</li>
+<li><strong>Use DQ Skinning</strong> Toggles the use of dual-quaternion skinning on/off.</li>
+</ul>
+</div>
+<div class="section" id="light">
+<h3>Light<a class="headerlink" href="#light" title="Permalink to this headline">¶</a></h3>
+<p>Select the active light to be edited. Lights are preset to Key, Fill, Rim, and Environment to light the scene however you like.  All four lights are directional.</p>
+<img alt="_images/hwViewer_Display_Light.jpg" src="_images/hwViewer_Display_Light.jpg" />
+<p><strong>Link Light</strong> Enables all lights to be rotated as a group.</p>
+<p><strong>Enable</strong> Enables the currently selected light.</p>
+<p><strong>Color</strong> Determines the color of the selected light. The color of the light is also previewed on the visualization shape that represents it.  The texture map can be used for environment light sampling.</p>
+<p><strong>Intensity</strong> The strength of the currently selected light.</p>
+<p><strong>Cast Shadow</strong> Enables shadows to be cast from the currently selected light.</p>
+<p><strong>Shadow Map Resolution</strong> Determines the resolution of the shadow to be used in the HairWorks viewer only. The shadow resolution in a game is determined by the games integration.</p>
+<p><strong>Visualize</strong> These are visualizers that apply to the selected light.</p>
+<ul class="simple">
+<li><strong>Light</strong> Enables visualization for the selected light.</li>
+<li><strong>Shadow Map</strong> Displays the shadow map of the current light over the viewport.</li>
+<li><strong>Distance</strong> How far the visualized light is away from origin along its direction.</li>
+</ul>
+</div>
+<div class="section" id="display-meshes">
+<h3>Display Meshes<a class="headerlink" href="#display-meshes" title="Permalink to this headline">¶</a></h3>
+<p>This is a list of meshes that is loaded with the FBX file and allows the user to toggle visibility of each object on/off. Meshes can be skinned or static.</p>
+<img alt="_images/hwViewer_Display_DisplayMeshes.png" src="_images/hwViewer_Display_DisplayMeshes.png" />
+</div>
+<div class="section" id="display-mesh-materials">
+<h3>Display Mesh Materials<a class="headerlink" href="#display-mesh-materials" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/hwViewer_Display_DisplayMeshMaterials.jpg" src="_images/hwViewer_Display_DisplayMeshMaterials.jpg" />
+<p><strong>Mesh Material</strong> Drop down list of all meshes in the scene. The selected mesh asset contains the settings in the Materials group.</p>
+<p><strong>Materials</strong></p>
+<ul class="simple">
+<li><strong>Diffuse Color</strong> The color applied to the material either by color or texture.</li>
+<li><strong>Specular Shininess</strong> How loose or tight the fall off is for specular.</li>
+<li><strong>Specular Color</strong> Determines the color to be used for specular high lights either by color or texture.</li>
+<li><strong>Normal Texture</strong> Texture input for normal map.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="keyboard-shortcuts">
+<h2>Keyboard Shortcuts<a class="headerlink" href="#keyboard-shortcuts" title="Permalink to this headline">¶</a></h2>
+<p><strong>General</strong></p>
+<ul class="simple">
+<li><strong>Ctrl + o:</strong> Open project file</li>
+<li><strong>Ctrl + s:</strong> Saves project file</li>
+<li><strong>Ctrl + x:</strong> Toggles presentation mode on/off</li>
+<li><strong>Space Bar:</strong> Toggles play animation on/off</li>
+<li><strong>Ctrl + Left Mouse:</strong> Rotate active Light</li>
+<li><strong>Shift + Left Mouse:</strong> Rotate wind direction</li>
+<li><strong>Ctrl + space:</strong> Undo/Redo of last UI action</li>
+</ul>
+<p><strong>Maya Navigation</strong></p>
+<ul class="simple">
+<li><strong>Alt + Left Mouse:</strong> Rotate</li>
+<li><strong>Alt + Middle Mouse:</strong> Translate</li>
+<li><strong>Alt + Right Mouse:</strong> Zoom</li>
+</ul>
+<p><strong>3dsMax Navigation</strong></p>
+<ul class="simple">
+<li><strong>Alt + Middle Mouse:</strong> Rotate</li>
+<li><strong>Middle Mouse:</strong> Translate</li>
+<li><strong>Middle Mouse Scroll Wheel:</strong> Zoom</li>
+</ul>
+</div>
+<div class="section" id="file-types">
+<h2>File Types<a class="headerlink" href="#file-types" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>FBX</strong><ul>
+<li>FBX is used to transfer the skinned character and any other accent display meshes to be used in HairWorks Viewer.</li>
+</ul>
+</li>
+<li><strong>Hair Files</strong><ul>
+<li>APX or APB files that are used to transfer HairWorks assets between software packages.</li>
+<li>They contain all the attribute settings, the growth mesh and its skinning data, guide hairs, and even texture name references.</li>
+</ul>
+</li>
+<li><strong>Texture Formats</strong><ul>
+<li>The viewer currently supports various popular image formats such as .dds, .tga, .png, .bmp, and .jpg</li>
+</ul>
+</li>
+<li><strong>Project File</strong><ul>
+<li>The viewer can save and load .furproj files that contain reference to an fbx file and multiple .apx/.apb files, as well as global settings such as camera, light, display, and animation options etc. This file is only used by the viewer.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<div class="masthead">
+    <div class="row">
+      <ul class="breadcrumb">
+        <li><a href="index.html">NVIDIA HairWorks 1.1.1 documentation</a></li> 
+      </ul>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-boilerplate">
+        <div class="row">
+            <div class="boilerplate">
+                Copyright &copy; 2014-2015, NVIDIA Corporation &nbsp; | &nbsp; <a href="http://www.nvidia.com/object/about-nvidia.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/about-nvidia.html_1&quot;;return this.s_oc?this.s_oc(e):true">About NVIDIA </a>&nbsp; | &nbsp; <a href="http://www.nvidia.com/object/legal_info.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/legal_info.html_1&quot;;return this.s_oc?this.s_oc(e):true">Legal Information </a>&nbsp; | &nbsp; <a href="http://www.nvidia.com/object/privacy_policy.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/privacy_policy.html_1&quot;;return this.s_oc?this.s_oc(e):true">Privacy Policy </a>
+            </div>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+var treestatename = 'GWDocsTreeState';
+var protocol = location.href.split('/')[0].toLowerCase();
+var storage;
+if (protocol.substring(0,4) == 'http') {
+  storage = $.cookieStorage;
+  storage.setPath('/');
+} else {
+  storage = $.localStorage;
+}
+
+if (storage.isEmpty(treestatename)) {
+  storage.set(treestatename, {});
+}
+
+var treestate = storage.get(treestatename);
+
+$.each($("#sidebar_toc ul li"), toc_walker);
+
+function toc_walker(key, value) {
+    var handleSpan = $("<span></span>")
+        .addClass("toc_handle").prependTo(value);
+    handleSpan.attr("id", $(value).closest("div").attr("id") + "." + key);
+
+    if($(value).has("ul li").size() > 0) {
+        var id = handleSpan.attr("id");
+        if (!(id in treestate)) {
+          treestate[id] = false;
+        }
+        handleSpan.addClass("toc_expanded").click(function() {
+            $(this).toggleClass("toc_expanded toc_collapsed").siblings("ul").toggle();
+            treestate[$(this).attr('id')] = $(this).hasClass('toc_expanded');
+            storage.set(treestatename, treestate);
+        });
+        if(!($(this).hasClass('current') || treestate[id])) {
+            handleSpan.click();
+        }
+        if($(this).hasClass('current')) {
+            treestate[handleSpan.attr('id')] = handleSpan.hasClass('toc_expanded');
+            storage.set(treestatename, treestate);
+        }
+    }
+}
+</script>
+  </body>
+</html>

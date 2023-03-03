@@ -1,0 +1,266 @@
+<!DOCTYPE NvParameters>
+<NvParameters numObjects="1" version="1.0" >
+<value name="" type="Ref" className="HairProjectParameters" version="0.0" checksum="0xfa3299eb 0x80afff59 0xdbbd1331 0x7c316e5b">
+  <struct name="">
+    <struct name="camera">
+      <value name="flags" type="U16">1</value>
+      <value name="fov" type="F32">0.654498458</value>
+      <value name="aspectRatio" type="F32">1.83697474</value>
+      <value name="znear" type="F32">1</value>
+      <value name="zfar" type="F32">10000</value>
+      <value name="width" type="F32">2186</value>
+      <value name="height" type="F32">1190</value>
+      <value name="isPerspective" type="Bool">true</value>
+      <value name="eye" type="Vec3">29.4582767 -115.877487 171.648407</value>
+      <value name="at" type="Vec3">1.11890376 -7.15373707 169.4655</value>
+      <value name="xAxis" type="Vec3">0 0 0</value>
+      <value name="yAxis" type="Vec3">0 0 0</value>
+      <value name="zAxis" type="Vec3">0 0 0</value>
+      <value name="viewDirection" type="Vec3">0 0 0</value>
+      <value name="lookDistance" type="F32">112.37767</value>
+      <value name="orientation" type="Vec4">-0.694523454 -0.0890213326 -0.0907813162 0.708146155</value>
+      <value name="viewMatrix" type="Mat44">0.967667937 -0.0049180761 0.252179742 0  0.252227694 0.018791832 -0.967485309 0  1.92821026e-005 0.999811172 0.0194247309 0  0.718369961 -169.293564 -122.872765 1</value>
+      <value name="projectionMatrix" type="Mat44">1.60367215 0 0 0  0 2.94590521 0 0  0 0 -1.00010002 -1  0 0 -1.00010002 0</value>
+    </struct>
+    <struct name="lightCamera">
+      <value name="flags" type="U16">0</value>
+      <value name="fov" type="F32">0</value>
+      <value name="aspectRatio" type="F32">0</value>
+      <value name="znear" type="F32">0</value>
+      <value name="zfar" type="F32">1</value>
+      <value name="width" type="F32">0</value>
+      <value name="height" type="F32">0</value>
+      <value name="isPerspective" type="Bool">true</value>
+      <value name="eye" type="Vec3">0 0 0</value>
+      <value name="at" type="Vec3">0 0 0</value>
+      <value name="xAxis" type="Vec3">0 0 0</value>
+      <value name="yAxis" type="Vec3">0 0 0</value>
+      <value name="zAxis" type="Vec3">0 0 0</value>
+      <value name="viewDirection" type="Vec3">0 0 0</value>
+      <value name="lookDistance" type="F32">0</value>
+      <value name="orientation" type="Vec4">0 0 0 0</value>
+      <value name="viewMatrix" type="Mat44">0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0</value>
+      <value name="projectionMatrix" type="Mat44">0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0</value>
+    </struct>
+    <struct name="windCamera">
+      <value name="flags" type="U16">1</value>
+      <value name="fov" type="F32">0.654498458</value>
+      <value name="aspectRatio" type="F32">1.32377101e-037</value>
+      <value name="znear" type="F32">0</value>
+      <value name="zfar" type="F32">0</value>
+      <value name="width" type="F32">0</value>
+      <value name="height" type="F32">0</value>
+      <value name="isPerspective" type="Bool">true</value>
+      <value name="eye" type="Vec3">-98.6973724 81.3602982 -40.4886398</value>
+      <value name="at" type="Vec3">0 0 0</value>
+      <value name="xAxis" type="Vec3">0 0 0</value>
+      <value name="yAxis" type="Vec3">0 0 0</value>
+      <value name="zAxis" type="Vec3">0 0 0</value>
+      <value name="viewDirection" type="Vec3">0 0 0</value>
+      <value name="lookDistance" type="F32">134.164078</value>
+      <value name="orientation" type="Vec4">-0.729696095 -0.344145119 0.252039224 -0.534400582</value>
+      <value name="viewMatrix" type="Mat44">0.636080742 0.23286286 -0.735646784 0  0.771622539 -0.191960335 0.606423855 0  -1.37090683e-006 -0.953376174 -0.301784515 0  5.52900383e-006 -3.81469727e-006 -134.164078 1</value>
+      <value name="projectionMatrix" type="Mat44">1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1</value>
+    </struct>
+    <struct name="scene">
+      <value name="repeatAnimation" type="Bool">true</value>
+      <value name="animationSpeed" type="F32">1</value>
+      <value name="showGrid" type="Bool">true</value>
+      <value name="showAxis" type="Bool">true</value>
+      <value name="upAxis" type="U32">1</value>
+      <value name="sceneUnitIndex" type="U32">0</value>
+    </struct>
+    <struct name="renderer">
+      <value name="frameStartTime" type="F32">0</value>
+      <value name="frameEndTime" type="F32">190</value>
+      <value name="animationFps" type="F32">30</value>
+      <value name="animate" type="Bool">false</value>
+      <value name="simulate" type="Bool">true</value>
+      <value name="resetSimulationOnLoop" type="Bool">false</value>
+      <value name="drawRenderHairs" type="Bool">true</value>
+      <value name="showGraphicsMesh" type="Bool">true</value>
+      <value name="visualizeGuideHairs" type="Bool">false</value>
+      <value name="visualizeGrowthMesh" type="Bool">false</value>
+      <value name="visualizeLight" type="Bool">false</value>
+      <value name="visualizeWind" type="Bool">false</value>
+      <value name="visualizeBones" type="Bool">false</value>
+      <value name="visualizeCapsules" type="Bool">false</value>
+      <value name="visualizeCVs" type="Bool">false</value>
+      <value name="showStatistics" type="Bool">false</value>
+      <value name="renderStyle" type="I32">3</value>
+      <value name="animationIndex" type="I32">1</value>
+      <value name="colorizeOption" type="I32">0</value>
+      <value name="numCVs" type="I32">5</value>
+      <value name="previewLOD" type="Bool">true</value>
+      <value name="showWireframe" type="Bool">false</value>
+      <value name="lockRootBone" type="Bool">false</value>
+      <value name="controlTextureOption" type="I32">0</value>
+      <value name="useLighting" type="Bool">true</value>
+      <value name="showSkinnedMeshOnly" type="Bool">false</value>
+      <value name="lightDir" type="Vec3">0 0 0</value>
+      <value name="ambientColor" type="Vec3">0 0 0</value>
+      <value name="windDir" type="Vec3">-0.735646784 0.606423855 -0.301784515</value>
+      <value name="windStrength" type="F32">0</value>
+      <value name="lightIntensity" type="F32">1</value>
+      <value name="gravityDir" type="Vec3">0 0 -1</value>
+      <value name="gravityScale" type="F32">1</value>
+      <value name="textureFilePath" type="String"></value>
+      <struct name="furCharacter">
+        <array name="furMeshes" size="3" type="Struct">
+          <struct>
+            <value name="nodeName" type="String">inner_eye_R</value>
+            <value name="visible" type="Bool">true</value>
+            <struct name="furMaterial">
+              <value name="useTextures" type="Bool">true</value>
+              <value name="diffuseTextureFilePath" type="String"></value>
+              <value name="specularTextureFilePath" type="String"></value>
+              <value name="normalTextureFilePath" type="String"></value>
+              <value name="bumpTextureFilePath" null="1" type="String"></value>
+              <value name="transparentTextureFilePath" null="1" type="String"></value>
+              <value name="ambientColor" type="Vec4">0 0 0 0</value>
+              <value name="diffuseColor" type="Vec4">0.196078435 0.196078435 0.196078435 1</value>
+              <value name="specularColor" type="Vec4">0.196078435 0.196078435 0.196078435 1</value>
+              <value name="ambientScale" type="F32">0</value>
+              <value name="diffuseScale" type="F32">0</value>
+              <value name="specularScale" type="F32">0</value>
+              <value name="specularShininess" type="F32">7.5</value>
+            </struct>
+          </struct>
+          <struct>
+            <value name="nodeName" type="String">inner_eye_L</value>
+            <value name="visible" type="Bool">true</value>
+            <struct name="furMaterial">
+              <value name="useTextures" type="Bool">true</value>
+              <value name="diffuseTextureFilePath" type="String"></value>
+              <value name="specularTextureFilePath" type="String"></value>
+              <value name="normalTextureFilePath" type="String"></value>
+              <value name="bumpTextureFilePath" null="1" type="String"></value>
+              <value name="transparentTextureFilePath" null="1" type="String"></value>
+              <value name="ambientColor" type="Vec4">0 0 0 0</value>
+              <value name="diffuseColor" type="Vec4">0.196078435 0.196078435 0.196078435 1</value>
+              <value name="specularColor" type="Vec4">0.196078435 0.196078435 0.196078435 1</value>
+              <value name="ambientScale" type="F32">0</value>
+              <value name="diffuseScale" type="F32">0</value>
+              <value name="specularScale" type="F32">0</value>
+              <value name="specularShininess" type="F32">7.5</value>
+            </struct>
+          </struct>
+          <struct>
+            <value name="nodeName" type="String">Male_Bust</value>
+            <value name="visible" type="Bool">true</value>
+            <struct name="furMaterial">
+              <value name="useTextures" type="Bool">true</value>
+              <value name="diffuseTextureFilePath" type="String"></value>
+              <value name="specularTextureFilePath" type="String"></value>
+              <value name="normalTextureFilePath" type="String"></value>
+              <value name="bumpTextureFilePath" null="1" type="String"></value>
+              <value name="transparentTextureFilePath" null="1" type="String"></value>
+              <value name="ambientColor" type="Vec4">0 0 0 0</value>
+              <value name="diffuseColor" type="Vec4">0.0980392173 0.0980392173 0.0980392173 1</value>
+              <value name="specularColor" type="Vec4">0.0980392173 0.0980392173 0.0980392173 1</value>
+              <value name="ambientScale" type="F32">0</value>
+              <value name="diffuseScale" type="F32">0</value>
+              <value name="specularScale" type="F32">0</value>
+              <value name="specularShininess" type="F32">7.5</value>
+            </struct>
+          </struct>
+        </array>
+      </struct>
+      <value name="currentBoneIndex" type="I32">0</value>
+      <value name="currentHairAssetIndex" type="I32">0</value>
+      <array name="lights" size="4" type="Struct">
+        <struct>
+          <value name="name" null="1" type="String"></value>
+          <value name="enable" type="Bool">true</value>
+          <value name="useShadows" type="Bool">true</value>
+          <value name="lockToRoot" type="Bool">false</value>
+          <value name="visualize" type="Bool">false</value>
+          <value name="type" type="I32">0</value>
+          <value name="shadowMapResolution" type="I32">0</value>
+          <value name="color" type="Vec3">1 1 0.97647059</value>
+          <value name="diffuseColor" type="Vec3">0 0 0</value>
+          <value name="ambientColor" type="Vec3">0 0 0</value>
+          <value name="specularColor" type="Vec3">0 0 0</value>
+          <value name="intensity" type="F32">1.5</value>
+          <value name="distance" type="F32">0</value>
+          <value name="spotFalloffStart" type="F32">0</value>
+          <value name="spotFalloffEnd" type="F32">0</value>
+          <value name="lightAxisX" type="Vec3">0.814115345 0.580703199 -1.34110451e-006</value>
+          <value name="lightAxisY" type="Vec3">-0.130268022 0.182631195 0.974513173</value>
+          <value name="lightAxisZ" type="Vec3">0.565903187 -0.793365955 0.224329919</value>
+          <value name="lightPos" type="Vec3">123.662857 -181.970276 228.32962</value>
+        </struct>
+        <struct>
+          <value name="name" null="1" type="String"></value>
+          <value name="enable" type="Bool">true</value>
+          <value name="useShadows" type="Bool">false</value>
+          <value name="lockToRoot" type="Bool">false</value>
+          <value name="visualize" type="Bool">false</value>
+          <value name="type" type="I32">0</value>
+          <value name="shadowMapResolution" type="I32">0</value>
+          <value name="color" type="Vec3">0.592156887 0.631372571 0.631372571</value>
+          <value name="diffuseColor" type="Vec3">0 0 0</value>
+          <value name="ambientColor" type="Vec3">0 0 0</value>
+          <value name="specularColor" type="Vec3">0 0 0</value>
+          <value name="intensity" type="F32">0.5</value>
+          <value name="distance" type="F32">0</value>
+          <value name="spotFalloffStart" type="F32">0</value>
+          <value name="spotFalloffEnd" type="F32">0</value>
+          <value name="lightAxisX" type="Vec3">0.663092434 -0.748537481 3.27825546e-007</value>
+          <value name="lightAxisY" type="Vec3">0.10417521 0.092284143 0.99026823</value>
+          <value name="lightAxisZ" type="Vec3">-0.741252899 -0.656639338 0.139171988</value>
+          <value name="lightPos" type="Vec3">-192.77832 -181.592194 216.069275</value>
+        </struct>
+        <struct>
+          <value name="name" null="1" type="String"></value>
+          <value name="enable" type="Bool">true</value>
+          <value name="useShadows" type="Bool">false</value>
+          <value name="lockToRoot" type="Bool">false</value>
+          <value name="visualize" type="Bool">false</value>
+          <value name="type" type="I32">0</value>
+          <value name="shadowMapResolution" type="I32">0</value>
+          <value name="color" type="Vec3">0.862745106 0.874509811 0.886274517</value>
+          <value name="diffuseColor" type="Vec3">0 0 0</value>
+          <value name="ambientColor" type="Vec3">0 0 0</value>
+          <value name="specularColor" type="Vec3">0 0 0</value>
+          <value name="intensity" type="F32">0.349999994</value>
+          <value name="distance" type="F32">0</value>
+          <value name="spotFalloffStart" type="F32">0</value>
+          <value name="spotFalloffEnd" type="F32">0</value>
+          <value name="lightAxisX" type="Vec3">-0.927180886 0.374613106 -1.59442425e-006</value>
+          <value name="lightAxisY" type="Vec3">-0.0616003275 -0.152458668 0.986388087</value>
+          <value name="lightAxisZ" type="Vec3">0.36951369 0.914560556 0.16443336</value>
+          <value name="lightPos" type="Vec3">78.9388733 183.016724 214.389023</value>
+        </struct>
+        <struct>
+          <value name="name" null="1" type="String"></value>
+          <value name="enable" type="Bool">false</value>
+          <value name="useShadows" type="Bool">false</value>
+          <value name="lockToRoot" type="Bool">false</value>
+          <value name="visualize" type="Bool">false</value>
+          <value name="type" type="I32">0</value>
+          <value name="shadowMapResolution" type="I32">0</value>
+          <value name="color" type="Vec3">0.25 0.25 0.25</value>
+          <value name="diffuseColor" type="Vec3">0 0 0</value>
+          <value name="ambientColor" type="Vec3">0 0 0</value>
+          <value name="specularColor" type="Vec3">0 0 0</value>
+          <value name="intensity" type="F32">0</value>
+          <value name="distance" type="F32">0</value>
+          <value name="spotFalloffStart" type="F32">0</value>
+          <value name="spotFalloffEnd" type="F32">0</value>
+          <value name="lightAxisX" type="Vec3">1 0 0</value>
+          <value name="lightAxisY" type="Vec3">0 -0.999999762 0</value>
+          <value name="lightAxisZ" type="Vec3">0 0 -0.999999762</value>
+          <value name="lightPos" type="Vec3">0.969425201 -9.96064568 -144.794327</value>
+        </struct>
+      </array>
+    </struct>
+    <array name="apxFilePaths" size="1" type="String">
+      <value type="String">gm_main.apx</value>
+    </array>
+    <array name="fbxFilePaths" size="1" type="String">
+      <value type="String">../HumanMale_Bust.FBX</value>
+    </array>
+  </struct>
+</value>
+</NvParameters>

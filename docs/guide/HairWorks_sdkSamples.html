@@ -1,0 +1,1050 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+    
+    <title>SDK Samples &mdash; NVIDIA HairWorks 1.1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/breathe.css" type="text/css" />
+    <link rel="stylesheet" href="_static/application.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styleguide.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/bootstrap.js"></script>
+    <script type="text/javascript" src="_static/jquery.cookie.js"></script>
+    <script type="text/javascript" src="_static/jquery.storageapi.js"></script>
+    <link rel="top" title="NVIDIA HairWorks 1.1.1 documentation" href="index.html" />
+    <link rel="next" title="SDK Getting Started" href="HairWorks_sdkGettingStarted.html" />
+    <link rel="prev" title="Using NVIDIA HairWorks" href="Using_HairWorks.html" /> 
+  </head>
+  <body>
+<nav class="navbar navbar-inverse navbar-default">
+  <div class="row">
+      <div class="navbar-brand">
+             <img class="logo" src="_static/developerzone_gameworks_logo.png" alt="Logo"/>
+      </div>
+<div id="searchbox" style="display: none; float:right; padding-top:4px; padding-right:4px">
+    <form class="search form-inline" action="search.html" method="get">
+      <div class="form-group">
+      <input type="text" name="q" class="form-control" />
+      <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+</nav>
+<div class="masthead">
+    <div class="row">
+      <ul class="breadcrumb">
+        <li><a href="index.html">NVIDIA HairWorks 1.1.1 documentation</a></li> 
+      </ul>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-3 bs-sidenav" style="white-space: nowrap; overflow: auto;">
+<div class="bs-sidebar">
+  <div id="sidebar_toc">
+  <h4>Table Of Contents</h4>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="product.html">NVIDIA HairWorks 1.1.1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="product.html#about-hairworks">About HairWorks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product.html#overview">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_gettingStarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_gettingStarted.html#how-to-run-hairworks-viewer">How to run HairWorks Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_gettingStarted.html#how-to-open-art-samples">How to open Art Samples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_viewerReference.html">Viewer Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#user-interface">User Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#layout">Layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#texture-input-buttons">Texture Input Buttons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#curve-editor">Curve Editor</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#menus">Menus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#file">File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#view">View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#help">Help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#toolbar">Toolbar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#hair-tab">Hair Tab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#asset-selection">Asset Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#general-settings">General Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#visualization">Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#physical">Physical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#style">Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#graphics">Graphics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#level-of-detail">Level of Detail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#control-texture-channels">Control Texture Channels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#display-tab">Display Tab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#scene">Scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#light">Light</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#display-meshes">Display Meshes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_viewerReference.html#display-mesh-materials">Display Mesh Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#keyboard-shortcuts">Keyboard Shortcuts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_viewerReference.html#file-types">File Types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Using_HairWorks.html">Using NVIDIA HairWorks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#asset-preparation">Asset Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#maya-and-3dsmax">Maya and 3dsMax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#control-textures">Control Textures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using_HairWorks.html#using-hairworks-viewer">Using HairWorks Viewer</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">SDK Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-build-run-sample-project">How to build/run sample project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fursamplecommon">FurSampleCommon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#loading-hair-sdk">Loading Hair SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fursamplesimple">FurSampleSimple</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#illustrated-features">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-instructions">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#details">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#declaring-hairworks-variables">Declaring HairWorks variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#upon-d3d-device-creation">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rendering-each-frame">Rendering each frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-shader">Example shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fursampleshading">FurSampleShading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-texture-resources">Setting up texture resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Rendering each frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">Example shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fursampleshadow">FurSampleShadow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#global-variables">Global variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Upon D3D device creation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rendering-hairs-to-shadow-map">Rendering hairs to shadow map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#preparing-custom-constant-buffers">Preparing custom constant buffers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#preparing-custom-shader-resources">Preparing custom shader resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#computing-shadows-in-the-shader">Computing shadows in the shader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fursampleskinning">FurSampleSkinning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Illustrated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Running Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HairWorks_sdkGettingStarted.html">SDK Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#directory-structure">Directory structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#api-overview">API Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#initialization">Initialization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#loading-the-library">Loading the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#hair-assets-and-instances">Hair Assets and Instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#loading-the-hair-asset">Loading the hair asset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#initializing-d3d-runtime">Initializing D3D runtime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#creating-and-deleting-hair-instances">Creating and deleting hair instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#runtime-controls">Runtime Controls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#setting-context-and-camera">Setting context and camera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#updating-control-parameters">Updating control parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#animating-hairs">Animating Hairs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#updating-skinning-data">Updating skinning data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#simulating-animating-hair">Simulating/Animating Hair</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#rendering">Rendering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#managing-custom-hair-shaders">Managing custom hair shaders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#rendering-hair-instance">Rendering hair instance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#customizing-shader-resources-and-constant-buffers">Customizing shader resources and constant buffers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="HairWorks_sdkGettingStarted.html#clean-up-and-shutdown">Clean up and shutdown</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="releasenotes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#what-s-new">What&#8217;s New</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#source-sample-assets">Source Sample Assets</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Using_HairWorks.html"
+                        title="previous chapter">Using NVIDIA HairWorks</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="HairWorks_sdkGettingStarted.html"
+                        title="next chapter">SDK Getting Started</a></p>
+<div id="searchbox" style="display: none">
+  <h4>Quick search</h4>
+    <form class="search form-inline" action="search.html" method="get">
+      <div class="form-group">
+      <input type="text" name="q" class="form-control" />
+      <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+</div>
+  </div>
+    <div class="document col-md-8">
+          <div class="body">
+            
+  <div class="section" id="sdk-samples">
+<h1>SDK Samples<a class="headerlink" href="#sdk-samples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="how-to-build-run-sample-project">
+<h2>How to build/run sample project<a class="headerlink" href="#how-to-build-run-sample-project" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Goto the directory samples/build</li>
+<li>Select the directory with the visual studio version and if you want 32 or 64 bit</li>
+<li>Open HairWorks_Samples.sln - this contains the sub projects for all of the samples</li>
+<li>Build and run the FurSampleXXX project</li>
+<li>Choose a sample by right clicking on the subproject and select &#8216;Set As StartUp Project&#8217;</li>
+</ol>
+</div>
+<div class="section" id="fursamplecommon">
+<h2>FurSampleCommon<a class="headerlink" href="#fursamplecommon" title="Permalink to this headline">¶</a></h2>
+<p>All the codes that are not directly related to HairWorks are encapsulated in common sources.
+To simplify D3D runtime management, we use DXUT for camera control and DX device management.
+However, DXUT is not needed when HairWorks is used in your own DirectX 11 based application.</p>
+<p>Feel free to modify/copy/adapt codes in the sample codes to suit your need.
+All the sample functions are implemented for illustration purpose only,
+and does not represent how certain features should be implemented in any way.</p>
+<p>In the codes, all the HairWorks data types start with GFSDK_* (classes) or gfsdk_* (simple types) prefix.</p>
+<p>Each sample project has its own hair shader, HairWorksSampleShader.hlsl in the src/ directory.</p>
+<div class="section" id="loading-hair-sdk">
+<h3>Loading Hair SDK<a class="headerlink" href="#loading-hair-sdk" title="Permalink to this headline">¶</a></h3>
+<p>All the sample codes use the following convenience function to load SDK:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">GFSDK_HairSDK</span><span class="o">*</span> <span class="nf">FurSample_LoadHairWorksDLL</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="c1">// Load HairWorks dll</span>
+<span class="cp">#ifdef _WIN64</span>
+        <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">coreDLLPath</span> <span class="o">=</span> <span class="s">&quot;GFSDK_HairWorks.win64.dll&quot;</span><span class="p">;</span>
+<span class="cp">#else</span>
+        <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">coreDLLPath</span> <span class="o">=</span> <span class="s">&quot;GFSDK_HairWorks.win32.dll&quot;</span><span class="p">;</span>
+<span class="cp">#endif</span>
+        <span class="k">return</span> <span class="n">GFSDK_LoadHairSDK</span><span class="p">(</span><span class="n">coreDLLPath</span><span class="p">,</span> <span class="n">GFSDK_HAIRWORKS_VERSION</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fursamplesimple">
+<h2>FurSampleSimple<a class="headerlink" href="#fursamplesimple" title="Permalink to this headline">¶</a></h2>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/HairWorks_FurSampleSimpleScreenshot.jpg"><img alt="_images/HairWorks_FurSampleSimpleScreenshot.jpg" src="_images/HairWorks_FurSampleSimpleScreenshot.jpg" style="width: 400px;" /></a>
+<p class="caption">Screenshot of FurSampleSimple sample.</p>
+</div>
+<div class="section" id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h3>
+<p>This sample creates a simple hair asset made of two triangles (a quad), and creates a hair instance out of the asset.
+A very simple hair asset made of a quad with 2 triangles and 4 guide hairs are created.
+Once hair assets are created, we use HairWorks to render hairs on the faces of the growth mesh.</p>
+<p>Each rendered hair is drawn in white, and the guide hairs are visualized in red.
+The growth mesh is drawn as yellow triangles, using default visualization features of HairWorks.</p>
+</div>
+<div class="section" id="illustrated-features">
+<h3>Illustrated Features<a class="headerlink" href="#illustrated-features" title="Permalink to this headline">¶</a></h3>
+<p>This code sample shows</p>
+<ol class="arabic simple">
+<li>How to initialize and cleanup the HairWorks runtime</li>
+<li>How to create a hair asset and modify the parameter (instance descriptor)</li>
+<li>How to set camera information</li>
+<li>How to draw hairs with minimal rendering</li>
+<li>How to draw visualization for guide hairs and the growth mesh</li>
+</ol>
+</div>
+<div class="section" id="running-instructions">
+<h3>Running Instructions<a class="headerlink" href="#running-instructions" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Camer Zoom : Mouse Wheel</li>
+<li>Camera Orbit : RMB</li>
+</ul>
+</div>
+<div class="section" id="details">
+<h3>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="declaring-hairworks-variables">
+<h4>Declaring HairWorks variables<a class="headerlink" href="#declaring-hairworks-variables" title="Permalink to this headline">¶</a></h4>
+<p>We declare a few global variables to maintain HairWorks related variables.
+In actual game integration, these need to be maintained as part of HairWorks runtime integration:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">namespace</span> <span class="p">{</span>
+        <span class="n">GFSDK_HairSDK</span><span class="o">*</span>                  <span class="n">g_hairSDK</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="c1">// HairWorks SDK runtime</span>
+        <span class="n">GFSDK_HairAssetDescriptor</span>       <span class="n">g_hairAssetDescriptor</span><span class="p">;</span>          <span class="c1">// hair asset descriptor</span>
+        <span class="n">GFSDK_HairAssetID</span>               <span class="n">g_hairAssetID</span> <span class="o">=</span> <span class="n">GFSDK_HairAssetID_NULL</span><span class="p">;</span> <span class="c1">// hair asset ID</span>
+        <span class="n">GFSDK_HairInstanceDescriptor</span>    <span class="n">g_hairInstanceDescriptor</span><span class="p">;</span>       <span class="c1">// hair instance descriptor</span>
+        <span class="n">GFSDK_HairInstanceID</span>            <span class="n">g_hairInstanceID</span> <span class="o">=</span> <span class="n">GFSDK_HairInstanceID_NULL</span><span class="p">;</span> <span class="c1">// hair instance ID</span>
+
+        <span class="n">ID3D11PixelShader</span><span class="o">*</span>              <span class="n">g_customHairWorksShader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="c1">// custom pixel shader</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="upon-d3d-device-creation">
+<h4>Upon D3D device creation<a class="headerlink" href="#upon-d3d-device-creation" title="Permalink to this headline">¶</a></h4>
+<p>When the D3D device is created, we first load HairWorks runtime, then create a hair asset and an instance.</p>
+<p>This sample manually creates hair asset by filling in the <strong>GFSDK_HairAssetDescriptor</strong> struct
+in <strong>InitHairAssetDescriptor()</strong>.</p>
+<p>Note also that we create a simple pixel shader that renders every hair color white.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">HRESULT</span> <span class="n">CALLBACK</span> <span class="nf">OnD3D11CreateDevice</span><span class="p">(</span><span class="n">ID3D11Device</span><span class="o">*</span> <span class="n">device</span><span class="p">,</span> <span class="k">const</span> <span class="n">DXGI_SURFACE_DESC</span><span class="o">*</span> <span class="n">backBufferSurfaceDesc</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">userContext</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="n">HRESULT</span> <span class="n">hr</span><span class="p">;</span>
+        <span class="p">.....</span>
+
+        <span class="c1">// load HairWorks dll</span>
+        <span class="n">g_hairSDK</span> <span class="o">=</span> <span class="n">FurSample_LoadHairWorksDLL</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">g_hairSDK</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">E_FAIL</span><span class="p">;</span>
+
+        <span class="c1">// Initialize hair asset descriptor and hair instance descriptor</span>
+        <span class="n">InitHairAssetDescriptor</span><span class="p">(</span><span class="n">g_hairAssetDescriptor</span><span class="p">);</span>
+        <span class="n">InitHairInstanceDescriptor</span><span class="p">(</span><span class="n">g_hairInstanceDescriptor</span><span class="p">);</span>
+
+        <span class="c1">// Create the hair asset</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">CreateHairAsset</span><span class="p">(</span><span class="n">g_hairAssetDescriptor</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_hairAssetID</span><span class="p">);</span>
+
+        <span class="c1">// Create custom hair shader</span>
+        <span class="n">hr</span> <span class="o">=</span> <span class="n">FurSample_CreatePixelShader</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s">&quot;samples</span><span class="se">\\</span><span class="s">FurSampleSimple</span><span class="se">\\</span><span class="s">HairWorksSampleShader.hlsl&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_customHairWorksShader</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">FAILED</span><span class="p">(</span><span class="n">hr</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">hr</span><span class="p">;</span>
+
+        <span class="c1">// Initialize DirectX settings for HairWorks runtime</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">InitRenderResources</span><span class="p">(</span><span class="n">device</span><span class="p">);</span>
+
+        <span class="c1">// Create hair instance.</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">CreateHairInstance</span><span class="p">(</span><span class="n">g_hairAssetID</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_hairInstanceID</span><span class="p">);</span>
+
+        <span class="c1">// Update instance descriptor</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">UpdateInstanceDescriptor</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="n">g_hairInstanceDescriptor</span><span class="p">);</span>
+
+        <span class="p">.....</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rendering-each-frame">
+<h4>Rendering each frame<a class="headerlink" href="#rendering-each-frame" title="Permalink to this headline">¶</a></h4>
+<p>At each frame, we render hairs and visualization.</p>
+<p>The first step is to set device context and camera info.</p>
+<p>Then, we set our pixel shader and call render APIs.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="n">CALLBACK</span> <span class="nf">OnD3D11FrameRender</span><span class="p">(</span><span class="n">ID3D11Device</span><span class="o">*</span> <span class="n">device</span><span class="p">,</span> <span class="n">ID3D11DeviceContext</span><span class="o">*</span> <span class="n">context</span><span class="p">,</span> <span class="kt">double</span> <span class="n">time</span><span class="p">,</span> <span class="kt">float</span> <span class="n">elapsedTime</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">yserContext</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="p">.....</span>
+
+        <span class="c1">// Set render context for HairWorks</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">SetCurrentContext</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+
+        <span class="c1">// Set view matrix and projection matrix</span>
+        <span class="n">XMMATRIX</span> <span class="n">projection</span> <span class="o">=</span> <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetCameraProjection</span><span class="p">();</span>
+        <span class="n">XMMATRIX</span> <span class="n">view</span> <span class="o">=</span> <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetCameraViewMatrix</span><span class="p">();</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">SetViewProjection</span><span class="p">((</span><span class="k">const</span> <span class="n">gfsdk_float4x4</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">view</span><span class="p">,(</span><span class="k">const</span> <span class="n">gfsdk_float4x4</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">projection</span><span class="p">,</span> <span class="n">GFSDK_HAIR_LEFT_HANDED</span><span class="p">);</span>
+
+        <span class="c1">// Set your hair pixel shader before rendering hairs</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">PSSetShader</span><span class="p">(</span><span class="n">g_customHairWorksShader</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+        <span class="c1">// Render the hair instance</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">RenderHairs</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">);</span>
+
+        <span class="c1">// Render visualization the hair instance</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">RenderVisualization</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">);</span>
+
+        <span class="p">.....</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-shader">
+<h4>Example shader<a class="headerlink" href="#example-shader" title="Permalink to this headline">¶</a></h4>
+<p>FurSampleSimple\HairWorksSampleShader.hlsl is a very simple pixel shader that returns a constant color.</p>
+<p>Note that we include the common shader header file GFSDK_HairWorks_ShaderCommon.h.</p>
+<p>This header provides all the functions needed to implement HairWorks related shading functions.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">//////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// HairWorks shader header file must be included</span>
+<span class="c1">//////////////////////////////////////////////////////////////////////////////</span>
+<span class="cp">#include &quot;GFSDK_HairWorks_ShaderCommon.h&quot;</span>
+
+<span class="c1">//////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// Simple pixel shader that returns white color for all hair fragments</span>
+<span class="c1">//////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="p">[</span><span class="n">earlydepthstencil</span><span class="p">]</span> <span class="n">float4</span> <span class="n">ps_main</span><span class="p">(</span><span class="n">GFSDK_Hair_PixelShaderInput</span> <span class="n">input</span><span class="p">)</span> <span class="o">:</span> <span class="n">SV_Target</span>
+<span class="p">{</span>
+        <span class="k">return</span> <span class="n">float4</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="fursampleshading">
+<h2>FurSampleShading<a class="headerlink" href="#fursampleshading" title="Permalink to this headline">¶</a></h2>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/HairWorks_FurSampleShadingScreenshot.jpg"><img alt="_images/HairWorks_FurSampleShadingScreenshot.jpg" src="_images/HairWorks_FurSampleShadingScreenshot.jpg" style="width: 400px;" /></a>
+<p class="caption">Screenshot of FurSampleShading sample.</p>
+</div>
+<div class="section" id="id1">
+<h3>Summary<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>The sample loads a hair asset from .apx file and textures.
+It also creates a custom pixel shader to render hair with textures.
+Then it simulates and renders hairs.</p>
+</div>
+<div class="section" id="id2">
+<h3>Illustrated Features<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>This code sample shows</p>
+<ol class="arabic simple">
+<li>How to load a hair asset from .apx file and modify the parameters.</li>
+<li>How to create and set up custom pixel shader for hair rendering</li>
+<li>How to set up hair control textures</li>
+</ol>
+</div>
+<div class="section" id="id3">
+<h3>Running Instructions<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Camer Zoom : Mouse Wheel</li>
+<li>Camera Orbit : RMB</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Details<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Code structures are similar to previous sample.</p>
+<p>We add a few more API calls to load hair asset and set up textures, etc.</p>
+<div class="section" id="id5">
+<h4>Upon D3D device creation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>Note that we now use file load API to load hair asset from .apx file.</p>
+<p>As the sample asset file was exported in DCC that uses different coordinate system, we provide conversion settings
+when we load the .apx file.</p>
+<p>We also copy default instance descriptor from the asset for later updates.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">HRESULT</span> <span class="n">CALLBACK</span> <span class="nf">OnD3D11CreateDevice</span><span class="p">(</span><span class="n">ID3D11Device</span><span class="o">*</span> <span class="n">device</span><span class="p">,</span> <span class="k">const</span> <span class="n">DXGI_SURFACE_DESC</span><span class="o">*</span> <span class="n">backBufferSurfaceDesc</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">userContext</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="p">.....</span>
+
+        <span class="c1">// conversion settings to load apx file into.  We use l.h.s / y-up camera in this example.</span>
+        <span class="n">GFSDK_HairConversionSettings</span> <span class="n">conversionSettings</span><span class="p">;</span>
+        <span class="p">{</span>
+                <span class="n">conversionSettings</span><span class="p">.</span><span class="n">m_targetHandednessHint</span>       <span class="o">=</span> <span class="n">GFSDK_HAIR_LEFT_HANDED</span><span class="p">;</span>
+                <span class="n">conversionSettings</span><span class="p">.</span><span class="n">m_targetUpAxisHint</span>           <span class="o">=</span> <span class="n">GFSDK_HAIR_Y_UP</span><span class="p">;</span>
+                <span class="n">conversionSettings</span><span class="p">.</span><span class="n">m_targetSceneUnit</span>            <span class="o">=</span> <span class="mf">1.0</span> <span class="p">;</span> <span class="c1">// centimeter</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Load hair asset from .apx file</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">GFSDK_HAIR_RETURN_OK</span> <span class="o">!=</span> <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">LoadHairAssetFromFile</span><span class="p">(</span><span class="n">g_apxFilePath</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_hairAssetID</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">conversionSettings</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">E_FAIL</span><span class="p">;</span>
+
+        <span class="c1">// Copy default instance descriptor from the loaded asset</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">GFSDK_HAIR_RETURN_OK</span> <span class="o">!=</span> <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">CopyDefaultInstanceDescriptor</span><span class="p">(</span><span class="n">g_hairAssetID</span><span class="p">,</span> <span class="n">g_hairInstanceDescriptor</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">E_FAIL</span><span class="p">;</span>
+
+        <span class="p">.....</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setting-up-texture-resources">
+<h4>Setting up texture resources<a class="headerlink" href="#setting-up-texture-resources" title="Permalink to this headline">¶</a></h4>
+<p>Once the hair asset is loaded, we get texture file names from the asset, and create texture resources.</p>
+<p>These shader resources are then set to HairWorks runtime.</p>
+<p>The process is implemented in <strong>FurSampleCommon/FurSampleHairWorksHelper.cpp</strong>.</p>
+<p>In the function <strong>FurSample_SetupTextureResource()</strong>, we go through each known hair texture type:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">GFSDK_HAIR_NUM_TEXTURES</span><span class="p">;</span> <span class="o">++</span><span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="p">...</span>
+</pre></div>
+</div>
+<p>In each loop, we use <strong>GetTextureName()</strong> API to retrieve texture file name:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">GFSDK_HAIR_RETURN_OK</span> <span class="o">!=</span> <span class="n">hairSDK</span><span class="o">-&gt;</span><span class="n">GetTextureName</span><span class="p">(</span><span class="n">assetID</span><span class="p">,</span> <span class="p">(</span><span class="n">GFSDK_HAIR_TEXTURE_TYPE</span><span class="p">)</span><span class="n">t</span><span class="p">,</span> <span class="n">textureFileName</span><span class="p">))</span>
+        <span class="k">continue</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Then we create a shader resource view for the texture, and set it for HairWorks runtime:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">ID3D11ShaderResourceView</span><span class="o">*</span> <span class="n">textureSRV</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="n">FurSample_CreateTextureSRV</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">textureFilePath</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">textureSRV</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">GFSDK_HAIR_RETURN_OK</span> <span class="o">!=</span> <span class="n">hairSDK</span><span class="o">-&gt;</span><span class="n">SetTextureSRV</span><span class="p">(</span><span class="n">instanceID</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">GFSDK_HAIR_TEXTURE_TYPE</span><span class="p">)</span><span class="n">t</span><span class="p">,</span> <span class="n">textureSRV</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">E_FAIL</span><span class="p">;</span>
+
+<span class="n">SAFE_RELEASE</span><span class="p">(</span><span class="n">textureSRV</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Note that texture shader resource may be separately maintained by the game engine.</p>
+<p>In that case, one may implement different mechanism to identify and retreive shader resources.</p>
+</div>
+<div class="section" id="id6">
+<h4>Rendering each frame<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<p>At each frame, we render hairs and visualization.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="n">CALLBACK</span> <span class="nf">OnD3D11FrameRender</span><span class="p">(</span><span class="n">ID3D11Device</span><span class="o">*</span> <span class="n">device</span><span class="p">,</span> <span class="n">ID3D11DeviceContext</span><span class="o">*</span> <span class="n">context</span><span class="p">,</span> <span class="kt">double</span> <span class="n">time</span><span class="p">,</span> <span class="kt">float</span> <span class="n">elapsedTime</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">userContext</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="p">.....</span>
+
+        <span class="c1">// Set render context for HairWorks</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">SetCurrentContext</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+
+        <span class="c1">// Set view matrix and projection matrix</span>
+        <span class="n">XMMATRIX</span> <span class="n">projection</span> <span class="o">=</span> <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetCameraProjection</span><span class="p">();</span>
+        <span class="n">XMMATRIX</span> <span class="n">view</span> <span class="o">=</span> <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetCameraViewMatrix</span><span class="p">();</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">SetViewProjection</span><span class="p">((</span><span class="k">const</span> <span class="n">gfsdk_float4x4</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">view</span><span class="p">,(</span><span class="k">const</span> <span class="n">gfsdk_float4x4</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">projection</span><span class="p">,</span> <span class="n">GFSDK_HAIR_LEFT_HANDED</span><span class="p">);</span>
+
+        <span class="p">.....</span>
+</pre></div>
+</div>
+<p>First, we set d3d context and camera info, as in previous sample.</p>
+<p>Note that HairWorks does not change D3D state such as sampler, shader resource, etc., so users must provide such resources
+when needed.</p>
+<p><strong>GetShaderResources()</strong> call returns standard shader attributes such as tangents, normals, etc.
+As our shader needs such resources for proper lighting, we get the resources from HairWorks and pass them to our shader by
+the standard D3D <strong>PSSetShaderResources()</strong> call.</p>
+<p>In addition, we map two texture (root color and tip color) resources to our shader.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="p">.....</span>
+
+<span class="c1">// set texture sampler for texture color in hair shader</span>
+<span class="n">ID3D11SamplerState</span><span class="o">*</span> <span class="n">states</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetSamplerLinear</span><span class="p">()</span> <span class="p">};</span>
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">PSSetSamplers</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">states</span> <span class="p">);</span>
+
+<span class="c1">// get standard shader resources for attribute interpolation</span>
+<span class="n">ID3D11ShaderResourceView</span><span class="o">*</span> <span class="n">srvs</span><span class="p">[</span><span class="n">GFSDK_HAIR_NUM_SHADER_RESOUCES</span><span class="p">];</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">GetShaderResources</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="n">srvs</span><span class="p">);</span>
+
+<span class="c1">// set to resource slot for our shader</span>
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">PSSetShaderResources</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GFSDK_HAIR_NUM_SHADER_RESOUCES</span><span class="p">,</span> <span class="n">srvs</span><span class="p">);</span>
+
+<span class="c1">// set textures</span>
+<span class="n">ID3D11ShaderResourceView</span><span class="o">*</span> <span class="n">textureSRVs</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">GetTextureSRV</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="n">GFSDK_HAIR_TEXTURE_ROOT_COLOR</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">textureSRVs</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">GetTextureSRV</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="n">GFSDK_HAIR_TEXTURE_TIP_COLOR</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">textureSRVs</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="c1">// set to resource slot for our shader</span>
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">PSSetShaderResources</span><span class="p">(</span> <span class="n">GFSDK_HAIR_NUM_SHADER_RESOUCES</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">textureSRVs</span><span class="p">);</span>
+
+<span class="p">.....</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h4>Example shader<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>The provided example shader in FurSampleShading/HairWorksSampleShader.hlsl shows a complete hair shader that can be used to render textured hairs.</p>
+<p>First we declare standard shader resource that we mapped in above C++ code. (<strong>GetShaderResources()</strong>):</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">GFSDK_HAIR_DECLARE_SHADER_RESOURCES</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span> <span class="c1">// shader resources</span>
+</pre></div>
+</div>
+<p>This defines resources that are needed for a HairWorks shader to retrieve standard attributes such as tangents and normals.</p>
+<p>Then we define two texture buffers, one for root and another for tip color:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">Texture2D</span>       <span class="n">g_rootHairColorTexture</span><span class="o">:</span> <span class="k">register</span><span class="p">(</span><span class="n">t3</span><span class="p">);</span> <span class="c1">// texture map for hair root colors</span>
+<span class="n">Texture2D</span>       <span class="n">g_tipHairColorTexture</span> <span class="o">:</span> <span class="k">register</span><span class="p">(</span><span class="n">t4</span><span class="p">);</span> <span class="c1">// texture map for hair tip colors</span>
+</pre></div>
+</div>
+<p>The next block defines a cbuffer variable bound at b0 (default location for HairWorks constant buffer):</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">cbuffer</span> <span class="n">cbPerFrame</span> <span class="o">:</span> <span class="k">register</span><span class="p">(</span><span class="n">b0</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="n">GFSDK_Hair_ConstantBuffer</span>       <span class="n">g_hairConstantBuffer</span><span class="p">;</span> <span class="c1">// HairWorks portion of constant buffer data</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In this sample, the content of HairWorks constant buffer is automatically filled
+and contains all the data necessary to render hairs.
+(see <strong>FurSampleShadow</strong> to see how users can customize cbuffer definitions.)</p>
+<p>As the shader needs to sample textures, we provide a default sampler:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">SamplerState</span> <span class="n">texSampler</span><span class="o">:</span> <span class="k">register</span><span class="p">(</span><span class="n">s0</span><span class="p">);</span> <span class="c1">// we use a texture sampler for hair textures in this sample</span>
+</pre></div>
+</div>
+<p>In the <strong>ps_main()</strong> function, we see</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// get all the attibutes needed for hair shading with this function</span>
+<span class="n">GFSDK_Hair_ShaderAttributes</span> <span class="n">attr</span> <span class="o">=</span> <span class="n">GFSDK_Hair_GetShaderAttributes</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">g_hairConstantBuffer</span><span class="p">);</span>
+
+<span class="c1">// set up hair material.</span>
+<span class="n">GFSDK_Hair_Material</span> <span class="n">mat</span> <span class="o">=</span> <span class="n">g_hairConstantBuffer</span><span class="p">.</span><span class="n">defaultMaterial</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The variable <strong>GFSDK_Hair_ShaderAttributes</strong> contains all the <em>per fragment</em> attribute required for shading,
+such as world space location, normal, tex coords, etc.</p>
+<p>The variable <strong>GFSDK_Hair_Material</strong> are a part of the constant buffer that contains shared material properties.</p>
+<p>All subsequent calls to hairworks shader functions require these data structures.</p>
+<p>We now see:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// sample hair color from textures</span>
+<span class="n">float3</span> <span class="n">hairColor</span> <span class="o">=</span> <span class="n">GFSDK_Hair_SampleHairColorTex</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">texSampler</span><span class="p">,</span> <span class="n">g_rootHairColorTexture</span><span class="p">,</span> <span class="n">g_tipHairColorTexture</span><span class="p">,</span> <span class="n">attr</span><span class="p">.</span><span class="n">texcoords</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This returns blended hair color based on the two textures and control variables.
+In PBR context, one may think of this as the &#8216;albedo&#8217; color for hair. Certain engines that require linear space lighting may apply gamma conversion to this color.</p>
+<p>In the main loop, we accumulate contribution from each light:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">float4</span> <span class="n">color</span> <span class="o">=</span> <span class="n">float4</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>
+
+<span class="p">[</span><span class="n">unroll</span><span class="p">]</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NUM_LIGHTS</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="n">float3</span> <span class="n">Lcolor</span> <span class="o">=</span> <span class="n">lightColor</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">float3</span> <span class="n">Ldir</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">lightDir</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="c1">// light direction defined from shaded point toward the light</span>
+
+        <span class="n">color</span><span class="p">.</span><span class="n">rgb</span> <span class="o">+=</span> <span class="n">GFSDK_Hair_ComputeHairShading</span><span class="p">(</span><span class="n">Lcolor</span><span class="p">,</span> <span class="n">Ldir</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">mat</span><span class="p">,</span> <span class="n">hairColor</span><span class="p">.</span><span class="n">rgb</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The shader function <strong>GFSDK_Hair_ComputeHairShading()</strong> computes hair color based on light color,
+direction, and sampled hair texture color.</p>
+<p>Note that light must be pointing away from the shaded point, not into it.</p>
+</div>
+</div>
+</div>
+<div class="section" id="fursampleshadow">
+<h2>FurSampleShadow<a class="headerlink" href="#fursampleshadow" title="Permalink to this headline">¶</a></h2>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/HairWorks_FurSampleShadowScreenshot.jpg"><img alt="_images/HairWorks_FurSampleShadowScreenshot.jpg" src="_images/HairWorks_FurSampleShadowScreenshot.jpg" style="width: 400px;" /></a>
+<p class="caption">Screenshot of the FurSampleShadow sample.</p>
+</div>
+<div class="section" id="id8">
+<h3>Summary<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>This sample renders hairs to a user provided shadow map and render hairs with shadows.</p>
+</div>
+<div class="section" id="id9">
+<h3>Illustrated Features<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>This code sample shows</p>
+<ol class="arabic simple">
+<li>How to use custom constant buffer</li>
+<li>How to render hairs to user&#8217;s own shadow map</li>
+<li>How to compute hair shadows in the hair shader</li>
+</ol>
+</div>
+<div class="section" id="id10">
+<h3>Running Instructions<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Camer Zoom : Mouse Wheel</li>
+<li>Camera Orbit : RMB</li>
+<li>&#8216;v&#8217; : toggle on/off shadow map visualization</li>
+<li>&#8216;s&#8217; : turn on/off shadow rendering</li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>Details<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>This sample adds new data structures and codes for custom shader resource management and controls.</p>
+<div class="section" id="global-variables">
+<h4>Global variables<a class="headerlink" href="#global-variables" title="Permalink to this headline">¶</a></h4>
+<p>This sample addes another shader for shadow rendering pass:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// custom pixel shader for shadowmap rendering pass</span>
+<span class="n">ID3D11PixelShader</span><span class="o">*</span>      <span class="n">g_customHairWorksShadowShader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>We also declare custom constant buffer for use with our shader:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// custom constant buffer for use with custom pixel shader</span>
+<span class="n">ID3D11Buffer</span><span class="o">*</span>           <span class="n">g_hairShaderConstantBuffer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Our custom constant buffer adds 2 new variables to the standard HairWorks constant buffer:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">MyConstantBuffer</span>
+<span class="p">{</span>
+        <span class="n">XMMATRIX</span>        <span class="n">lightView</span><span class="p">;</span>
+        <span class="n">XMMATRIX</span>        <span class="n">lightWorldToTex</span><span class="p">;</span>
+
+        <span class="n">GFSDK_HairShaderConstantBuffer</span>  <span class="n">hairShaderConstantBuffer</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>These are used to pass light matrices to the hair shader.</p>
+</div>
+<div class="section" id="id12">
+<h4>Upon D3D device creation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<p>We create 2 shaders, one for hair shading and another for shadow pass.
+We also create custom constant buffer.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">HRESULT</span> <span class="n">hr</span><span class="p">;</span>
+<span class="p">...</span>
+
+<span class="c1">// Create custom pixel shader for hair rendering</span>
+<span class="n">hr</span> <span class="o">=</span> <span class="n">FurSample_CreatePixelShader</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s">&quot;samples</span><span class="se">\\</span><span class="s">FurSampleShadow</span><span class="se">\\</span><span class="s">HairWorksSampleShader.hlsl&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_customHairWorksShader</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">FAILED</span><span class="p">(</span><span class="n">hr</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">hr</span><span class="p">;</span>
+
+<span class="c1">// Create custom pixel shader for hair shadow pass</span>
+<span class="n">hr</span> <span class="o">=</span> <span class="n">FurSample_CreatePixelShader</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s">&quot;samples</span><span class="se">\\</span><span class="s">FurSampleShadow</span><span class="se">\\</span><span class="s">HairWorksSampleShadowShader.hlsl&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_customHairWorksShadowShader</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">FAILED</span><span class="p">(</span><span class="n">hr</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">hr</span><span class="p">;</span>
+
+<span class="c1">// create constant buffer for custom hair shader</span>
+<span class="n">hr</span> <span class="o">=</span> <span class="n">FurSample_CreateConstantBuffer</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_hairShaderConstantBuffer</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">MyConstantBuffer</span><span class="p">));</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">FAILED</span><span class="p">(</span><span class="n">hr</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">hr</span><span class="p">;</span>
+
+<span class="p">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rendering-hairs-to-shadow-map">
+<h4>Rendering hairs to shadow map<a class="headerlink" href="#rendering-hairs-to-shadow-map" title="Permalink to this headline">¶</a></h4>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/HairWorks_FurSampleShadowMap.jpg"><img alt="_images/HairWorks_FurSampleShadowMap.jpg" src="_images/HairWorks_FurSampleShadowMap.jpg" style="width: 400px;" /></a>
+<p class="caption">Visualization of shadow map.</p>
+</div>
+<p>The <strong>OnD3D11FrameRender()</strong> function consists of two steps.
+First, it renders hairs to a user prepared shadow render target.
+Then, it renders hair colors to the final render target.</p>
+<p>The shadow map typically contatins all the scene objects.
+If we have multiple hair instances, we use the same buffer
+so that hairs can cast shadows between them or from/to other scene objects.</p>
+<p>In shadow rendering pass, we set shadow camera&#8217;s view projection matrix:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">XMMATRIX</span> <span class="n">projection</span>   <span class="o">=</span> <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetLightProjection</span><span class="p">();</span>
+<span class="n">XMMATRIX</span> <span class="n">view</span>         <span class="o">=</span> <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetLightViewMatrix</span><span class="p">();</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">SetViewProjection</span><span class="p">((</span><span class="k">const</span> <span class="n">gfsdk_float4x4</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">view</span><span class="p">,(</span><span class="k">const</span> <span class="n">gfsdk_float4x4</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">projection</span><span class="p">,</span> <span class="n">GFSDK_HAIR_LEFT_HANDED</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Note that we use left handed system for shadow camera in this sample, so we provide the hint to SetViewProjection call.
+If your shadow camera is different, change it accordingly.</p>
+<p>We use <strong>GFSDK_HairShaderSettings</strong> to indicate we are rendering hairs for shadow map:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// use custom shadow pass shader</span>
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">PSSetShader</span><span class="p">(</span><span class="n">g_customHairWorksShadowShader</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// render hairs to shadow buffer</span>
+<span class="n">GFSDK_HairShaderSettings</span> <span class="n">settings</span><span class="p">;</span>
+
+<span class="n">settings</span><span class="p">.</span><span class="n">m_useCustomConstantBuffer</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// let HairWorks fill the cbuffer</span>
+<span class="n">settings</span><span class="p">.</span><span class="n">m_shadowPass</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// this is shadow pass</span>
+
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">RenderHairs</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">settings</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Note that we defined <strong>m_useCustomConstantBuffer</strong> to be false in the above shader settings, so
+the constant buffer used in this shader is automatically filled by HairWorks.</p>
+<p>Shadow shaders are shown below:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &quot;GFSDK_HairWorks_ShaderCommon.h&quot;</span>
+
+<span class="c1">//////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// constant buffer for render parameters</span>
+<span class="c1">//////////////////////////////////////////////////////////////////////////////</span>
+<span class="n">cbuffer</span> <span class="n">cbPerFrame</span> <span class="o">:</span> <span class="k">register</span><span class="p">(</span><span class="n">b0</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="n">GFSDK_Hair_ConstantBuffer</span>       <span class="n">g_hairConstantBuffer</span><span class="p">;</span> <span class="c1">// hairworks portion of constant buffer data</span>
+<span class="p">}</span>
+
+<span class="c1">//////////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// Pixel shader for shadow rendering pass</span>
+<span class="c1">//////////////////////////////////////////////////////////////////////////////////</span>
+<span class="kt">float</span> <span class="n">ps_main</span><span class="p">(</span><span class="n">GFSDK_Hair_PixelShaderInput</span> <span class="n">input</span><span class="p">)</span> <span class="o">:</span> <span class="n">SV_Target0</span>
+<span class="p">{</span>
+        <span class="k">return</span> <span class="n">GFSDK_Hair_ScreenToView</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">position</span><span class="p">,</span> <span class="n">g_hairConstantBuffer</span><span class="p">).</span><span class="n">z</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This shader simply computes linear depth (distance from camera) and write this value to the render target.</p>
+</div>
+<div class="section" id="preparing-custom-constant-buffers">
+<h4>Preparing custom constant buffers<a class="headerlink" href="#preparing-custom-constant-buffers" title="Permalink to this headline">¶</a></h4>
+<p>The second half of <strong>OnD3D11FrameRender()</strong> function renders hairs with shadows.</p>
+<p>As we now use custom constant buffer, we have to copy the buffer using standard D3D APIs:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">D3D11_MAPPED_SUBRESOURCE</span> <span class="n">MappedResource</span><span class="p">;</span>
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">Map</span><span class="p">(</span> <span class="n">g_hairShaderConstantBuffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">D3D11_MAP_WRITE_DISCARD</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">MappedResource</span> <span class="p">);</span>
+
+<span class="n">MyConstantBuffer</span><span class="o">*</span> <span class="n">constantBuffer</span> <span class="o">=</span> <span class="p">(</span> <span class="n">MyConstantBuffer</span><span class="o">*</span> <span class="p">)</span><span class="n">MappedResource</span><span class="p">.</span><span class="n">pData</span><span class="p">;</span>
+<span class="p">{</span>
+        <span class="c1">// copy additional data we defined (light matrices)</span>
+        <span class="n">constantBuffer</span><span class="o">-&gt;</span><span class="n">lightView</span>          <span class="o">=</span> <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetLightViewMatrix</span><span class="p">();</span>
+        <span class="n">constantBuffer</span><span class="o">-&gt;</span><span class="n">lightWorldToTex</span>    <span class="o">=</span> <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetLightWorldToTex</span><span class="p">();</span>
+
+        <span class="c1">// use HairWorks API to fill the HairWorks portion of constant buffer</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">PrepareShaderConstantBuffer</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">constantBuffer</span><span class="o">-&gt;</span><span class="n">hairShaderConstantBuffer</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">Unmap</span><span class="p">(</span><span class="n">g_hairShaderConstantBuffer</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">PSSetConstantBuffers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_hairShaderConstantBuffer</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Note that we use the <strong>PrepareShaderConstantBuffer()</strong> API to fill HairWorks portion of the constant buffer.</p>
+<p>In addition, we copy our own data (light matrices) to the constant buffer as well.</p>
+<p>This maps to the cbuffer definition of our hair shader:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">cbuffer</span> <span class="n">cbPerFrame</span> <span class="o">:</span> <span class="k">register</span><span class="p">(</span><span class="n">b0</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="c1">// light projection matrices added for shadow map sampling</span>
+        <span class="n">row_major</span> <span class="n">float4x4</span>      <span class="n">g_lightView</span><span class="p">;</span>
+        <span class="n">row_major</span> <span class="n">float4x4</span>      <span class="n">g_lightWorldToTex</span><span class="p">;</span>
+
+        <span class="c1">// hairworks portion of constant buffer data</span>
+        <span class="n">GFSDK_Hair_ConstantBuffer</span>       <span class="n">g_hairConstantBuffer</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="preparing-custom-shader-resources">
+<h4>Preparing custom shader resources<a class="headerlink" href="#preparing-custom-shader-resources" title="Permalink to this headline">¶</a></h4>
+<p>As in FurSampleShading sample, we set shader resources for the pixel shader manually.</p>
+<p>First we set the standard shader attribute resources.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">ID3D11ShaderResourceView</span><span class="o">*</span> <span class="n">srvs</span><span class="p">[</span><span class="n">GFSDK_HAIR_NUM_SHADER_RESOUCES</span><span class="p">];</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">GetShaderResources</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="n">srvs</span><span class="p">);</span>
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">PSSetShaderResources</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GFSDK_HAIR_NUM_SHADER_RESOUCES</span><span class="p">,</span> <span class="n">srvs</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>We also set color texture resources as well as shadow textures.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">ID3D11ShaderResourceView</span><span class="o">*</span> <span class="n">textureSRVs</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">GetTextureSRV</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="n">GFSDK_HAIR_TEXTURE_ROOT_COLOR</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">textureSRVs</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">GetTextureSRV</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="n">GFSDK_HAIR_TEXTURE_TIP_COLOR</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">textureSRVs</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="c1">// shadow srv, which is user side creation</span>
+<span class="n">textureSRVs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetShadowSRV</span><span class="p">();</span>
+
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">PSSetShaderResources</span><span class="p">(</span> <span class="n">GFSDK_HAIR_NUM_SHADER_RESOUCES</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">textureSRVs</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>We also set two texture samplers, one for color (linear) and another for shadow (point).</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">ID3D11SamplerState</span><span class="o">*</span> <span class="n">states</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetSamplerLinear</span><span class="p">(),</span>
+        <span class="n">FurSampleAppBase</span><span class="o">::</span><span class="n">GetSamplerPointClamp</span><span class="p">()</span>
+<span class="p">};</span>
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">PSSetSamplers</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">states</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Once constant buffers and resources are set, we now render hairs:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// set your hair pixel shader before rendering hairs</span>
+<span class="n">context</span><span class="o">-&gt;</span><span class="n">PSSetShader</span><span class="p">(</span><span class="n">g_customHairWorksShader</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// set shader settings</span>
+<span class="n">GFSDK_HairShaderSettings</span> <span class="n">settings</span><span class="p">;</span>
+<span class="n">settings</span><span class="p">.</span><span class="n">m_useCustomConstantBuffer</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+<span class="c1">// Render the hair instance</span>
+<span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">RenderHairs</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">settings</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Note this example fully utilizes custom constant buffer as well as custom shader resources.</p>
+</div>
+<div class="section" id="computing-shadows-in-the-shader">
+<h4>Computing shadows in the shader<a class="headerlink" href="#computing-shadows-in-the-shader" title="Permalink to this headline">¶</a></h4>
+<p>The shader for this sample defines the following function:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">float</span> <span class="nf">GetShadowFactor</span><span class="p">(</span><span class="n">GFSDK_Hair_ShaderAttributes</span> <span class="n">attr</span><span class="p">,</span> <span class="n">GFSDK_Hair_Material</span> <span class="n">mat</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="c1">// texcoord of sample point in shadow texture</span>
+        <span class="n">float2</span> <span class="n">shadowTexcoords</span> <span class="o">=</span> <span class="n">mul</span><span class="p">(</span><span class="n">float4</span><span class="p">(</span><span class="n">attr</span><span class="p">.</span><span class="n">P</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">g_lightWorldToTex</span><span class="p">).</span><span class="n">xy</span><span class="p">;</span>
+
+        <span class="c1">// depth of this point in light&#39;s view space</span>
+        <span class="kt">float</span> <span class="n">viewSpaceDepth</span> <span class="o">=</span> <span class="n">mul</span><span class="p">(</span><span class="n">float4</span><span class="p">(</span><span class="n">attr</span><span class="p">.</span><span class="n">P</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">g_lightView</span><span class="p">).</span><span class="n">z</span><span class="p">;</span>
+
+        <span class="c1">// apply PCF filtering of absorption depth from linear depth texture</span>
+        <span class="c1">// use gain = 1.0f for right handed shadow camera.</span>
+        <span class="kt">float</span> <span class="n">gain</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">;</span> <span class="c1">// left handed shadow camera.</span>
+
+        <span class="kt">float</span> <span class="n">filteredDepth</span> <span class="o">=</span> <span class="n">GFSDK_Hair_ShadowFilterDepth</span><span class="p">(</span>
+                <span class="n">g_shadowTexture</span><span class="p">,</span> <span class="n">shadowSampler</span><span class="p">,</span> <span class="n">shadowTexcoords</span><span class="p">,</span> <span class="n">viewSpaceDepth</span><span class="p">,</span> <span class="n">gain</span><span class="p">);</span>
+
+        <span class="c1">// convert absorption depth into lit factor</span>
+        <span class="kt">float</span> <span class="n">lit</span> <span class="o">=</span> <span class="n">GFSDK_Hair_ShadowLitFactor</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">filteredDepth</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="n">lit</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We compute hair shadows (lit factor) in the following steps.</p>
+<ol class="arabic simple">
+<li>First get the world space position of our hair fragment (<strong>attr.P</strong>)</li>
+<li>Using the light matrix, we get corresponding texture coord of the point (shadowTexcoords).</li>
+<li>We also computes view space depth of the point using light camera used to generate the shadow map.</li>
+<li>We now compute penetration distance from the hair surface using <strong>GFSDK_Hair_ShadowFilterDepth()</strong>.</li>
+<li>Finally, we convert the depth to soft shadows using <strong>GFSDK_Hair_ShadowLitFactor()</strong>.</li>
+</ol>
+<p>Note that this function may be completely bypassed if users wish to implement their own shadow sampling function,
+especially when other shadow sampling schemes are defined and widely used throughout their game engine.
+In that case, replace above function with any of such scehemes.</p>
+</div>
+</div>
+</div>
+<div class="section" id="fursampleskinning">
+<h2>FurSampleSkinning<a class="headerlink" href="#fursampleskinning" title="Permalink to this headline">¶</a></h2>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/HairWorks_FurSampleSkinningScreenshot.jpg"><img alt="_images/HairWorks_FurSampleSkinningScreenshot.jpg" src="_images/HairWorks_FurSampleSkinningScreenshot.jpg" style="width: 400px;" /></a>
+<p class="caption">Skinned animation of the monster sample character.</p>
+</div>
+<div class="section" id="id13">
+<h3>Summary<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>This sample shows how to setup skinning matrices for HairWorks.</p>
+</div>
+<div class="section" id="id14">
+<h3>Illustrated Features<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>This sample updates the skinning matrices using <strong>UpdateSkinningMatrices()</strong> API.</li>
+<li>This sample uses bone visualization feature.</li>
+</ol>
+</div>
+<div class="section" id="id15">
+<h3>Running Instructions<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Camer Zoom : Mouse Wheel</li>
+<li>Camera Orbit : RMB</li>
+<li>&#8216;p&#8217; : toggle on/off animation</li>
+<li>&#8216;b&#8217; : toggle on/off bone hierarchy visualization</li>
+<li>&#8216;g&#8217; : toggle on/off growth mesh visualization</li>
+<li>&#8216;h&#8217; : toggle on/off hair rendering</li>
+<li>&#8216;s&#8217; : toggle on/off hair simulation</li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h3>Details<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<p>At each frame, this sample updates skinning matrices of the hair asset and run hair simulation.</p>
+<p>This sample uses precomputed skinning matrices g_skinningMatrices that are stored in <em>SkinningMatrices.h</em>.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="n">CALLBACK</span> <span class="nf">OnFrameMove</span><span class="p">(</span><span class="kt">double</span> <span class="n">time</span><span class="p">,</span> <span class="kt">float</span> <span class="n">elapsedTime</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">userContext</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="p">....</span>
+
+        <span class="c1">// Set simulation context for HairWorks</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">SetCurrentContext</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+
+        <span class="p">...</span> <span class="n">update</span> <span class="n">frame</span> <span class="n">index</span> <span class="n">and</span> <span class="n">frame</span> <span class="n">time</span> <span class="p">...</span>
+
+        <span class="c1">// Update skinning matrices for the frame</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">UpdateSkinningMatrices</span><span class="p">(</span><span class="n">g_hairInstanceID</span><span class="p">,</span> <span class="n">g_numSkinningBones</span><span class="p">,</span> <span class="n">g_skinningMatrices</span><span class="p">[</span><span class="n">s_frame</span><span class="p">]);</span>
+
+        <span class="c1">// run simulation for all hairs</span>
+        <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">StepSimulation</span><span class="p">(</span><span class="n">elapsedTime</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This sample also uses several query API to construct growth mesh from a hairworks asset.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="p">......</span>
+<span class="c1">// Fill the vertices info (root of each hair == vertex of the mesh)</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">GFSDK_HAIR_RETURN_OK</span> <span class="o">!=</span> <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">GetRootVertices</span><span class="p">(</span><span class="n">g_hairAssetID</span><span class="p">,</span> <span class="p">(</span><span class="n">gfsdk_float3</span><span class="o">*</span><span class="p">)</span><span class="n">meshData</span><span class="p">.</span><span class="n">m_positions</span><span class="p">.</span><span class="n">data</span><span class="p">()))</span>
+<span class="p">{</span>
+        <span class="k">return</span> <span class="n">E_FAIL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Fill the bone indices info</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">GFSDK_HAIR_RETURN_OK</span> <span class="o">!=</span> <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">GetBoneIndices</span><span class="p">(</span><span class="n">g_hairAssetID</span><span class="p">,</span> <span class="p">(</span><span class="n">gfsdk_float4</span><span class="o">*</span><span class="p">)</span><span class="n">meshData</span><span class="p">.</span><span class="n">m_boneIndices</span><span class="p">.</span><span class="n">data</span><span class="p">()))</span>
+<span class="p">{</span>
+        <span class="k">return</span> <span class="n">E_FAIL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Fille the bone weights info</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">GFSDK_HAIR_RETURN_OK</span> <span class="o">!=</span> <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">GetBoneWeights</span><span class="p">(</span><span class="n">g_hairAssetID</span><span class="p">,</span> <span class="p">(</span><span class="n">gfsdk_float4</span><span class="o">*</span><span class="p">)</span><span class="n">meshData</span><span class="p">.</span><span class="n">m_boneWeights</span><span class="p">.</span><span class="n">data</span><span class="p">()))</span>
+<span class="p">{</span>
+        <span class="k">return</span> <span class="n">E_FAIL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Fill the face indices info</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">GFSDK_HAIR_RETURN_OK</span> <span class="o">!=</span> <span class="n">g_hairSDK</span><span class="o">-&gt;</span><span class="n">GetFaceIndices</span><span class="p">(</span><span class="n">g_hairAssetID</span><span class="p">,</span> <span class="n">meshData</span><span class="p">.</span><span class="n">m_indices</span><span class="p">.</span><span class="n">data</span><span class="p">()))</span>
+<span class="p">{</span>
+        <span class="k">return</span> <span class="n">E_FAIL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">......</span>
+</pre></div>
+</div>
+<p>Note that this is only for illustration purpose - usual game engines would have character mesh drawing/mangement in a separate code block.</p>
+<p>Number of bones and bone order should match between HairWorks asset and character.</p>
+<p>If that&#8217;s not the case, please refer to the <strong>SetBoneRemapping()</strong> API in the header.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<div class="masthead">
+    <div class="row">
+      <ul class="breadcrumb">
+        <li><a href="index.html">NVIDIA HairWorks 1.1.1 documentation</a></li> 
+      </ul>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-boilerplate">
+        <div class="row">
+            <div class="boilerplate">
+                Copyright &copy; 2014-2015, NVIDIA Corporation &nbsp; | &nbsp; <a href="http://www.nvidia.com/object/about-nvidia.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/about-nvidia.html_1&quot;;return this.s_oc?this.s_oc(e):true">About NVIDIA </a>&nbsp; | &nbsp; <a href="http://www.nvidia.com/object/legal_info.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/legal_info.html_1&quot;;return this.s_oc?this.s_oc(e):true">Legal Information </a>&nbsp; | &nbsp; <a href="http://www.nvidia.com/object/privacy_policy.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/privacy_policy.html_1&quot;;return this.s_oc?this.s_oc(e):true">Privacy Policy </a>
+            </div>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+var treestatename = 'GWDocsTreeState';
+var protocol = location.href.split('/')[0].toLowerCase();
+var storage;
+if (protocol.substring(0,4) == 'http') {
+  storage = $.cookieStorage;
+  storage.setPath('/');
+} else {
+  storage = $.localStorage;
+}
+
+if (storage.isEmpty(treestatename)) {
+  storage.set(treestatename, {});
+}
+
+var treestate = storage.get(treestatename);
+
+$.each($("#sidebar_toc ul li"), toc_walker);
+
+function toc_walker(key, value) {
+    var handleSpan = $("<span></span>")
+        .addClass("toc_handle").prependTo(value);
+    handleSpan.attr("id", $(value).closest("div").attr("id") + "." + key);
+
+    if($(value).has("ul li").size() > 0) {
+        var id = handleSpan.attr("id");
+        if (!(id in treestate)) {
+          treestate[id] = false;
+        }
+        handleSpan.addClass("toc_expanded").click(function() {
+            $(this).toggleClass("toc_expanded toc_collapsed").siblings("ul").toggle();
+            treestate[$(this).attr('id')] = $(this).hasClass('toc_expanded');
+            storage.set(treestatename, treestate);
+        });
+        if(!($(this).hasClass('current') || treestate[id])) {
+            handleSpan.click();
+        }
+        if($(this).hasClass('current')) {
+            treestate[handleSpan.attr('id')] = handleSpan.hasClass('toc_expanded');
+            storage.set(treestatename, treestate);
+        }
+    }
+}
+</script>
+  </body>
+</html>
