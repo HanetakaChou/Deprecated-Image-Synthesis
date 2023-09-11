@@ -21,34 +21,43 @@
 #include "../thirdparty/vulkansdk/include/vulkan/vulkan.h"
 #include "../thirdparty/vma/vk_mem_alloc.h"
 #include <vector>
+#include <DirectXMath.h>
 
 class Demo
 {
-	VkSampler m_vulkan_linear_clamp_sampler;
+	VkSampler m_point_light_shadow_nearest_sampler;
 
-	VkDescriptorSetLayout m_vulkan_global_set_layout;
-	VkDescriptorSetLayout m_vulkan_material_set_layout;
-	VkPipelineLayout m_vulkan_pipeline_layout;
+	VkImage m_point_light_shadow_image;
+	VkDeviceMemory m_point_light_shadow_device_memory;
+	VkImageView m_point_light_shadow_image_view;
 
-	VkFormat m_vulkan_depth_format;
-	VkFormat m_vulkan_swapchain_image_format;
+	VkFramebuffer m_point_light_shadow_frame_buffer;
+
+	VkDescriptorSetLayout m_point_light_shadow_global_set_layout;
+	VkPipelineLayout m_point_light_shadow_pipeline_layout;
+	VkDescriptorSetLayout m_forward_shading_global_set_layout;
+	VkPipelineLayout m_forward_shading_pipeline_layout;
+
+	uint32_t m_point_light_shadow_pass_index;
+	VkRenderPass m_point_light_shadow_render_pass;
+	VkPipeline m_point_light_shadow_pipeline;
+
 	uint32_t m_forward_shading_pass_index;
-	VkRenderPass m_vulkan_render_pass;
-	VkPipeline m_vulkan_forward_shading_pipeline;
+	VkRenderPass m_main_camera_render_pass;
+	VkPipeline m_forward_shading_pipeline;
 
-	VkDescriptorPool m_vulkan_descriptor_pool;
-	VkDescriptorSet m_vulkan_global_set;
+	VkDescriptorPool m_descriptor_pool;
+	VkDescriptorSet m_point_light_shadow_global_set;
+	VkDescriptorSet m_forward_shading_global_set;
 
 	uint32_t m_cube_vertex_count;
 	VmaAllocation m_cube_vertex_position_allocation;
 	VkBuffer m_cube_vertex_position_buffer;
-	VmaAllocation m_cube_vertex_varying_allocation;
-	VkBuffer m_cube_vertex_varying_buffer;
-	VmaAllocation m_cube_emissive_texture_allocation;
-	VkImage m_cube_emissive_texture;
-	VkImageView m_cube_emissive_texture_view;
-	VkDescriptorSet m_cube_material_set;
-	float m_cube_spin_angle;
+
+	float m_box_spin_angle;
+	DirectX::XMFLOAT4X4 m_plane_model_transform;
+	DirectX::XMFLOAT4 m_point_light_position_and_radius;
+	float m_point_light_shadow_bias;
 
 	PFN_vkCmdBeginRenderPass m_pfn_cmd_begin_render_pass;
 	PFN_vkCmdEndRenderPass m_pfn_cmd_end_render_pass;
@@ -63,12 +72,14 @@ class Demo
 	PFN_vkCmdEndDebugUtilsLabelEXT m_pfn_cmd_end_debug_utils_label;
 #endif
 
+	VkFormat m_depth_format;
+	VkFormat m_swapchain_image_format;
 	VkImage m_vulkan_depth_image;
 	VkDeviceMemory m_vulkan_depth_device_memory;
 	VkImageView m_vulkan_depth_image_view;
-	std::vector<VkFramebuffer> m_vulkan_framebuffers;
+	std::vector<VkFramebuffer> m_vulkan_main_camera_framebuffers;
 
-	void create_render_pass_and_pipeline(VkDevice vulkan_device, PFN_vkGetDeviceProcAddr pfn_get_device_proc_addr, VkFormat vulkan_depth_format, VkFormat vulkan_swapchain_image_format, VkAllocationCallbacks *vulkan_allocation_callbacks);
+	void create_main_camera_render_pass_and_pipeline(VkDevice vulkan_device, PFN_vkGetDeviceProcAddr pfn_get_device_proc_addr, VkFormat vulkan_depth_format, VkFormat vulkan_swapchain_image_format, VkAllocationCallbacks *vulkan_allocation_callbacks);
 
 public:
 	Demo();
@@ -76,12 +87,12 @@ public:
 	void init(
 		VkInstance vulkan_instance, PFN_vkGetInstanceProcAddr pfn_get_instance_proc_addr, VkDevice vulkan_device, PFN_vkGetDeviceProcAddr pfn_get_device_proc_addr, VkAllocationCallbacks *vulkan_allocation_callbacks,
 		VmaAllocator vulkan_asset_allocator, uint32_t staging_buffer_current, uint32_t vulkan_staging_buffer_end, void *vulkan_staging_buffer_device_memory_pointer, VkBuffer vulkan_staging_buffer,
-		uint32_t vulkan_asset_vertex_buffer_memory_index, uint32_t vulkan_asset_index_buffer_memory_index, uint32_t vulkan_asset_uniform_buffer_memory_index, uint32_t vulkan_asset_image_memory_index,
+		uint32_t vulkan_asset_vertex_buffer_memory_index, uint32_t vulkan_asset_index_buffer_memory_index, uint32_t vulkan_asset_uniform_buffer_memory_index, uint32_t vulkan_asset_image_memory_index, VkFormat vulkan_depth_format, uint32_t vulkan_depth_stencil_sampled_memory_index,
 		uint32_t vulkan_optimal_buffer_copy_offset_alignment, uint32_t vulkan_optimal_buffer_copy_row_pitch_alignment,
 		bool vulkan_has_dedicated_transfer_queue, uint32_t vulkan_queue_transfer_family_index, uint32_t vulkan_queue_graphics_family_index, VkCommandBuffer vulkan_streaming_transfer_command_buffer, VkCommandBuffer vulkan_streaming_graphics_command_buffer,
 		VkDeviceSize vulkan_upload_ring_buffer_size, VkBuffer vulkan_upload_ring_buffer);
 
-	void create_frame_buffer(
+	void create_main_camera_frame_buffer(
 		VkInstance vulkan_instance, PFN_vkGetInstanceProcAddr pfn_get_instance_proc_addr, VkPhysicalDevice vulkan_physical_device, VkDevice vulkan_device, PFN_vkGetDeviceProcAddr pfn_get_device_proc_addr, VkAllocationCallbacks *vulkan_allocation_callbacks,
 		VkFormat vulkan_depth_format, uint32_t vulkan_depth_stencil_transient_attachment_memory_index,
 		VkFormat vulkan_swapchain_image_format,
@@ -90,7 +101,7 @@ public:
 		uint32_t vulkan_swapchain_image_count,
 		std::vector<VkImageView> const &vulkan_swapchain_image_views);
 
-	void destroy_frame_buffer(
+	void destroy_main_camera_frame_buffer(
 		VkDevice vulkan_device, PFN_vkGetDeviceProcAddr pfn_get_device_proc_addr, VkAllocationCallbacks *vulkan_allocation_callbacks, uint32_t vulkan_swapchain_image_count);
 
 	void tick(

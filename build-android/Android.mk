@@ -27,7 +27,6 @@ LOCAL_MODULE := demo-android
 
 LOCAL_SRC_FILES := \
 	$(LOCAL_PATH)/../assets/cube.cpp \
-	$(LOCAL_PATH)/../assets/lunarg_ppm.cpp \
 	$(LOCAL_PATH)/../code/support/camera_controller.cpp \
 	$(LOCAL_PATH)/../code/support/main.cpp \
 	$(LOCAL_PATH)/../code/support/renderer.cpp \

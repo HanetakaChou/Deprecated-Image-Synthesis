@@ -173,7 +173,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\assets\cube.cpp" />
-    <ClCompile Include="..\assets\lunarg_ppm.cpp" />
     <ClCompile Include="..\code\demo.cpp" />
     <ClCompile Include="..\code\support\camera_controller.cpp" />
     <ClCompile Include="..\code\support\renderer.cpp" />
@@ -184,7 +183,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\assets\cube.h" />
-    <ClInclude Include="..\assets\lunarg_ppm.h" />
     <ClInclude Include="..\code\demo.h" />
     <ClInclude Include="..\code\support\camera_controller.h" />
     <ClInclude Include="..\code\support\frame_throttling.h" />
@@ -192,6 +190,8 @@
     <ClInclude Include="..\code\support\streaming.h" />
     <ClInclude Include="..\code\support\utils_align_up.h" />
     <ClInclude Include="..\shaders\forward_shading_pipeline_layout.h" />
+    <ClInclude Include="..\shaders\mesh_vertex.h" />
+    <ClInclude Include="..\shaders\point_light_shadow_pipeline_layout.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\thirdparty\vulkansdk\lib\x64\VkLayer_khronos_validation.dll">
@@ -256,6 +256,36 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="..\shaders\point_light_shadow_fragment.glsl">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(SolutionDir)..\thirdparty\vulkansdk\bin\glslangValidator.exe" -g -Od -S frag -V100 -o "$(SolutionDir)\..\spirv\%(Filename).inl" -x "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(SolutionDir)..\thirdparty\vulkansdk\bin\glslangValidator.exe" -g -Od -S frag -V100 -o "$(SolutionDir)\..\spirv\%(Filename).inl" -x "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(SolutionDir)..\thirdparty\vulkansdk\bin\glslangValidator.exe" -S frag -V100 -o "$(SolutionDir)\..\spirv\%(Filename).inl" -x "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(SolutionDir)..\thirdparty\vulkansdk\bin\glslangValidator.exe" -S frag -V100 -o "$(SolutionDir)\..\spirv\%(Filename).inl" -x "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\..\spirv\%(Filename).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\..\spirv\%(Filename).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\..\spirv\%(Filename).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\..\spirv\%(Filename).inl</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)..\shaders\point_light_shadow_pipeline_layout.h</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\shaders\point_light_shadow_layout.h</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\shaders\point_light_shadow_pipeline_layout.h</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\shaders\point_light_shadow_layout.h</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="..\shaders\point_light_shadow_vertex.glsl">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(SolutionDir)..\thirdparty\vulkansdk\bin\glslangValidator.exe" -g -Od -S vert -V100 -o "$(SolutionDir)\..\spirv\%(Filename).inl" -x "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(SolutionDir)..\thirdparty\vulkansdk\bin\glslangValidator.exe" -g -Od -S vert -V100 -o "$(SolutionDir)\..\spirv\%(Filename).inl" -x "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(SolutionDir)..\thirdparty\vulkansdk\bin\glslangValidator.exe" -S vert -V100 -o "$(SolutionDir)\..\spirv\%(Filename).inl" -x "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(SolutionDir)..\thirdparty\vulkansdk\bin\glslangValidator.exe" -S vert -V100 -o "$(SolutionDir)\..\spirv\%(Filename).inl" -x "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\..\spirv\%(Filename).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\..\spirv\%(Filename).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\..\spirv\%(Filename).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\..\spirv\%(Filename).inl</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)..\shaders\point_light_shadow_pipeline_layout.h</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\shaders\point_light_shadow_layout.h</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\shaders\point_light_shadow_pipeline_layout.h</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\shaders\point_light_shadow_layout.h</AdditionalInputs>
+    </CustomBuild>
     <None Include="..\spirv\forward_shading_fragment.inl" />
     <None Include="..\spirv\forward_shading_vertex.inl" />
   </ItemGroup>

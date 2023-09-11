@@ -18,14 +18,54 @@
 //
 
 #extension GL_GOOGLE_include_directive : enable
+#extension GL_EXT_control_flow_attributes : enable
 
 #include "forward_shading_pipeline_layout.h"
 
-layout(location = 0) in highp vec2 interpolated_uv;
+layout(location = 0) in highp vec3 in_position_world_space;
 
-layout(location = 0) out highp vec4 fragment_output_color;
+layout(location = 0) out highp vec4 out_scene_color;
 
 void main()
 {
-   fragment_output_color = texture(_material_set_emissive_texture_binding, interpolated_uv);
+   // Light Information
+   highp vec3 point_light_position = g_point_light_position_and_radius.xyz;
+   highp float point_light_radius = g_point_light_position_and_radius.w;
+
+   // View Space
+   highp vec3 position_view_space = in_position_world_space - point_light_position;
+
+   // Sphere Space
+   highp vec3 position_sphere_space = normalize(position_view_space);
+
+   // Clip Space
+   highp vec2 position_clip_space_xy;
+   highp float position_clip_space_w;
+
+   // Layer
+   // z < 0 -> layer 0
+   // z > 0 -> layer 1
+   highp int layer_index = (position_sphere_space.z < 0.0) ? 0 : 1;
+
+   // Octahedron Mapping
+   highp float manhattan_norm = abs(position_sphere_space.x) + abs(position_sphere_space.y) + abs(position_sphere_space.z);
+   position_clip_space_w = manhattan_norm;
+
+   highp vec2 layer_position_clip_space_xy[2] = vec2[2]((manhattan_norm - abs(position_sphere_space.yx)) * vec2((position_sphere_space.x >= 0.0) ? 1.0 : -1.0, (position_sphere_space.y >= 0.0) ? 1.0 : -1.0), position_sphere_space.xy);
+   position_clip_space_xy = layer_position_clip_space_xy[layer_index];
+
+   // NDC Space
+   highp vec2 position_ndc_space_xy = position_clip_space_xy / position_clip_space_w;
+
+   // UV
+   highp vec2 uv = position_ndc_space_xy * vec2(0.5, 0.5) + vec2(0.5, 0.5);
+
+   //
+   highp float closest_ratio = texture(g_point_light_shadow_map, uv).r + g_point_light_shadow_bias;
+
+   highp float current_ratio = length(position_view_space) / point_light_radius;
+
+   highp float shadow = (closest_ratio >= current_ratio) ? 1.0 : -1.0;
+
+   out_scene_color = vec4(shadow, shadow, shadow, 1.0);
 }

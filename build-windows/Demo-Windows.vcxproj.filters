@@ -7,9 +7,6 @@
     <ClCompile Include="..\assets\cube.cpp">
       <Filter>assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\assets\lunarg_ppm.cpp">
-      <Filter>assets</Filter>
-    </ClCompile>
     <ClCompile Include="..\code\demo.cpp">
       <Filter>code</Filter>
     </ClCompile>
@@ -36,9 +33,6 @@
     <ClInclude Include="..\assets\cube.h">
       <Filter>assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\assets\lunarg_ppm.h">
-      <Filter>assets</Filter>
-    </ClInclude>
     <ClInclude Include="..\code\demo.h">
       <Filter>code</Filter>
     </ClInclude>
@@ -57,12 +51,24 @@
     <ClInclude Include="..\shaders\forward_shading_pipeline_layout.h">
       <Filter>shaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\shaders\point_light_shadow_pipeline_layout.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shaders\mesh_vertex.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\shaders\forward_shading_fragment.glsl">
       <Filter>shaders</Filter>
     </CustomBuild>
     <CustomBuild Include="..\shaders\forward_shading_vertex.glsl">
+      <Filter>shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\shaders\point_light_shadow_fragment.glsl">
+      <Filter>shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\shaders\point_light_shadow_vertex.glsl">
       <Filter>shaders</Filter>
     </CustomBuild>
   </ItemGroup>

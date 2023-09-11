@@ -89,6 +89,12 @@
     <ClInclude Include="..\assets\cube.h">
       <Filter>assets</Filter>
     </ClInclude>
+    <ClInclude Include="..\shaders\point_light_shadow_pipeline_layout.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shaders\mesh_vertex.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shaders\forward_shading_fragment.glsl">
@@ -101,6 +107,18 @@
       <Filter>spirv</Filter>
     </None>
     <None Include="..\spirv\forward_shading_vertex.inl">
+      <Filter>spirv</Filter>
+    </None>
+    <None Include="..\shaders\point_light_shadow_fragment.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="..\shaders\point_light_shadow_vertex.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="..\spirv\point_light_shadow_fragment.inl">
+      <Filter>spirv</Filter>
+    </None>
+    <None Include="..\spirv\point_light_shadow_vertex.inl">
       <Filter>spirv</Filter>
     </None>
   </ItemGroup>

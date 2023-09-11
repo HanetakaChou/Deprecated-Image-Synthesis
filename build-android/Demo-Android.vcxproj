@@ -55,12 +55,18 @@
     <ClInclude Include="..\code\support\streaming.h" />
     <ClInclude Include="..\code\support\utils_align_up.h" />
     <ClInclude Include="..\shaders\forward_shading_pipeline_layout.h" />
+    <ClInclude Include="..\shaders\mesh_vertex.h" />
+    <ClInclude Include="..\shaders\point_light_shadow_pipeline_layout.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shaders\forward_shading_fragment.glsl" />
     <None Include="..\shaders\forward_shading_vertex.glsl" />
+    <None Include="..\shaders\point_light_shadow_fragment.glsl" />
+    <None Include="..\shaders\point_light_shadow_vertex.glsl" />
     <None Include="..\spirv\forward_shading_fragment.inl" />
     <None Include="..\spirv\forward_shading_vertex.inl" />
+    <None Include="..\spirv\point_light_shadow_fragment.inl" />
+    <None Include="..\spirv\point_light_shadow_vertex.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
