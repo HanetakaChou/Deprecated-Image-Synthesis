@@ -12,14 +12,10 @@
 //
 // Please direct any bugs or questions to SDKFeedback@nvidia.com
 
-#ifndef FLUID3D_FLUID_H
-#define FLUID3D_FLUID_H
+#ifndef _FLUID_H_
+#define _FLUID_H_ 1
 
-#pragma warning(disable : 4995)
-#include <fstream>
 #include "Grid.h"
-
-#include <d3dx11effect.h>
 
 class Fluid
 {
@@ -37,13 +33,6 @@ public:
         RENDER_TARGET_TEMPVECTOR,
         RENDER_TARGET_TEMPVECTOR1,
         NUM_RENDER_TARGETS
-    };
-
-    enum FLUID_TYPE
-    {
-        FT_SMOKE = 0,
-        FT_FIRE = 1,
-        FT_LIQUID = 2
     };
 
     Fluid(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext);
@@ -138,71 +127,6 @@ protected:
     ID3D11RenderTargetView *m_pRenderTargetViews[NUM_RENDER_TARGETS];
     DXGI_FORMAT m_RenderTargetFormats[NUM_RENDER_TARGETS];
 
-    // Effect (simulation shaders)
-    TCHAR m_effectPath[MAX_PATH];
-    ID3DX11Effect *m_pEffect;
-
-    // Effect Techniques
-    ID3DX11EffectTechnique *m_etAdvect;
-    ID3DX11EffectTechnique *m_etAdvectMACCORMACK;
-    ID3DX11EffectTechnique *m_etVorticity;
-    ID3DX11EffectTechnique *m_etConfinement;
-    ID3DX11EffectTechnique *m_etDiffuse;
-    ID3DX11EffectTechnique *m_etDivergence;
-    ID3DX11EffectTechnique *m_etScalarJacobi;
-    ID3DX11EffectTechnique *m_etProject;
-
-    ID3DX11EffectTechnique *m_etInitLevelSetToLiquidHeight;
-    ID3DX11EffectTechnique *m_etInjectLiquid;
-    ID3DX11EffectTechnique *m_etAirPressure;
-    ID3DX11EffectTechnique *m_etRedistance;
-    ID3DX11EffectTechnique *m_etExtrapolateVelocity;
-
-    ID3DX11EffectTechnique *m_etLiquidStream_LevelSet;
-    ID3DX11EffectTechnique *m_etLiquidStream_Velocity;
-    ID3DX11EffectTechnique *m_etGravity;
-
-    ID3DX11EffectTechnique *m_etGaussian;
-    ID3DX11EffectTechnique *m_etCopyTextureDensity;
-    ID3DX11EffectTechnique *m_etAddDensityDerivativeVelocity;
-
-    ID3DX11EffectTechnique *m_etStaticObstacleTriangles;
-    ID3DX11EffectTechnique *m_etStaticObstacleLines;
-    ID3DX11EffectTechnique *m_etDrawBox;
-
-    ID3DX11EffectTechnique *m_etDrawTexture;
-
-    // Shader variables
-    ID3DX11EffectScalarVariable *m_evTextureWidth;
-    ID3DX11EffectScalarVariable *m_evTextureHeight;
-    ID3DX11EffectScalarVariable *m_evTextureDepth;
-    ID3DX11EffectScalarVariable *m_evDrawTexture;
-    ID3DX11EffectScalarVariable *m_evDecay;
-    ID3DX11EffectScalarVariable *m_evViscosity;
-    ID3DX11EffectScalarVariable *m_evRadius;
-    ID3DX11EffectVectorVariable *m_evCenter;
-    ID3DX11EffectVectorVariable *m_evColor;
-    ID3DX11EffectVectorVariable *m_evGravity;
-    ID3DX11EffectScalarVariable *m_evVortConfinementScale;
-    ID3DX11EffectScalarVariable *m_evTimeStep;
-    ID3DX11EffectScalarVariable *m_evAdvectAsTemperature;
-    ID3DX11EffectScalarVariable *m_evTreatAsLiquidVelocity;
-    ID3DX11EffectScalarVariable *m_evFluidType;
-    ID3DX11EffectVectorVariable *m_evObstBoxLBDcorner;
-    ID3DX11EffectVectorVariable *m_evObstBoxRTUcorner;
-    ID3DX11EffectVectorVariable *m_evObstBoxVelocity;
-
-    ID3DX11EffectShaderResourceVariable *m_evTexture_pressure;
-    ID3DX11EffectShaderResourceVariable *m_evTexture_velocity;
-    ID3DX11EffectShaderResourceVariable *m_evTexture_vorticity;
-    ID3DX11EffectShaderResourceVariable *m_evTexture_divergence;
-    ID3DX11EffectShaderResourceVariable *m_evTexture_phi;
-    ID3DX11EffectShaderResourceVariable *m_evTexture_phi_hat;
-    ID3DX11EffectShaderResourceVariable *m_evTexture_phi_next;
-    ID3DX11EffectShaderResourceVariable *m_evTexture_levelset;
-    ID3DX11EffectShaderResourceVariable *m_evTexture_obstacles;
-    ID3DX11EffectShaderResourceVariable *m_evTexture_obstvelocity;
-
     // Use this to ping-pong between two render-targets used to store the density or level set
     RENDER_TARGET m_currentDstScalar;
     RENDER_TARGET m_currentSrcScalar;
@@ -228,14 +152,14 @@ protected:
     //=========================
     float m_fSaturation;
     float m_fImpulseSize;
-    D3DXVECTOR4 m_vImpulsePos;
-    D3DXVECTOR4 m_vImpulseDir;
+    DirectX::XMFLOAT4 m_vImpulsePos;
+    DirectX::XMFLOAT4 m_vImpulseDir;
 
     // Liquid stream
     //==============
     bool m_bLiquidStream;
     float m_fStreamSize;
-    D3DXVECTOR4 m_streamCenter;
+    DirectX::XMFLOAT4 m_streamCenter;
 
     // Obstacles
     //===================================
@@ -243,9 +167,9 @@ protected:
     bool m_bClosedBoundaries; // can be open or closed
     // ObstacleBox (for testing purposes)
     bool m_bDrawObstacleBox;
-    D3DXVECTOR4 m_vObstBoxPos;
-    D3DXVECTOR4 m_vObstBoxPrevPos;
-    D3DXVECTOR4 m_vObstBoxVelocity;
+    DirectX::XMFLOAT4 m_vObstBoxPos;
+    DirectX::XMFLOAT4 m_vObstBoxPrevPos;
+    DirectX::XMFLOAT4 m_vObstBoxVelocity;
 };
 
 #endif

@@ -12,8 +12,8 @@
 //
 // Please direct any bugs or questions to SDKFeedback@nvidia.com
 
-#ifndef GRID_H
-#define GRID_H
+#ifndef _GRID_H_
+#define _GRID_H_ 1
 
 #include "Common.h"
 
@@ -25,7 +25,7 @@ public:
     Grid(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext);
     virtual ~Grid(void);
 
-    HRESULT Initialize(int gridWidth, int gridHeight, int gridDepth, ID3DX11EffectTechnique *technique);
+    HRESULT Initialize(int gridWidth, int gridHeight, int gridDepth);
 
     void DrawSlices(void);
     void DrawSlice(int slice);
@@ -41,7 +41,7 @@ public:
     int GetDimZ() { return m_dim[2]; }
 
 protected:
-    HRESULT CreateVertexBuffers(ID3DX11EffectTechnique *technique);
+    HRESULT CreateVertexBuffers();
     void InitScreenSlice(VS_INPUT_FLUIDSIM_STRUCT **vertices, int z, int &index);
     void InitSlice(int z, VS_INPUT_FLUIDSIM_STRUCT **vertices, int &index);
     void InitLine(float x1, float y1, float x2, float y2, int z,
@@ -49,7 +49,7 @@ protected:
     void InitBoundaryQuads(VS_INPUT_FLUIDSIM_STRUCT **vertices, int &index);
     void InitBoundaryLines(VS_INPUT_FLUIDSIM_STRUCT **vertices, int &index);
 
-    HRESULT CreateLayout(D3D11_INPUT_ELEMENT_DESC *layoutDesc, UINT numElements, ID3DX11EffectTechnique *technique, ID3D11InputLayout **layout);
+    HRESULT CreateLayout(D3D11_INPUT_ELEMENT_DESC *layoutDesc, UINT numElements, ID3D11InputLayout **layout);
     HRESULT CreateVertexBuffer(int ByteWidth, UINT bindFlags, ID3D11Buffer **vertexBuffer, VS_INPUT_FLUIDSIM_STRUCT *vertices, int numVertices);
 
     // D3D11 helper functions

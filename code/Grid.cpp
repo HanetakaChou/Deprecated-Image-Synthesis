@@ -12,16 +12,46 @@
 //
 // Please direct any bugs or questions to SDKFeedback@nvidia.com
 
-#pragma warning(disable : 4201) // avoid warning from mmsystem.h "warning C4201: nonstandard extension used : nameless struct/union"
-
+#include <DXUT.h>
 #include "Grid.h"
-#include <math.h>
-#include "d3dx9math.h"
+
+#include "../dxbc/FluidSim_VS_GRID_bytecode.inl"
+
+#ifndef SAFE_ACQUIRE
+#define SAFE_ACQUIRE(dst, p)   \
+    {                          \
+        if (dst)               \
+        {                      \
+            SAFE_RELEASE(dst); \
+        }                      \
+        if (p)                 \
+        {                      \
+            (p)->AddRef();     \
+        }                      \
+        dst = (p);             \
+    }
+#endif
+
+static inline void ComputeRowColsForFlat3DTexture(int depth, int *outCols, int *outRows)
+{
+    // Compute # of rows and cols for a "flat 3D-texture" configuration
+    // (in this configuration all the slices in the volume are spread in a single 2D texture)
+    int rows = (int)floorf(sqrtf((float)depth));
+    int cols = rows;
+    while (rows * cols < depth)
+    {
+        cols++;
+    }
+    assert(rows * cols >= depth);
+
+    *outCols = cols;
+    *outRows = rows;
+}
 
 struct VS_INPUT_FLUIDSIM_STRUCT
 {
-    D3DXVECTOR3 Pos; // Clip space position for slice vertices
-    D3DXVECTOR3 Tex; // Cell coordinates in 0-"texture dimension" range
+    DirectX::XMFLOAT3 Pos; // Clip space position for slice vertices
+    DirectX::XMFLOAT3 Tex; // Cell coordinates in 0-"texture dimension" range
 };
 
 Grid::Grid(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext) : m_pD3DDevice(NULL), m_pD3DContext(NULL), m_layout(NULL), m_renderQuadBuffer(NULL),
@@ -33,7 +63,7 @@ Grid::Grid(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext) : m_pD3DD
     SAFE_ACQUIRE(m_pD3DContext, pd3dContext);
 }
 
-HRESULT Grid::Initialize(int gridWidth, int gridHeight, int gridDepth, ID3DX11EffectTechnique *technique)
+HRESULT Grid::Initialize(int gridWidth, int gridHeight, int gridDepth)
 {
     HRESULT hr(S_OK);
 
@@ -43,7 +73,7 @@ HRESULT Grid::Initialize(int gridWidth, int gridHeight, int gridDepth, ID3DX11Ef
 
     ComputeRowColsForFlat3DTexture(m_dim[2], &m_cols, &m_rows);
 
-    V_RETURN(CreateVertexBuffers(technique));
+    V_RETURN(CreateVertexBuffers());
 
     return S_OK;
 }
@@ -60,7 +90,7 @@ Grid::~Grid()
     SAFE_RELEASE(m_pD3DContext);
 }
 
-HRESULT Grid::CreateVertexBuffers(ID3DX11EffectTechnique *technique)
+HRESULT Grid::CreateVertexBuffers()
 {
     HRESULT hr(S_OK);
 
@@ -71,7 +101,7 @@ HRESULT Grid::CreateVertexBuffers(ID3DX11EffectTechnique *technique)
             {"TEXCOORD", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
         };
     UINT numElements = sizeof(layoutDesc) / sizeof(layoutDesc[0]);
-    CreateLayout(layoutDesc, numElements, technique, &m_layout);
+    CreateLayout(layoutDesc, numElements, &m_layout);
 
     int index(0);
     VS_INPUT_FLUIDSIM_STRUCT *renderQuad(NULL);
@@ -176,17 +206,17 @@ void Grid::InitScreenSlice(VS_INPUT_FLUIDSIM_STRUCT **vertices, int z, int &inde
     float top = 1.0f - py * 2.0f / Height;
     float bottom = 1.0f - ((py + h) * 2.0f / Height);
 
-    tempVertex1.Pos = D3DXVECTOR3(left, top, 0.0f);
-    tempVertex1.Tex = D3DXVECTOR3(0, 0, float(z));
+    tempVertex1.Pos = DirectX::XMFLOAT3(left, top, 0.0f);
+    tempVertex1.Tex = DirectX::XMFLOAT3(0, 0, float(z));
 
-    tempVertex2.Pos = D3DXVECTOR3(right, top, 0.0f);
-    tempVertex2.Tex = D3DXVECTOR3(w, 0, float(z));
+    tempVertex2.Pos = DirectX::XMFLOAT3(right, top, 0.0f);
+    tempVertex2.Tex = DirectX::XMFLOAT3(w, 0, float(z));
 
-    tempVertex3.Pos = D3DXVECTOR3(right, bottom, 0.0f);
-    tempVertex3.Tex = D3DXVECTOR3(w, h, float(z));
+    tempVertex3.Pos = DirectX::XMFLOAT3(right, bottom, 0.0f);
+    tempVertex3.Tex = DirectX::XMFLOAT3(w, h, float(z));
 
-    tempVertex4.Pos = D3DXVECTOR3(left, bottom, 0.0f);
-    tempVertex4.Tex = D3DXVECTOR3(0, h, float(z));
+    tempVertex4.Pos = DirectX::XMFLOAT3(left, bottom, 0.0f);
+    tempVertex4.Tex = DirectX::XMFLOAT3(0, h, float(z));
 
     (*vertices)[index++] = tempVertex1;
     (*vertices)[index++] = tempVertex2;
@@ -211,17 +241,17 @@ void Grid::InitSlice(int z, VS_INPUT_FLUIDSIM_STRUCT **vertices, int &index)
     float top = 1.0f - 2.0f / h;
     float bottom = -1.0f + 2.0f / h;
 
-    tempVertex1.Pos = D3DXVECTOR3(left, top, 0.0f);
-    tempVertex1.Tex = D3DXVECTOR3(1.0f, 1.0f, float(z));
+    tempVertex1.Pos = DirectX::XMFLOAT3(left, top, 0.0f);
+    tempVertex1.Tex = DirectX::XMFLOAT3(1.0f, 1.0f, float(z));
 
-    tempVertex2.Pos = D3DXVECTOR3(right, top, 0.0f);
-    tempVertex2.Tex = D3DXVECTOR3((w - 1.0f), 1.0f, float(z));
+    tempVertex2.Pos = DirectX::XMFLOAT3(right, top, 0.0f);
+    tempVertex2.Tex = DirectX::XMFLOAT3((w - 1.0f), 1.0f, float(z));
 
-    tempVertex3.Pos = D3DXVECTOR3(right, bottom, 0.0f);
-    tempVertex3.Tex = D3DXVECTOR3((w - 1.0f), (h - 1.0f), float(z));
+    tempVertex3.Pos = DirectX::XMFLOAT3(right, bottom, 0.0f);
+    tempVertex3.Tex = DirectX::XMFLOAT3((w - 1.0f), (h - 1.0f), float(z));
 
-    tempVertex4.Pos = D3DXVECTOR3(left, bottom, 0.0f);
-    tempVertex4.Tex = D3DXVECTOR3(1.0f, (h - 1.0f), float(z));
+    tempVertex4.Pos = DirectX::XMFLOAT3(left, bottom, 0.0f);
+    tempVertex4.Tex = DirectX::XMFLOAT3(1.0f, (h - 1.0f), float(z));
 
     (*vertices)[index++] = tempVertex1;
     (*vertices)[index++] = tempVertex2;
@@ -238,12 +268,12 @@ void Grid::InitLine(float x1, float y1, float x2, float y2, int z,
     int w = m_dim[0];
     int h = m_dim[1];
 
-    tempVertex.Pos = D3DXVECTOR3(x1 * 2.0f / w - 1.0f, -y1 * 2.0f / h + 1.0f, 0.5f);
-    tempVertex.Tex = D3DXVECTOR3(0.0f, 0.0f, float(z));
+    tempVertex.Pos = DirectX::XMFLOAT3(x1 * 2.0f / w - 1.0f, -y1 * 2.0f / h + 1.0f, 0.5f);
+    tempVertex.Tex = DirectX::XMFLOAT3(0.0f, 0.0f, float(z));
     (*vertices)[index++] = tempVertex;
 
-    tempVertex.Pos = D3DXVECTOR3(x2 * 2.0f / w - 1.0f, -y2 * 2.0f / h + 1.0f, 0.5f);
-    tempVertex.Tex = D3DXVECTOR3(0.0f, 0.0f, float(z));
+    tempVertex.Pos = DirectX::XMFLOAT3(x2 * 2.0f / w - 1.0f, -y2 * 2.0f / h + 1.0f, 0.5f);
+    tempVertex.Tex = DirectX::XMFLOAT3(0.0f, 0.0f, float(z));
     (*vertices)[index++] = tempVertex;
 }
 
@@ -323,13 +353,11 @@ void Grid::DrawPrimitive(D3D11_PRIMITIVE_TOPOLOGY PrimitiveType, ID3D11InputLayo
 }
 
 HRESULT Grid::CreateLayout(D3D11_INPUT_ELEMENT_DESC *layoutDesc, UINT numElements,
-                           ID3DX11EffectTechnique *technique, ID3D11InputLayout **layout)
+                           ID3D11InputLayout **layout)
 {
     HRESULT hr(S_OK);
-    D3DX11_PASS_DESC PassDesc;
-    technique->GetPassByIndex(0)->GetDesc(&PassDesc);
     V_RETURN(m_pD3DDevice->CreateInputLayout(layoutDesc, numElements,
-                                             PassDesc.pIAInputSignature, PassDesc.IAInputSignatureSize, layout));
+                                             FluidSim_VS_GRID_bytecode, sizeof(FluidSim_VS_GRID_bytecode), layout));
     return S_OK;
 }
 

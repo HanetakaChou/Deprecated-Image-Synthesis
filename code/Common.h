@@ -12,113 +12,59 @@
 //
 // Please direct any bugs or questions to SDKFeedback@nvidia.com
 
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef _COMMON_H_
+#define _COMMON_H_ 1
 
 #include <DXUT.h>
-#include <SDKMisc.h>
-#include <d3dx11effect.h>
-#include "dxut.h"
-#include "strsafe.h"
-
-#define STRSAFE_NO_DEPRECATE
-
-#include <d3dx11effect.h>
-#include "math.h"
-#include "assert.h"
-#include "dxut.h"
 
 // Some common globals shared across
 extern int g_Width;
 extern int g_Height;
 
-#ifndef SAFE_ACQUIRE
-#define SAFE_ACQUIRE(dst, p)   \
-    {                          \
-        if (dst)               \
-        {                      \
-            SAFE_RELEASE(dst); \
-        }                      \
-        if (p)                 \
-        {                      \
-            (p)->AddRef();     \
-        }                      \
-        dst = (p);             \
-    }
-#endif
+// Hair Effect
 
-#define __TSTR_LENGTH 1024
-static TCHAR __tstr[__TSTR_LENGTH];
+void HairEffect_Init(ID3D11Device *device);
 
-#define V_GET_TECHNIQUE(pEffect, pEffectPathTstr, pEffTech, pTechniqueNameStr)                                                                   \
-    pEffTech = pEffect->GetTechniqueByName(pTechniqueNameStr);                                                                                   \
-    if (!pEffTech || !pEffTech->IsValid())                                                                                                       \
-    {                                                                                                                                            \
-        StringCbPrintf(__tstr, __TSTR_LENGTH, TEXT("Failed Getting Technique: \"%hs\" in effect file %s."), pTechniqueNameStr, pEffectPathTstr); \
-        MessageBox(NULL, __tstr, TEXT("Direct3D 10 Effect Init Error - Bad Technique"), MB_ABORTRETRYIGNORE | MB_ICONWARNING);                   \
-        hr = E_FAIL;                                                                                                                             \
-    }
+void HairEffect_SetShaderVariables(float ksP, float ksS, float kd, float ka, float specPowerPrimary, float specPowerSecondary, float ksP_sparkles, float specPowerPrimarySparkles, DirectX::XMFLOAT4 const& baseColor, DirectX::XMFLOAT4 const& specColor);
 
-#define V_GET_TECHNIQUE_RET(pEffect, pEffectPathTstr, pEffTech, pTechniqueNameStr) \
-    V_GET_TECHNIQUE(pEffect, pEffectPathTstr, pEffTech, pTechniqueNameStr)         \
-    if (FAILED(hr))                                                                \
-        return hr;
+void HairEffect_SetFirstPatchHair(int iFirstPatchHair);
 
-#define V_GET_VARIABLE_RET(pEffect, pEffectPathTstr, pEffVar, pVarNameStr, asVariable) \
-    V_GET_VARIABLE(pEffect, pEffectPathTstr, pEffVar, pVarNameStr, asVariable)         \
-    if (FAILED(hr))                                                                    \
-        return hr;
+void HairEffect_SetSubHairFirstVert(int iSubHairFirstVert);
 
-#define V_GET_VARIABLE(pEffect, pEffectPathTstr, pEffVar, pVarNameStr, asVariable)                                                       \
-    pEffVar = pEffect->GetVariableByName(pVarNameStr)->asVariable();                                                                     \
-    if (!pEffVar || !pEffVar->IsValid())                                                                                                 \
-    {                                                                                                                                    \
-        StringCbPrintf(__tstr, __TSTR_LENGTH, TEXT("Failed Getting Variable \"%hs\" in effect file %s."), pVarNameStr, pEffectPathTstr); \
-        MessageBox(NULL, __tstr, TEXT("Direct3D 10 Effect Init Error - Bad Variable"), MB_ABORTRETRYIGNORE | MB_ICONWARNING);            \
-        hr = E_FAIL;                                                                                                                     \
-    }
+void HairEffect_SetAdditionalTransformation(bool bApplyAdditionalRenderingTransform, DirectX::XMFLOAT4X4 const& AdditionalTransformation);
 
-#define V_GET_VARIABLE(pEffect, pEffectPathTstr, pEffVar, pVarNameStr, asVariable)                                                       \
-    pEffVar = pEffect->GetVariableByName(pVarNameStr)->asVariable();                                                                     \
-    if (!pEffVar || !pEffVar->IsValid())                                                                                                 \
-    {                                                                                                                                    \
-        StringCbPrintf(__tstr, __TSTR_LENGTH, TEXT("Failed Getting Variable \"%hs\" in effect file %s."), pVarNameStr, pEffectPathTstr); \
-        MessageBox(NULL, __tstr, TEXT("Direct3D 10 Effect Init Error - Bad Variable"), MB_ABORTRETRYIGNORE | MB_ICONWARNING);            \
-        hr = E_FAIL;                                                                                                                     \
-    }
+void HairEffect_SetLight(DirectX::XMFLOAT3 const& vLightDir, DirectX::XMFLOAT4X4 const& mLightViewProjClip2Tex, DirectX::XMFLOAT4X4 const& mLightView, DirectX::XMFLOAT4X4 const& mLightViewProj);
 
-#define V_GET_VARIABLE_RET(pEffect, pEffectPathTstr, pEffVar, pVarNameStr, asVariable) \
-    V_GET_VARIABLE(pEffect, pEffectPathTstr, pEffVar, pVarNameStr, asVariable)         \
-    if (FAILED(hr))                                                                    \
-        return hr;
+void HairEffect_SetDensityGrid(float textureWidth, float textureHeight, float textureDepth, int rowWidth, int colWidth);
 
-#define V_GET_VARIABLE_RETBOOL(pEffect, pEffectPathTstr, pEffVar, pVarNameStr, asVariable) \
-    V_GET_VARIABLE(pEffect, pEffectPathTstr, pEffVar, pVarNameStr, asVariable)             \
-    if (FAILED(hr))                                                                        \
-        return false;
+void HairEffect_SetFluidObstacleTexture(int fluidTextureWidth, int fluidTextureHeight, int fluidTextureDepth);
 
-HRESULT WINAPI NVUTFindDXSDKMediaFileCch(WCHAR *strDestPath, int cchDest, LPCWSTR strFilename);
-HRESULT WINAPI NVUTFindDXSDKMediaFileCchT(LPTSTR strDestPath, int cchDest, LPCTSTR strFilename);
+void HairEffect_SetGridZIndex(int gridZIndex);
 
-HRESULT MyCreateEffectFromFile(TCHAR *fName, DWORD dwShaderFlags, ID3D11Device *pDevice, ID3DX11Effect **pEffect);
-HRESULT MyCreateEffectFromCompiledFile(TCHAR *fName, DWORD dwShaderFlags, ID3D11Device *pDevice, ID3DX11Effect **pEffect);
-HRESULT CompileShaderFromFile(WCHAR *szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3D10Blob **ppBlobOut);
-HRESULT LoadComputeShader(ID3D11Device *pd3dDevice, WCHAR *szFilename, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3D11ComputeShader **ppComputeShader);
+void HairEffect_Apply_RenderHair_InterpolateAndRenderM_HardwareTess(ID3D11DeviceContext *context);
 
-inline void ComputeRowColsForFlat3DTexture(int depth, int *outCols, int *outRows)
-{
-    // Compute # of rows and cols for a "flat 3D-texture" configuration
-    // (in this configuration all the slices in the volume are spread in a single 2D texture)
-    int rows = (int)floorf(sqrtf((float)depth));
-    int cols = rows;
-    while (rows * cols < depth)
-    {
-        cols++;
-    }
-    assert(rows * cols >= depth);
+void HairEffect_Apply_RenderHair_InterpolateAndRenderS_HardwareTess(ID3D11DeviceContext *context);
 
-    *outCols = cols;
-    *outRows = rows;
-}
+void HairEffect_Apply_RenderHair_InterpolateAndRenderCollisions_HardwareTess(ID3D11DeviceContext *context);
+
+void HairEffect_Apply_TextureDemux(ID3D11DeviceContext* context);
+
+void HairEffect_Apply_VoxelizeObstacles(ID3D11DeviceContext* context);
+
+void HairEffect_Apply_DemuxTo3DFluidObstacles(ID3D11DeviceContext* context);
+
+void FluidSimEffect_Init(ID3D11Device* device);
+
+void FluidSimEffect_SetFluidType(int fluidType);
+
+void FluidSimEffect_SetDrawTextureNumber(int drawTextureNumber);
+
+void FluidSimEffect_SetFluidGrid(float textureWidth, float textureHeight, float textureDepth);
+
+void FluidSimEffect_SetObstBoxcorner(DirectX::XMFLOAT3 const& obstBoxLBDcorner, DirectX::XMFLOAT3 const& obstBoxRTUcorner);
+
+void FluidSimEffect_SetObstBoxVelocity(DirectX::XMFLOAT3 const& obstBoxVelocity);
+
+void FluidSimEffect_Apply_DrawTexture(ID3D11DeviceContext* context);
 
 #endif

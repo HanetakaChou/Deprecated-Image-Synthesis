@@ -12,7 +12,8 @@
 //
 // Please direct any bugs or questions to SDKFeedback@nvidia.com
 
-#pragma once
+#ifndef _SIMPLE_RT_H_
+#define _SIMPLE_RT_H_ 1
 
 class SimpleRT
 {
@@ -154,3 +155,5 @@ public:
 		return pSRV;
 	}
 };
+
+#endif

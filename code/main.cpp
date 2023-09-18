@@ -43,16 +43,14 @@
 #include "Hair.h"
 #include "Fluid.h"
 
-#include "DXUTcamera.h"
-#include "DXUTgui.h"
-#include "DXUTsettingsdlg.h"
-#include "DXUTShapes.h"
-#include <sdkmisc.h>
+#include <DXUTcamera.h>
+#include <DXUTgui.h>
+#include <DXUTsettingsdlg.h>
+#include <SDKmisc.h>
 
-#include "resource.h"
 #include "DensityGrid.h"
 #include "HairShadows.h"
-#include <sdkmesh.h>
+#include <SDKmesh.h>
 
 #include <fstream>
 #include <iostream>
@@ -62,7 +60,9 @@
 #include <stdio.h>
 #include <stddef.h>
 
-#include <Strsafe.h>
+#include <strsafe.h>
+
+#include "../dxbc/HairSimulateCS_bytecode.inl"
 
 using namespace std;
 
@@ -75,7 +75,7 @@ using namespace std;
 
 #define sqr(a) ((a) * (a))
 
-bool g_useSOInterpolatedAttributes = true;
+bool g_useSOInterpolatedAttributes = false;
 INTERPOLATE_MODEL g_InterpolateModel = HYBRID;
 
 // super sampling
@@ -97,17 +97,17 @@ int g_gridSize = 32; // density grid
 static const unsigned NHAIRS_PER_PATCH = 64;
 static const unsigned NSEGMENTS_PER_PATCH = 64;
 
-D3DXMATRIX g_currentHairTransform;
-D3DXMATRIX g_oldHairTransform;
-D3DXMATRIX g_InvInitialTotalTransform;
-D3DXMATRIX g_InvInitialRotationScale;
-D3DXMATRIX g_InitialTotalTransform;
-D3DXMATRIX g_ScalpToMesh;
-D3DXMATRIX g_gridWorldInv;
+DirectX::XMFLOAT4X4 g_currentHairTransform;
+DirectX::XMFLOAT4X4 g_oldHairTransform;
+DirectX::XMFLOAT4X4 g_InvInitialTotalTransform;
+DirectX::XMFLOAT4X4 g_InvInitialRotationScale;
+DirectX::XMFLOAT4X4 g_InitialTotalTransform;
+DirectX::XMFLOAT4X4 g_ScalpToMesh;
+DirectX::XMFLOAT4X4 g_gridWorldInv;
 string g_HairBoneName; // this is the name of the bone that the hair is attached to
-D3DXMATRIX g_ExternalCameraView;
-D3DXVECTOR3 g_ExternalCameraEye;
-D3DXVECTOR3 g_ExternalCameaLookAtPt;
+DirectX::XMFLOAT4X4 g_ExternalCameraView;
+DirectX::XMFLOAT3 g_ExternalCameraEye;
+DirectX::XMFLOAT3 g_ExternalCameaLookAtPt;
 unsigned g_MaxSStrandsPerControlHair = 0;
 unsigned g_MaxMStrandsPerWisp = 0;
 float g_MaxWorldScale = 1;
@@ -168,18 +168,9 @@ TCHAR *g_tstr_interHairForceTypeLabels[] =
 		NULL};
 int g_currentInterHairForcesChoice = 0; // 0 is gradient based
 
-// Any macros to be passed to the shaders used in this sample (for conditional compilation)
-D3DXMACRO g_shadersMacros[] =
-	{
-		NULL};
-D3DXMACRO *g_pShadersMacros = g_shadersMacros;
-
 HairGrid *g_HairGrid = NULL;
 Fluid *g_fluid = NULL;
 
-#define MAX_INTERPOLATED_HAIR_PER_WISP 200 // note the g_NumMStrandsPerWisp variable cannot/should not be larger than this
-int g_NumMStrandsPerWisp = 45;
-int g_NumSStrandsPerWisp = 80;
 int g_SSFACTOR = 2;
 // #define SUPERSAMPLE //undefine this to enable super sampling for the hair, this will reduce the aliasing but will also be costly
 
@@ -206,19 +197,19 @@ bool g_renderGUI = true;
 bool g_firstMovedFrame = true;
 
 float *g_lengths = NULL;
-D3DXVECTOR2 *g_clumpCoordinates = NULL;
+DirectX::XMFLOAT2 *g_clumpCoordinates = NULL;
 float2 *g_randStrandDeviations = NULL;
 float *g_masterStrandLengthToRoot = NULL;
 float *g_masterStrandLengths = NULL;
 float *g_Strand_Sizes = NULL;
-D3DXVECTOR2 *g_tangentJitter = NULL;
-D3DXVECTOR2 *g_BarycentricCoordinates = NULL;
+DirectX::XMFLOAT2 *g_tangentJitter = NULL;
+DirectX::XMFLOAT2 *g_BarycentricCoordinates = NULL;
 Attributes *g_MasterAttributes = NULL;
 
-D3DXMATRIX g_Transform;
-D3DXMATRIX g_RootTransform;
-D3DXMATRIX g_TotalTransform;
-D3DXVECTOR3 g_Center;
+DirectX::XMFLOAT4X4 g_Transform;
+DirectX::XMFLOAT4X4 g_RootTransform;
+DirectX::XMFLOAT4X4 g_TotalTransform;
+DirectX::XMFLOAT3 g_Center;
 bool g_UseTransformations;
 
 // ground plane
@@ -226,7 +217,7 @@ bool g_UseTransformations;
 ID3D11Buffer *g_pPlaneVertexBuffer = NULL;
 ID3D11Buffer *g_pPlaneIndexBuffer = NULL;
 ID3D11InputLayout *g_pPlaneVertexLayout = NULL;
-ID3DX11EffectTechnique *g_pTechniqueRenderPlane = NULL;
+// ID3DX11EffectTechnique *g_pTechniqueRenderPlane = NULL;
 
 D3D11_VIEWPORT g_superSampleViewport;
 
@@ -259,14 +250,10 @@ float g_GravityStrength = 0.5f;
 int g_BlurRadius = 5;
 float g_BlurSigma = 4;
 bool g_useBlurredDensityForInterHairForces = true;
-float g_densityThreshold = 10.4f;
-float g_interHairForces = 0.001f;
 
 // shadows
 HairShadows g_HairShadows;
-bool g_VisShadowMap = false;
 float g_SigmaA = 8.0f;
-float g_SoftEdges = 0.0f;
 bool g_RenderScene = true;
 bool g_RenderScalp = true;
 bool g_RenderFloor = true;
@@ -290,13 +277,6 @@ enum UI_OPTION
 	NUM_UI_OPTIONS
 };
 UI_OPTION g_UIOption = SHOW_HAIR_RENDERING;
-
-TCHAR *g_tstr_uiLabels[] =
-	{
-		TEXT("Simulation UI"),
-		TEXT("Hair Rendering UI"),
-		TEXT("Scene Rendering UI"),
-		NULL};
 
 int g_cameraAndWindPreset = 1;
 int NumCameraAndWindPresets = 3;
@@ -351,10 +331,10 @@ CDXUTDialogResourceManager g_DialogResourceManager; // manager for shared resour
 CD3DSettingsDlg g_D3DSettingsDlg;					// Device settings dialog
 CDXUTDialog g_HUD;									// manages the 3D UI
 CDXUTDialog g_SampleUI;								// dialog for sample specific controls
-ID3DX10Font *g_pFont10;
-ID3DX10Sprite *g_pSprite10;
-ID3DX11Effect *g_Effect;
-TCHAR g_pEffectPath[MAX_PATH];
+// ID3DX10Font *g_pFont10;
+// ID3DX10Sprite *g_pSprite10;
+// ID3DX11Effect *g_Effect;
+// TCHAR g_pEffectPath[MAX_PATH];
 CDXUTTextHelper *g_pTxtHelper = NULL;
 CDXUTDirectionWidget g_windDirectionWidget;
 CDXUTSDKMesh g_MeshArrow;
@@ -370,9 +350,6 @@ float *g_coordinateFrames = NULL;
 bool g_bUseGSTessellation = false;
 bool g_bUseGSInterpolation = false;
 bool g_bUseInstancedInterpolation = true;
-
-// techniques
-ID3DX11EffectTechnique *g_pTechniqueRenderArrow = NULL;
 
 // render targets
 ID3D11RenderTargetView *g_CollisionsRTV = NULL;
@@ -498,34 +475,6 @@ ID3D11ShaderResourceView *g_SStrandsPerMasterStrandCumulative = NULL;
 ID3D11ShaderResourceView *g_MStrandsPerWispCumulative = NULL;
 ID3D11ShaderResourceView *g_HairBaseRV[3];
 
-// effect variables
-ID3DX11EffectScalarVariable *g_pShadowsShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_pDOMShadowsShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_pApplyHForceShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_pCurlyHairShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_pAddGravityShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_pSimulateShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_InterHairForcesShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_AngularStiffnessMultiplierShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_BlurSigmaShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_BlurRadiusShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_UseBlurTextureForForcesShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_UseGradientBasedForceShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_GravityStrengthShaderVariable = NULL;
-ID3DX11EffectScalarVariable *g_UseScalpTextureShaderVariable = NULL;
-ID3DX11EffectVectorVariable *g_ArrowColorShaderVariable = NULL;
-ID3DX11EffectVectorVariable *g_BaseColorShaderVariable = NULL;
-ID3DX11EffectVectorVariable *g_SpecColorShaderVariable = NULL;
-ID3DX11EffectShaderResourceVariable *g_hairTextureArrayShaderVariable = NULL;
-ID3DX11EffectShaderResourceVariable *g_SceneDepthShaderResourceVariable = NULL;
-ID3DX11EffectShaderResourceVariable *g_SceneColor2XShaderResourceVariable = NULL;
-ID3DX11EffectMatrixVariable *g_collisionSphereTransformationsEV = NULL;
-ID3DX11EffectMatrixVariable *g_collisionSphereInverseTransformationsEV = NULL;
-ID3DX11EffectMatrixVariable *g_collisionCylinderTransformationsEV = NULL;
-ID3DX11EffectMatrixVariable *g_collisionCylinderInverseTransformationsEV = NULL;
-ID3DX11EffectMatrixVariable *g_SphereNoMoveImplicitInverseTransformEV = NULL;
-ID3DX11EffectMatrixVariable *g_SphereNoMoveImplicitTransformEV = NULL;
-
 int g_numIndicesFirst;
 int g_numIndicesSecond;
 int g_numIndicesFirstAngular;
@@ -540,7 +489,7 @@ int g_NumMasterStrandControlVertices;
 HairVertex *g_MasterStrandControlVertices = NULL;
 Index *g_MasterStrandControlVertexOffsets = NULL;
 Index *g_TessellatedMasterStrandVertexOffsets = NULL;
-D3DXVECTOR3 *g_masterCVIndices = NULL;
+DirectX::XMFLOAT3 *g_masterCVIndices = NULL;
 
 // Rendering
 int g_NumTessellatedMasterStrandVertices;
@@ -548,12 +497,11 @@ int g_NumTessellatedWisps;
 int g_NumUntessellatedWisps;
 
 const int g_NumStrandVariables = 1024; // size of Interpolated hair variables. this is used for hair thickness, interpolation coordinates
-float g_thinning = 0.5;
 
 bool g_Reset;
 
 // wind
-D3DXVECTOR3 g_windVector = D3DXVECTOR3(0.75089055f, 0.12556140f, 0.64838076f);
+DirectX::XMFLOAT3 g_windVector = DirectX::XMFLOAT3(0.75089055f, 0.12556140f, 0.64838076f);
 
 // collisions
 int g_numSpheres = 0;
@@ -573,10 +521,10 @@ const int g_iCBCSRootXFormBind = 2;
 
 struct CB_CS_PER_FRAME
 {
-	D3DXMATRIX additionalTransformation;
-	D3DXMATRIX RootTransformation;
-	D3DXMATRIX currentHairTransformation;
-	D3DXMATRIX WorldToGrid;
+	DirectX::XMFLOAT4X4 additionalTransformation;
+	DirectX::XMFLOAT4X4 RootTransformation;
+	DirectX::XMFLOAT4X4 currentHairTransformation;
+	DirectX::XMFLOAT4X4 WorldToGrid;
 
 	int bApplyHorizontalForce;
 	int bAddGravity;
@@ -601,19 +549,19 @@ struct CB_CS_TRANSFORMS
 	int g_NumSphereNoMoveImplicits;
 	int padding;
 
-	D3DXMATRIX CollisionSphereTransformations[MAX_IMPLICITS];
-	D3DXMATRIX CollisionSphereInverseTransformations[MAX_IMPLICITS];
-	D3DXMATRIX CollisionCylinderTransformations[MAX_IMPLICITS];
-	D3DXMATRIX CollisionCylinderInverseTransformations[MAX_IMPLICITS];
-	D3DXMATRIX SphereNoMoveImplicitInverseTransform[MAX_IMPLICITS];
+	DirectX::XMFLOAT4X4 CollisionSphereTransformations[MAX_IMPLICITS];
+	DirectX::XMFLOAT4X4 CollisionSphereInverseTransformations[MAX_IMPLICITS];
+	DirectX::XMFLOAT4X4 CollisionCylinderTransformations[MAX_IMPLICITS];
+	DirectX::XMFLOAT4X4 CollisionCylinderInverseTransformations[MAX_IMPLICITS];
+	DirectX::XMFLOAT4X4 SphereNoMoveImplicitInverseTransform[MAX_IMPLICITS];
 };
 
 CB_CS_TRANSFORMS g_cbTransformsInitialData;
 
 struct SimpleVertex
 {
-	D3DXVECTOR3 Pos;
-	D3DXVECTOR4 Color;
+	DirectX::XMFLOAT3 Pos;
+	DirectX::XMFLOAT4 Color;
 };
 
 #define NUM_LINES_MAX 1000
@@ -661,7 +609,7 @@ HRESULT CreateInputLayouts(ID3D11Device *);
 HRESULT CreateMasterStrandIL(ID3D11Device *);
 HRESULT CreateMasterStrandTesselatedInputIL(ID3D11Device *pd3dDevice);
 HRESULT saveHair();
-HRESULT renderInstancedInterpolatedHairForGrid(D3DXMATRIX &worldViewProjection, ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, float ZMin, float ZStep, int numRTs);
+HRESULT renderInstancedInterpolatedHairForGrid(DirectX::XMFLOAT4X4 &worldViewProjection, ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, float ZMin, float ZStep, int numRTs);
 HRESULT LoadTextureArray(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, char *sTexturePrefix, int iNumTextures, ID3D11Texture2D **ppTex2D, ID3D11ShaderResourceView **ppSRV, int offset);
 HRESULT CreatePlane(ID3D11Device *pd3dDevice, float radius, float height);
 HRESULT RepropagateCoordinateFrames(ID3D11DeviceContext *pd3dContext, int iterations);
@@ -671,13 +619,13 @@ HRESULT ExtractAndSetCollisionImplicitMatrices();
 HRESULT ReinitSuperSampleBuffers(ID3D11Device *pd3dDevice);
 
 // helper functions for hair rendering
-void setVariablesForRendering(INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType);
-void unsetVariablesForRendering(INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType);
+void setVariablesForRendering(ID3D11DeviceContext *pd3dContext, INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType);
+void unsetVariablesForRendering(ID3D11DeviceContext *pd3dContext, INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType);
 void renderLineStrip(ID3D11DeviceContext *pd3dContext, int numPoints);
 void renderPointList(ID3D11DeviceContext *pd3dContext, int numPoints);
 void renderPointListInstanced(ID3D11DeviceContext *pd3dContext, int vertexCountPerInstance, int instanceCount);
-void renderHairWithTessellation(ID3D11DeviceContext *pd3dContext, INTERPOLATE_MODEL interpolateMode, ID3DX11EffectPass *pEffectPass);
-bool getEffectPass(INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType, ID3DX11EffectPass **pEffectPass, bool &bUnsetHSandDS);
+void renderHairWithTessellation(ID3D11DeviceContext *pd3dContext, INTERPOLATE_MODEL interpolateMode, void (*pEffectApplyFunc)(ID3D11DeviceContext *));
+void (*getEffectApplyFunc(INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType, bool &bUnsetHSandDS))(ID3D11DeviceContext *);
 
 // helper functios for hair simulation
 void stepFluidSimulation();
@@ -689,13 +637,13 @@ void PlayTransforms();
 HRESULT resetScene(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext);
 void reloadEffect(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext);
 void RenderScreenQuad(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, ID3D11Buffer *buffer);
-void RenderArrow(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, D3DXVECTOR3 pos);
+void RenderArrow(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, DirectX::XMFLOAT3 pos);
 void VisualizeCoordinateFrames(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, bool drawTessellatedCFs);
 void DrawPlane(ID3D11DeviceContext *pd3dContext);
 void changeCameraAndWindPresets();
 void ReleaseResources();
-void vectorMatrixMultiply(D3DXVECTOR3 *vecOut, const D3DXMATRIX matrix, const D3DXVECTOR3 vecIn);
-void vectorMatrixMultiply(D3DXVECTOR4 *vecOut, const D3DXMATRIX matrix, const D3DXVECTOR4 vecIn);
+void vectorMatrixMultiply(DirectX::XMFLOAT3 *vecOut, const DirectX::XMFLOAT4X4 matrix, const DirectX::XMFLOAT3 vecIn);
+void vectorMatrixMultiply(DirectX::XMFLOAT4 *vecOut, const DirectX::XMFLOAT4X4 matrix, const DirectX::XMFLOAT4 vecIn);
 float3 TrasformFromWorldToLocalCF(int index, float3 oldVector);
 void RecreateCoordinateFrames(ID3D11DeviceContext *pd3dContext);
 void RenderText();
@@ -733,14 +681,13 @@ void RenderInterpolatedHair(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dC
 	pd3dContext->IASetInputLayout(NULL);
 
 	// get the effect that we are going to be using, which depends on the interpolateModel, the renderType and on the global variables g_useSOInterpolatedAttributes(are we using StreamOut in the intermediate steps of the Dx10 path?) and g_useDX11(are we using DX11 tessellation?)
-	ID3DX11EffectPass *pEffectPass = 0;
 	bool bUnsetHSandDS = false;
-	bool isValidEffect = getEffectPass(interpolateModel, renderType, &pEffectPass, bUnsetHSandDS);
-	if (!isValidEffect)
+	void (*pEffectApplyFunc)(ID3D11DeviceContext *) = getEffectApplyFunc(interpolateModel, renderType, bUnsetHSandDS);
+	if (!pEffectApplyFunc)
 		return;
 
 	// set the variables needed
-	setVariablesForRendering(interpolateModel, renderType);
+	setVariablesForRendering(pd3dContext, interpolateModel, renderType);
 
 	// set the streamout buffers if we are going to be doing streamout for a subsequent pass
 	if (interpolateModel == MULTI_HYBRID && renderType == SOATTRIBUTES)
@@ -762,162 +709,314 @@ void RenderInterpolatedHair(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dC
 	else
 		pd3dContext->SOSetTargets(0, 0, 0);
 
-	pEffectPass->Apply(0, pd3dContext);
+	pEffectApplyFunc(pd3dContext);
 
 	// do the actual primitive rendering
 	if ((interpolateModel == MULTISTRAND || interpolateModel == MULTI_HYBRID) && renderType == SOATTRIBUTES)
 		renderPointList(pd3dContext, g_TessellatedMasterStrandLengthMax * numMStrands);
 	else if (interpolateModel == SINGLESTRAND && g_useDX11)
-		renderHairWithTessellation(pd3dContext, interpolateModel, pEffectPass);
+		renderHairWithTessellation(pd3dContext, interpolateModel, pEffectApplyFunc);
 	else if (interpolateModel == SINGLESTRAND && renderType == SOATTRIBUTES && !g_useDX11)
 		renderPointList(pd3dContext, g_TessellatedMasterStrandLengthMax * numSStrands);
 	else if (interpolateModel == MULTI_HYBRID && g_useDX11)
-		renderHairWithTessellation(pd3dContext, interpolateModel, pEffectPass);
+		renderHairWithTessellation(pd3dContext, interpolateModel, pEffectApplyFunc);
 	else if (interpolateModel == MULTI_HYBRID && !g_useDX11)
 		renderLineStrip(pd3dContext, g_TessellatedMasterStrandLengthMax * numMStrands);
 	else if (interpolateModel == SINGLESTRAND)
 		renderLineStrip(pd3dContext, g_TessellatedMasterStrandLengthMax * numSStrands);
 	else if (interpolateModel == MULTISTRAND && renderType == INSTANCED_INTERPOLATED_COLLISION && g_useDX11)
-		renderHairWithTessellation(pd3dContext, interpolateModel, pEffectPass);
+		renderHairWithTessellation(pd3dContext, interpolateModel, pEffectApplyFunc);
 	else if (interpolateModel == MULTISTRAND && renderType == INSTANCED_INTERPOLATED_COLLISION && !g_useDX11)
 		renderPointListInstanced(pd3dContext, g_TessellatedMasterStrandLengthMax, numMStrands);
 
 	// unset the variables
-	unsetVariablesForRendering(interpolateModel, renderType);
+	unsetVariablesForRendering(pd3dContext, interpolateModel, renderType);
 	pd3dContext->SOSetTargets(0, 0, 0);
-	pEffectPass->Apply(0, pd3dContext);
+	pEffectApplyFunc(pd3dContext);
 }
 
-void setVariablesForRendering(INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType)
+void setVariablesForRendering(ID3D11DeviceContext *context, INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType)
 {
 	if (g_useDX11)
 	{
-		g_Effect->GetVariableByName("g_iSubHairFirstVert")->AsScalar()->SetInt(0);
-		g_Effect->GetVariableByName("g_iFirstPatchHair")->AsScalar()->SetInt(0);
+		HairEffect_SetSubHairFirstVert(0);
+		HairEffect_SetFirstPatchHair(0);
 	}
 
-	g_useCS ? g_Effect->GetVariableByName("g_MasterStrandSB")->AsShaderResource()->SetResource(g_MasterStrandUAB_SRV) : g_Effect->GetVariableByName("g_MasterStrand")->AsShaderResource()->SetResource(g_MasterStrandRV[g_currentVB]);
-	g_Effect->GetVariableByName("g_TessellatedMasterStrand")->AsShaderResource()->SetResource(g_TessellatedMasterStrandRV);
-	g_Effect->GetVariableByName("g_tessellatedCoordinateFrames")->AsShaderResource()->SetResource(g_TessellatedCoordinateFrameRV);
-	g_Effect->GetVariableByName("g_TessellatedLengthsToRoots")->AsShaderResource()->SetResource(g_TessellatedMasterStrandLengthToRootRV);
-	g_Effect->GetVariableByName("g_TessellatedTangents")->AsShaderResource()->SetResource(g_TessellatedTangentsRV);
-	g_HairGrid->setDemuxTexture();
-	g_HairGrid->setBlurTexture();
-
-	if (renderType != INSTANCED_INTERPOLATED_COLLISION)
-		g_Effect->GetVariableByName("g_CollisionsTexture")->AsShaderResource()->SetResource(g_CollisionsRV);
-
-	if (!g_useDX11)
+	if (g_useCS)
 	{
-		if (g_useSOInterpolatedAttributes && interpolateModel == MULTI_HYBRID && renderType != SOATTRIBUTES)
-		{
-			g_Effect->GetVariableByName("g_InterpolatedPositionAndWidth")->AsShaderResource()->SetResource(g_BarycentricInterpolatedPositionsWidthsRV);
-			g_Effect->GetVariableByName("g_InterpolatedIdAlphaTex")->AsShaderResource()->SetResource(g_BarycentricInterpolatedIdAlphaTexRV);
-			g_Effect->GetVariableByName("g_Interpolatedtangent")->AsShaderResource()->SetResource(g_BarycentricInterpolatedTangentRV);
-		}
-		else if (g_useSOInterpolatedAttributes && interpolateModel == SINGLESTRAND && renderType != SOATTRIBUTES)
-		{
-			g_Effect->GetVariableByName("g_InterpolatedPositionAndWidthClump")->AsShaderResource()->SetResource(g_ClumpInterpolatedPositionsWidthsRV);
-			g_Effect->GetVariableByName("g_InterpolatedIdAlphaTexClump")->AsShaderResource()->SetResource(g_ClumpInterpolatedIdAlphaTexRV);
-			g_Effect->GetVariableByName("g_InterpolatedtangentClump")->AsShaderResource()->SetResource(g_ClumpInterpolatedTangentRV);
-		}
+		context->VSSetShaderResources(SLOT_MASTERSTRANDSB, 1, &g_MasterStrandUAB_SRV);
+		context->HSSetShaderResources(SLOT_MASTERSTRANDSB, 1, &g_MasterStrandUAB_SRV);
+		context->DSSetShaderResources(SLOT_MASTERSTRANDSB, 1, &g_MasterStrandUAB_SRV);
+		context->GSSetShaderResources(SLOT_MASTERSTRANDSB, 1, &g_MasterStrandUAB_SRV);
+		context->PSSetShaderResources(SLOT_MASTERSTRANDSB, 1, &g_MasterStrandUAB_SRV);
 	}
 	else
+	{
+		context->VSSetShaderResources(SLOT_MASTERSTRAND, 1, &g_MasterStrandRV[g_currentVB]);
+		context->HSSetShaderResources(SLOT_MASTERSTRAND, 1, &g_MasterStrandRV[g_currentVB]);
+		context->DSSetShaderResources(SLOT_MASTERSTRAND, 1, &g_MasterStrandRV[g_currentVB]);
+		context->GSSetShaderResources(SLOT_MASTERSTRAND, 1, &g_MasterStrandRV[g_currentVB]);
+		context->PSSetShaderResources(SLOT_MASTERSTRAND, 1, &g_MasterStrandRV[g_currentVB]);
+	}
+
+	context->VSSetShaderResources(SLOT_TESSELLATEDMASTERSTRAND, 1, &g_TessellatedMasterStrandRV);
+	context->HSSetShaderResources(SLOT_TESSELLATEDMASTERSTRAND, 1, &g_TessellatedMasterStrandRV);
+	context->DSSetShaderResources(SLOT_TESSELLATEDMASTERSTRAND, 1, &g_TessellatedMasterStrandRV);
+	context->GSSetShaderResources(SLOT_TESSELLATEDMASTERSTRAND, 1, &g_TessellatedMasterStrandRV);
+	context->PSSetShaderResources(SLOT_TESSELLATEDMASTERSTRAND, 1, &g_TessellatedMasterStrandRV);
+
+	context->VSSetShaderResources(SLOT_TESSELLATEDCOORDINATEFRAMES, 1, &g_TessellatedCoordinateFrameRV);
+	context->HSSetShaderResources(SLOT_TESSELLATEDCOORDINATEFRAMES, 1, &g_TessellatedCoordinateFrameRV);
+	context->DSSetShaderResources(SLOT_TESSELLATEDCOORDINATEFRAMES, 1, &g_TessellatedCoordinateFrameRV);
+	context->GSSetShaderResources(SLOT_TESSELLATEDCOORDINATEFRAMES, 1, &g_TessellatedCoordinateFrameRV);
+	context->PSSetShaderResources(SLOT_TESSELLATEDCOORDINATEFRAMES, 1, &g_TessellatedCoordinateFrameRV);
+
+	context->VSSetShaderResources(SLOT_TESSELLATEDLENGTHSTOROOTS, 1, &g_TessellatedMasterStrandLengthToRootRV);
+	context->HSSetShaderResources(SLOT_TESSELLATEDLENGTHSTOROOTS, 1, &g_TessellatedMasterStrandLengthToRootRV);
+	context->DSSetShaderResources(SLOT_TESSELLATEDLENGTHSTOROOTS, 1, &g_TessellatedMasterStrandLengthToRootRV);
+	context->GSSetShaderResources(SLOT_TESSELLATEDLENGTHSTOROOTS, 1, &g_TessellatedMasterStrandLengthToRootRV);
+	context->PSSetShaderResources(SLOT_TESSELLATEDLENGTHSTOROOTS, 1, &g_TessellatedMasterStrandLengthToRootRV);
+
+	context->VSSetShaderResources(SLOT_TESSELLATEDTANGENTS, 1, &g_TessellatedTangentsRV);
+	context->HSSetShaderResources(SLOT_TESSELLATEDTANGENTS, 1, &g_TessellatedTangentsRV);
+	context->DSSetShaderResources(SLOT_TESSELLATEDTANGENTS, 1, &g_TessellatedTangentsRV);
+	context->GSSetShaderResources(SLOT_TESSELLATEDTANGENTS, 1, &g_TessellatedTangentsRV);
+	context->PSSetShaderResources(SLOT_TESSELLATEDTANGENTS, 1, &g_TessellatedTangentsRV);
+
+	if (renderType != INSTANCED_INTERPOLATED_COLLISION)
+	{
+		context->VSSetShaderResources(SLOT_COLLISIONSTEXTURE, 1, &g_CollisionsRV);
+		context->HSSetShaderResources(SLOT_COLLISIONSTEXTURE, 1, &g_CollisionsRV);
+		context->DSSetShaderResources(SLOT_COLLISIONSTEXTURE, 1, &g_CollisionsRV);
+		context->GSSetShaderResources(SLOT_COLLISIONSTEXTURE, 1, &g_CollisionsRV);
+		context->PSSetShaderResources(SLOT_COLLISIONSTEXTURE, 1, &g_CollisionsRV);
+	}
+
+	if (g_useDX11)
 	{
 		if (interpolateModel == SINGLESTRAND)
 		{
-			g_Effect->GetVariableByName("g_SStrandsPerMasterStrandCumulative")->AsShaderResource()->SetResource(g_SStrandsPerMasterStrandCumulative);
+			context->VSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &g_SStrandsPerMasterStrandCumulative);
+			context->HSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &g_SStrandsPerMasterStrandCumulative);
+			context->DSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &g_SStrandsPerMasterStrandCumulative);
+			context->GSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &g_SStrandsPerMasterStrandCumulative);
+			context->PSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &g_SStrandsPerMasterStrandCumulative);
 		}
 		else
 		{
-			g_Effect->GetVariableByName("g_MStrandsPerWispCumulative")->AsShaderResource()->SetResource(g_MStrandsPerWispCumulative);
+			context->VSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &g_MStrandsPerWispCumulative);
+			context->HSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &g_MStrandsPerWispCumulative);
+			context->DSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &g_MStrandsPerWispCumulative);
+			context->GSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &g_MStrandsPerWispCumulative);
+			context->PSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &g_MStrandsPerWispCumulative);
+		}
+	}
+	else
+	{
+		if (g_useSOInterpolatedAttributes && interpolateModel == MULTI_HYBRID && renderType != SOATTRIBUTES)
+		{
+			context->VSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTH, 1, &g_BarycentricInterpolatedPositionsWidthsRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTH, 1, &g_BarycentricInterpolatedPositionsWidthsRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTH, 1, &g_BarycentricInterpolatedPositionsWidthsRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTH, 1, &g_BarycentricInterpolatedPositionsWidthsRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTH, 1, &g_BarycentricInterpolatedPositionsWidthsRV);
+
+			context->VSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEX, 1, &g_BarycentricInterpolatedIdAlphaTexRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEX, 1, &g_BarycentricInterpolatedIdAlphaTexRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEX, 1, &g_BarycentricInterpolatedIdAlphaTexRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEX, 1, &g_BarycentricInterpolatedIdAlphaTexRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEX, 1, &g_BarycentricInterpolatedIdAlphaTexRV);
+
+			context->VSSetShaderResources(SLOT_INTERPOLATEDTANGENT, 1, &g_BarycentricInterpolatedTangentRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDTANGENT, 1, &g_BarycentricInterpolatedTangentRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDTANGENT, 1, &g_BarycentricInterpolatedTangentRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDTANGENT, 1, &g_BarycentricInterpolatedTangentRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDTANGENT, 1, &g_BarycentricInterpolatedTangentRV);
+		}
+		else if (g_useSOInterpolatedAttributes && interpolateModel == SINGLESTRAND && renderType != SOATTRIBUTES)
+		{
+			context->VSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP, 1, &g_ClumpInterpolatedPositionsWidthsRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP, 1, &g_ClumpInterpolatedPositionsWidthsRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP, 1, &g_ClumpInterpolatedPositionsWidthsRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP, 1, &g_ClumpInterpolatedPositionsWidthsRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP, 1, &g_ClumpInterpolatedPositionsWidthsRV);
+
+			context->VSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEXCLUMP, 1, &g_ClumpInterpolatedIdAlphaTexRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEXCLUMP, 1, &g_ClumpInterpolatedIdAlphaTexRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEXCLUMP, 1, &g_ClumpInterpolatedIdAlphaTexRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEXCLUMP, 1, &g_ClumpInterpolatedIdAlphaTexRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEXCLUMP, 1, &g_ClumpInterpolatedIdAlphaTexRV);
+
+			context->VSSetShaderResources(SLOT_INTERPOLATEDTANGENTCLUMP, 1, &g_ClumpInterpolatedTangentRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDTANGENTCLUMP, 1, &g_ClumpInterpolatedTangentRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDTANGENTCLUMP, 1, &g_ClumpInterpolatedTangentRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDTANGENTCLUMP, 1, &g_ClumpInterpolatedTangentRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDTANGENTCLUMP, 1, &g_ClumpInterpolatedTangentRV);
 		}
 	}
 
-	if (!g_simulate)
-		g_Effect->GetVariableByName("g_bApplyAdditionalRenderingTransform")->AsScalar()->SetBool(true);
-	else
-		g_Effect->GetVariableByName("g_bApplyAdditionalRenderingTransform")->AsScalar()->SetBool(false);
-	g_Effect->GetVariableByName("additionalTransformation")->AsMatrix()->SetMatrix(g_RootTransform);
+	bool bApplyAdditionalRenderingTransform = !g_simulate;
+
+	DirectX::XMFLOAT4X4 const &AdditionalTransformation = g_RootTransform;
+
+	HairEffect_SetAdditionalTransformation(bApplyAdditionalRenderingTransform, AdditionalTransformation);
 
 	if (renderType == INSTANCED_INTERPOLATED_COLLISION)
-		g_HairGrid->setObstacleVoxelizedTexture();
+	{
+		g_HairGrid->setObstacleVoxelizedTexture(context);
+	}
 
 	// bind the shadow texture if we are not actually in the pass that renders the shadows
-	if (renderType != INSTANCED_DEPTH && renderType != INSTANCED_DEPTH_DOM)
-		g_HairShadows.SetHairShadowTexture();
+	if (renderType != INSTANCED_DEPTH)
+	{
+		g_HairShadows.SetHairShadowTexture(context);
+	}
+
+	// g_HairGrid->setDemuxTexture(pd3dContext);
+	// g_HairGrid->setBlurTexture(pd3dContext);
 
 	if (renderType == INSTANCED_DENSITY)
 	{
-		g_HairGrid->setDemuxTexture();
-		g_HairGrid->setBlurTexture();
+		g_HairGrid->setDemuxTexture(context);
+		g_HairGrid->setBlurTexture(context);
 	}
 }
 
-void unsetVariablesForRendering(INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType)
+void unsetVariablesForRendering(ID3D11DeviceContext *context, INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType)
 {
-	g_useCS ? g_Effect->GetVariableByName("g_MasterStrandSB")->AsShaderResource()->SetResource(NULL) : g_Effect->GetVariableByName("g_MasterStrand")->AsShaderResource()->SetResource(NULL);
-	g_Effect->GetVariableByName("g_TessellatedMasterStrand")->AsShaderResource()->SetResource(NULL);
-	g_Effect->GetVariableByName("g_tessellatedCoordinateFrames")->AsShaderResource()->SetResource(NULL);
-	g_Effect->GetVariableByName("g_TessellatedLengthsToRoots")->AsShaderResource()->SetResource(NULL);
-	g_Effect->GetVariableByName("g_TessellatedTangents")->AsShaderResource()->SetResource(NULL);
-	g_HairGrid->unsetDemuxTexture();
-	g_HairGrid->unsetBlurTexture();
+	ID3D11ShaderResourceView *const NULLSRV = NULL;
+
+	if (g_useCS)
+	{
+		context->VSSetShaderResources(SLOT_MASTERSTRANDSB, 1, &NULLSRV);
+		context->HSSetShaderResources(SLOT_MASTERSTRANDSB, 1, &NULLSRV);
+		context->DSSetShaderResources(SLOT_MASTERSTRANDSB, 1, &NULLSRV);
+		context->GSSetShaderResources(SLOT_MASTERSTRANDSB, 1, &NULLSRV);
+		context->PSSetShaderResources(SLOT_MASTERSTRANDSB, 1, &NULLSRV);
+	}
+	else
+	{
+		context->VSSetShaderResources(SLOT_MASTERSTRAND, 1, &NULLSRV);
+		context->HSSetShaderResources(SLOT_MASTERSTRAND, 1, &NULLSRV);
+		context->DSSetShaderResources(SLOT_MASTERSTRAND, 1, &NULLSRV);
+		context->GSSetShaderResources(SLOT_MASTERSTRAND, 1, &NULLSRV);
+		context->PSSetShaderResources(SLOT_MASTERSTRAND, 1, &NULLSRV);
+	}
+
+	context->VSSetShaderResources(SLOT_TESSELLATEDMASTERSTRAND, 1, &NULLSRV);
+	context->HSSetShaderResources(SLOT_TESSELLATEDMASTERSTRAND, 1, &NULLSRV);
+	context->DSSetShaderResources(SLOT_TESSELLATEDMASTERSTRAND, 1, &NULLSRV);
+	context->GSSetShaderResources(SLOT_TESSELLATEDMASTERSTRAND, 1, &NULLSRV);
+	context->PSSetShaderResources(SLOT_TESSELLATEDMASTERSTRAND, 1, &NULLSRV);
+
+	context->VSSetShaderResources(SLOT_TESSELLATEDCOORDINATEFRAMES, 1, &NULLSRV);
+	context->HSSetShaderResources(SLOT_TESSELLATEDCOORDINATEFRAMES, 1, &NULLSRV);
+	context->DSSetShaderResources(SLOT_TESSELLATEDCOORDINATEFRAMES, 1, &NULLSRV);
+	context->GSSetShaderResources(SLOT_TESSELLATEDCOORDINATEFRAMES, 1, &NULLSRV);
+	context->PSSetShaderResources(SLOT_TESSELLATEDCOORDINATEFRAMES, 1, &NULLSRV);
+
+	context->VSSetShaderResources(SLOT_TESSELLATEDLENGTHSTOROOTS, 1, &NULLSRV);
+	context->HSSetShaderResources(SLOT_TESSELLATEDLENGTHSTOROOTS, 1, &NULLSRV);
+	context->DSSetShaderResources(SLOT_TESSELLATEDLENGTHSTOROOTS, 1, &NULLSRV);
+	context->GSSetShaderResources(SLOT_TESSELLATEDLENGTHSTOROOTS, 1, &NULLSRV);
+	context->PSSetShaderResources(SLOT_TESSELLATEDLENGTHSTOROOTS, 1, &NULLSRV);
+
+	context->VSSetShaderResources(SLOT_TESSELLATEDTANGENTS, 1, &NULLSRV);
+	context->HSSetShaderResources(SLOT_TESSELLATEDTANGENTS, 1, &NULLSRV);
+	context->DSSetShaderResources(SLOT_TESSELLATEDTANGENTS, 1, &NULLSRV);
+	context->GSSetShaderResources(SLOT_TESSELLATEDTANGENTS, 1, &NULLSRV);
+	context->PSSetShaderResources(SLOT_TESSELLATEDTANGENTS, 1, &NULLSRV);
+
 	if (renderType != INSTANCED_INTERPOLATED_COLLISION)
-		g_Effect->GetVariableByName("g_CollisionsTexture")->AsShaderResource()->SetResource(NULL);
+	{
+		context->VSSetShaderResources(SLOT_COLLISIONSTEXTURE, 1, &NULLSRV);
+		context->HSSetShaderResources(SLOT_COLLISIONSTEXTURE, 1, &NULLSRV);
+		context->DSSetShaderResources(SLOT_COLLISIONSTEXTURE, 1, &NULLSRV);
+		context->GSSetShaderResources(SLOT_COLLISIONSTEXTURE, 1, &NULLSRV);
+		context->PSSetShaderResources(SLOT_COLLISIONSTEXTURE, 1, &NULLSRV);
+	}
 
-	if (g_useSOInterpolatedAttributes && interpolateModel == MULTI_HYBRID)
+	if (g_useDX11)
 	{
-		if (renderType == INSTANCED_NORMAL_HAIR)
+		if (interpolateModel == SINGLESTRAND)
 		{
-			g_Effect->GetVariableByName("g_InterpolatedPositionAndWidth")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_InterpolatedIdAlphaTex")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_Interpolatedtangent")->AsShaderResource()->SetResource(NULL);
+			context->VSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &NULLSRV);
+			context->HSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &NULLSRV);
+			context->DSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &NULLSRV);
+			context->GSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &NULLSRV);
+			context->PSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &NULLSRV);
 		}
-		else if (renderType == INSTANCED_DEPTH || renderType == INSTANCED_DEPTH_DOM)
+		else
 		{
-			g_Effect->GetVariableByName("g_InterpolatedPositionAndWidth")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_InterpolatedIdAlphaTex")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_Interpolatedtangent")->AsShaderResource()->SetResource(NULL);
-		}
-		else if (renderType == INSTANCED_HAIR_DEPTHPASS)
-		{
-			g_Effect->GetVariableByName("g_InterpolatedPositionAndWidth")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_InterpolatedIdAlphaTex")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_Interpolatedtangent")->AsShaderResource()->SetResource(NULL);
+			context->VSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &NULLSRV);
+			context->HSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &NULLSRV);
+			context->DSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &NULLSRV);
+			context->GSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &NULLSRV);
+			context->PSSetShaderResources(SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE, 1, &NULLSRV);
 		}
 	}
-	if (g_useSOInterpolatedAttributes && interpolateModel == SINGLESTRAND)
+	else
 	{
-		if (renderType == INSTANCED_NORMAL_HAIR)
+		if (g_useSOInterpolatedAttributes && interpolateModel == MULTI_HYBRID && renderType != SOATTRIBUTES)
 		{
-			g_Effect->GetVariableByName("g_InterpolatedPositionAndWidthClump")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_InterpolatedIdAlphaTexClump")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_InterpolatedtangentClump")->AsShaderResource()->SetResource(NULL);
+			context->VSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTH, 1, &NULLSRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTH, 1, &NULLSRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTH, 1, &NULLSRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTH, 1, &NULLSRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTH, 1, &NULLSRV);
+
+			context->VSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEX, 1, &NULLSRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEX, 1, &NULLSRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEX, 1, &NULLSRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEX, 1, &NULLSRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEX, 1, &NULLSRV);
+
+			context->VSSetShaderResources(SLOT_INTERPOLATEDTANGENT, 1, &NULLSRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDTANGENT, 1, &NULLSRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDTANGENT, 1, &NULLSRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDTANGENT, 1, &NULLSRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDTANGENT, 1, &NULLSRV);
 		}
-		else if (renderType == INSTANCED_DEPTH || renderType == INSTANCED_DEPTH_DOM)
+		else if (g_useSOInterpolatedAttributes && interpolateModel == SINGLESTRAND && renderType != SOATTRIBUTES)
 		{
-			g_Effect->GetVariableByName("g_InterpolatedPositionAndWidthClump")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_InterpolatedIdAlphaTexClump")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_InterpolatedtangentClump")->AsShaderResource()->SetResource(NULL);
-		}
-		else if (renderType == INSTANCED_HAIR_DEPTHPASS)
-		{
-			g_Effect->GetVariableByName("g_InterpolatedPositionAndWidthClump")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_InterpolatedIdAlphaTexClump")->AsShaderResource()->SetResource(NULL);
-			g_Effect->GetVariableByName("g_InterpolatedtangentClump")->AsShaderResource()->SetResource(NULL);
+			context->VSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP, 1, &NULLSRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP, 1, &NULLSRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP, 1, &NULLSRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP, 1, &NULLSRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP, 1, &NULLSRV);
+
+			context->VSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEXCLUMP, 1, &NULLSRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEXCLUMP, 1, &NULLSRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEXCLUMP, 1, &NULLSRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEXCLUMP, 1, &NULLSRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDIDALPHATEXCLUMP, 1, &NULLSRV);
+
+			context->VSSetShaderResources(SLOT_INTERPOLATEDTANGENTCLUMP, 1, &NULLSRV);
+			context->HSSetShaderResources(SLOT_INTERPOLATEDTANGENTCLUMP, 1, &NULLSRV);
+			context->DSSetShaderResources(SLOT_INTERPOLATEDTANGENTCLUMP, 1, &NULLSRV);
+			context->GSSetShaderResources(SLOT_INTERPOLATEDTANGENTCLUMP, 1, &NULLSRV);
+			context->PSSetShaderResources(SLOT_INTERPOLATEDTANGENTCLUMP, 1, &NULLSRV);
 		}
 	}
+
 	if (renderType == INSTANCED_INTERPOLATED_COLLISION)
-		g_HairGrid->unsetObstacleVoxelizedTexture();
+	{
+		g_HairGrid->unsetObstacleVoxelizedTexture(context);
+	}
 
+	g_HairShadows.UnSetHairShadowTexture(context);
+
+	g_HairGrid->unsetDemuxTexture(context);
+	g_HairGrid->unsetBlurTexture(context);
+
+#if 0
 	if (renderType == INSTANCED_DENSITY)
 	{
-		g_HairGrid->unsetDemuxTexture();
-		g_HairGrid->unsetBlurTexture();
+		g_HairGrid->unsetDemuxTexture(context);
+		g_HairGrid->unsetBlurTexture(context);
 	}
-
-	g_HairShadows.UnSetHairShadowTexture();
+#endif
 }
 
 void renderPointList(ID3D11DeviceContext *pd3dContext, int numPoints)
@@ -938,27 +1037,31 @@ void renderLineStrip(ID3D11DeviceContext *pd3dContext, int numPoints)
 	pd3dContext->Draw(numPoints, 0);
 }
 
-void renderHairWithTessellation(ID3D11DeviceContext *pd3dContext, INTERPOLATE_MODEL interpolateModel, ID3DX11EffectPass *pEffectPass)
+void renderHairWithTessellation(ID3D11DeviceContext *pd3dContext, INTERPOLATE_MODEL interpolateModel, void (*pEffectApplyFunc)(ID3D11DeviceContext *))
 {
 	if (interpolateModel == MULTISTRAND || interpolateModel == MULTI_HYBRID)
 	{
 		pd3dContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST);
-		for (unsigned int g_iFirstPatchHair = 0;;)
+		for (unsigned int iFirstPatchHair = 0;;)
 		{
-			for (int g_iSubHairFirstVert = 0;;)
+			for (int iSubHairFirstVert = 0;;)
 			{
-				pEffectPass->Apply(0, pd3dContext);
+				pEffectApplyFunc(pd3dContext);
 				pd3dContext->Draw(g_NumWisps, 0);
-				g_iSubHairFirstVert += NSEGMENTS_PER_PATCH;
-				if (g_iSubHairFirstVert >= g_MaxMStrandSegments)
+				iSubHairFirstVert += NSEGMENTS_PER_PATCH;
+				if (iSubHairFirstVert >= g_MaxMStrandSegments)
+				{
 					break;
-				g_Effect->GetVariableByName("g_iSubHairFirstVert")->AsScalar()->SetInt(g_iSubHairFirstVert);
+				}
+				HairEffect_SetSubHairFirstVert(iSubHairFirstVert);
 			}
-			g_iFirstPatchHair += NHAIRS_PER_PATCH;
-			if (g_iFirstPatchHair >= g_MaxMStrandsPerWisp)
+			iFirstPatchHair += NHAIRS_PER_PATCH;
+			if (iFirstPatchHair >= g_MaxMStrandsPerWisp)
+			{
 				break;
-			g_Effect->GetVariableByName("g_iFirstPatchHair")->AsScalar()->SetInt(g_iFirstPatchHair);
-			g_Effect->GetVariableByName("g_iSubHairFirstVert")->AsScalar()->SetInt(0);
+			}
+			HairEffect_SetFirstPatchHair(iFirstPatchHair);
+			HairEffect_SetSubHairFirstVert(0);
 		}
 	}
 	else if (interpolateModel == SINGLESTRAND)
@@ -970,120 +1073,116 @@ void renderHairWithTessellation(ID3D11DeviceContext *pd3dContext, INTERPOLATE_MO
 			pd3dContext->Draw(g_NumMasterStrands, 0);
 			iFirstPatchHair += NHAIRS_PER_PATCH;
 			if (iFirstPatchHair >= g_MaxSStrandsPerControlHair)
+			{
 				break;
-			g_Effect->GetVariableByName("g_iFirstPatchHair")->AsScalar()->SetInt(iFirstPatchHair);
-			pEffectPass->Apply(0, pd3dContext);
+			}
+			HairEffect_SetFirstPatchHair(iFirstPatchHair);
+			pEffectApplyFunc(pd3dContext);
 		}
+
 		// if there are more segments - render the rest (64 in each go)
 		unsigned iSubHairFirstVert = NSEGMENTS_PER_PATCH;
 		while (iSubHairFirstVert < g_TessellatedMasterStrandLengthMax - 1)
 		{
-			g_Effect->GetVariableByName("g_iSubHairFirstVert")->AsScalar()->SetInt(iSubHairFirstVert);
+			HairEffect_SetSubHairFirstVert(iSubHairFirstVert);
 			for (unsigned int iFirstPatchHair = 0;;)
 			{
-				g_Effect->GetVariableByName("g_iFirstPatchHair")->AsScalar()->SetInt(iFirstPatchHair);
-				pEffectPass->Apply(0, pd3dContext);
+				HairEffect_SetFirstPatchHair(iFirstPatchHair);
+				pEffectApplyFunc(pd3dContext);
 				pd3dContext->Draw(g_NumMasterStrands, 0);
 				iFirstPatchHair += NHAIRS_PER_PATCH;
 				if (iFirstPatchHair >= g_MaxSStrandsPerControlHair)
+				{
 					break;
+				}
 			}
 			iSubHairFirstVert += NSEGMENTS_PER_PATCH;
 		}
 	}
 }
 
-bool getEffectPass(INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType, ID3DX11EffectPass **pEffectPass, bool &bUnsetHSandDS)
+void (*getEffectApplyFunc(INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType, bool &bUnsetHSandDS))(ID3D11DeviceContext *)
 {
+	void (*pEffectApplyFunc)(ID3D11DeviceContext *) = NULL;
+
 	// in this interpolation mode we render multistrand interpolated hair, but we detect collisions and switch colliding strand vertices to singlestrand based interpolation
 	if (interpolateModel == MULTI_HYBRID)
 	{
 		if (renderType == INSTANCED_NORMAL_HAIR && g_useSOInterpolatedAttributes && !g_useDX11)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVS_LOAD");
+		{
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVS_LOAD");
+		}
 		else if (renderType == INSTANCED_NORMAL_HAIR && g_useDX11)
 		{
 			bUnsetHSandDS = true;
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateAndRenderM_HardwareTess");
+			pEffectApplyFunc = HairEffect_Apply_RenderHair_InterpolateAndRenderM_HardwareTess;
 		}
 		else if (renderType == INSTANCED_NORMAL_HAIR)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVS");
+		{
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVS");
+		}
 
 		else if (renderType == INSTANCED_DEPTH && g_useDX11)
 		{
 			bUnsetHSandDS = true;
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateAndRenderDepth_HardwareTess");
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateAndRenderDepth_HardwareTess");
 		}
 		else if (renderType == INSTANCED_DEPTH && g_useSOInterpolatedAttributes)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVS_LOAD");
-		else if (renderType == INSTANCED_DEPTH)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVS");
-
-		else if (renderType == INSTANCED_DEPTH_DOM && g_useDX11)
 		{
-			bUnsetHSandDS = true;
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateAndRenderDepth_HardwareTess_DOM");
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVS_LOAD");
 		}
-		else if (renderType == INSTANCED_DEPTH_DOM && g_useSOInterpolatedAttributes)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVS_LOAD_DOM");
-		else if (renderType == INSTANCED_DEPTH_DOM)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVS_DOM");
-
-		else if (renderType == INSTANCED_HAIR_DEPTHPASS && g_useSOInterpolatedAttributes)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthPrepassVS_LOAD");
-		else if (renderType == INSTANCED_HAIR_DEPTHPASS)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthPrepassVS");
-
+		else if (renderType == INSTANCED_DEPTH)
+		{
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVS");
+		}
 		else if (renderType == SOATTRIBUTES)
 		{
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("SO_M_Attributes");
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("SO_M_Attributes");
 		}
 		else
-			return false;
+		{
+			pEffectApplyFunc = NULL;
+		}
 	}
 	else if (interpolateModel == SINGLESTRAND) // singlestrand based interpolation
 	{
 		if (renderType == INSTANCED_NORMAL_HAIR && g_useSOInterpolatedAttributes && !g_useDX11)
 		{
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVSSingleStrand_LOAD");
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVSSingleStrand_LOAD");
 		}
 		else if (renderType == INSTANCED_NORMAL_HAIR && !g_useDX11)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVSSingleStrand");
+		{
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVSSingleStrand");
+		}
 		else if (renderType == INSTANCED_DEPTH && g_useSOInterpolatedAttributes && !g_useDX11)
 		{
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVSSingleStrand_LOAD");
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVSSingleStrand_LOAD");
 		}
 		else if (renderType == INSTANCED_DEPTH && !g_useDX11)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVSSingleStrand");
-
-		else if (renderType == INSTANCED_DEPTH_DOM && g_useSOInterpolatedAttributes && !g_useDX11)
 		{
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVSSingleStrand_LOAD_DOM");
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVSSingleStrand");
 		}
-		else if (renderType == INSTANCED_DEPTH_DOM && !g_useDX11)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVSSingleStrand_DOM");
-
-		else if (renderType == INSTANCED_HAIR_DEPTHPASS && g_useSOInterpolatedAttributes)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVSSingleStrandDepthPrepass_LOAD");
-		else if (renderType == INSTANCED_HAIR_DEPTHPASS)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVSSingleStrandDepthPrepass");
-
 		else if (renderType == SOATTRIBUTES)
 		{
 			assert(!g_useDX11);
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("SO_S_Attributes");
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("SO_S_Attributes");
 		}
 		else if (g_useDX11) // use tessellation to render singlestrand based interpolated hair
 		{
 			bUnsetHSandDS = true;
 			if (renderType == INSTANCED_DEPTH)
-				*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVSSingleStrand11");
-			else if (renderType == INSTANCED_DEPTH_DOM)
-				*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVSSingleStrand11_DOM");
+			{
+				pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedDepthVSSingleStrand11");
+			}
 			else if (renderType == INSTANCED_NORMAL_HAIR)
-				*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateAndRenderS_HardwareTess");
+			{
+				pEffectApplyFunc = HairEffect_Apply_RenderHair_InterpolateAndRenderS_HardwareTess;
+			}
 		}
 		else
-			return false;
+		{
+			pEffectApplyFunc = NULL;
+		}
 	}
 	else if (interpolateModel == MULTISTRAND) // multistrand interpolation without detecting or fixing collisions of interpolated strands with collision geometry
 	{
@@ -1092,20 +1191,28 @@ bool getEffectPass(INTERPOLATE_MODEL interpolateModel, RENDERTYPE renderType, ID
 			if (g_useDX11)
 			{
 				bUnsetHSandDS = true;
-				*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateAndRenderCollisions_HardwareTess");
+				pEffectApplyFunc = HairEffect_Apply_RenderHair_InterpolateAndRenderCollisions_HardwareTess;
 			}
 			else
-				*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedBaryCentricCollisions");
+			{
+				pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedBaryCentricCollisions");
+			}
 		}
 		else if (renderType == INSTANCED_COLLISION_RESULTS)
-			*pEffectPass = g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVSRenderCollisionsNormal");
+		{
+			pEffectApplyFunc = NULL; // g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("InterpolateInstancedVSRenderCollisionsNormal");
+		}
 		else
-			return false;
+		{
+			pEffectApplyFunc = NULL;
+		}
 	}
 	else
-		return false;
+	{
+		pEffectApplyFunc = NULL;
+	}
 
-	return true;
+	return pEffectApplyFunc;
 }
 
 //------------------------------------------------------------------------------------------
@@ -1142,13 +1249,12 @@ HRESULT StepHairSimulation(ID3D11DeviceContext *pd3dContext, ID3D11Device *pd3dD
 void stepFluidSimulation()
 {
 	// transform wind to be in the correct coordinate frame
-	D3DXVECTOR3 transformedWind;
-	D3DXVECTOR3 windNormVector = g_windDirectionWidget.GetLightDirection();
-	D3DXVec3Normalize(&windNormVector, &windNormVector);
-	D3DXVec3TransformCoord(&transformedWind, &windNormVector, &g_InvInitialRotationScale);
-	D3DXVec3Normalize(&transformedWind, &transformedWind);
+	DirectX::XMVECTOR windNormVector = g_windDirectionWidget.GetLightDirection();
+	windNormVector = DirectX::XMVector3Normalize(windNormVector);
+	DirectX::XMVECTOR transformedWind = DirectX::XMVector3TransformCoord(windNormVector, DirectX::XMLoadFloat4x4(&g_InvInitialRotationScale));
+	transformedWind =  DirectX::XMVector3Normalize(transformedWind);
 
-	D3DXVECTOR3 gridCenter = D3DXVECTOR3(g_fluidGridWidth / 2.0, g_fluidGridHeight / 2.0, g_fluidGridDepth / 2.0);
+	DirectX::XMFLOAT3 gridCenter = DirectX::XMFLOAT3(g_fluidGridWidth / 2.0, g_fluidGridHeight / 2.0, g_fluidGridDepth / 2.0);
 	float center[4] = {gridCenter.x - transformedWind.x * gridCenter.x,
 					   gridCenter.y - transformedWind.y * gridCenter.y,
 					   gridCenter.z - transformedWind.z * gridCenter.z, 0};
@@ -1236,10 +1342,15 @@ HRESULT stepHairSimulationDX11(ID3D11DeviceContext *pd3dContext, int frame)
 	pPerFrame->RootTransformation = g_RootTransform;
 	pPerFrame->currentHairTransformation = g_currentHairTransform;
 	pPerFrame->WorldToGrid = g_gridWorldInv;
-	D3DXMATRIX additionalTransformMatrix;
-	D3DXMatrixIdentity(&additionalTransformMatrix);
+	DirectX::XMFLOAT4X4 additionalTransformMatrix;
 	if (g_bApplyAdditionalTransform)
+	{
 		additionalTransformMatrix = g_RootTransform;
+	}
+	else
+	{
+		DirectX::XMStoreFloat4x4(&additionalTransformMatrix, DirectX::XMMatrixIdentity());
+	}
 	pPerFrame->additionalTransformation = additionalTransformMatrix;
 	pPerFrame->integrate = frame < 5 ? false : true;
 	pPerFrame->bApplyAdditionalTransform = g_bApplyAdditionalTransform;
@@ -1435,7 +1546,7 @@ HRESULT stepHairSimulationDX10(ID3D11DeviceContext *pd3dContext, int frame)
 			if (g_useAngularStiffness)
 			{
 				strides[0] = sizeof(HairVertex);
-				strides[1] = sizeof(D3DXVECTOR2);
+				strides[1] = sizeof(DirectX::XMFLOAT2);
 
 				// first batch of angular-linear springs
 				buffers[0] = g_MasterStrandVB[g_currentVB];
@@ -1534,15 +1645,15 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *pd3dDevice, ID3D11DeviceContext *
 
 	// animate the mesh------------------------------------------------------------------------
 
-	D3DXMATRIX HairTransform;
-	D3DXMatrixIdentity(&HairTransform);
+	DirectX::XMFLOAT4X4 HairTransform;
+	DirectX::XMMatrixIdentity(&HairTransform);
 
 	// mouse transformations for scalp and hair
 	if (g_firstFrame)
 	{
-		D3DXMatrixIdentity(&g_InitialTotalTransform);
-		D3DXMatrixIdentity(&g_InvInitialTotalTransform);
-		D3DXMatrixIdentity(&g_InvInitialRotationScale);
+		DirectX::XMMatrixIdentity(&g_InitialTotalTransform);
+		DirectX::XMMatrixIdentity(&g_InvInitialTotalTransform);
+		DirectX::XMMatrixIdentity(&g_InvInitialRotationScale);
 	}
 	if (g_UseTransformations)
 	{
@@ -1550,15 +1661,15 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *pd3dDevice, ID3D11DeviceContext *
 		g_UseTransformations = false;
 	}
 	else
-		D3DXMatrixIdentity(&g_Transform);
+		DirectX::XMMatrixIdentity(&g_Transform);
 
 	g_currentHairTransform = g_TotalTransform;
 
 	//-----------------------------------------------------------------------------------
 	// View and projection matrices
-	D3DXMATRIX projection;
-	D3DXMATRIX view;
-	D3DXVECTOR3 eyePosition;
+	DirectX::XMFLOAT4X4 projection;
+	DirectX::XMFLOAT4X4 view;
+	DirectX::XMFLOAT3 eyePosition;
 	// Get the projection & view matrix from the camera class
 	projection = *g_Camera.GetProjMatrix();
 	if (g_useSkinnedCam)
@@ -1573,32 +1684,32 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *pd3dDevice, ID3D11DeviceContext *
 	}
 
 	// View projection matrix
-	D3DXMATRIX viewProjection;
+	DirectX::XMFLOAT4X4 viewProjection;
 	viewProjection = view * projection;
 
 	// mesh world matrix; setting to identity currently
-	D3DXMATRIX meshWorld;
-	D3DXMatrixIdentity(&meshWorld);
+	DirectX::XMFLOAT4X4 meshWorld;
+	DirectX::XMMatrixIdentity(&meshWorld);
 
-	D3DXMATRIX transformViewProjection;
+	DirectX::XMFLOAT4X4 transformViewProjection;
 
-	D3DXVECTOR3 old_center = D3DXVECTOR3(0, 0, 0);
+	DirectX::XMFLOAT3 old_center = DirectX::XMFLOAT3(0, 0, 0);
 	D3DXVec3TransformCoord(&g_Center, &old_center, &g_TotalTransform);
-	D3DXMATRIX currentHairTransformInverse;
-	D3DXMatrixInverse(&currentHairTransformInverse, NULL, &g_currentHairTransform);
+	DirectX::XMFLOAT4X4 currentHairTransformInverse;
+	DirectX::XMMatrixInverse(&currentHairTransformInverse, NULL, &g_currentHairTransform);
 	V(g_Effect->GetVariableByName("currentHairTransformation")->AsMatrix()->SetMatrix(g_currentHairTransform));
 	V(g_Effect->GetVariableByName("currentHairTransformationInverse")->AsMatrix()->SetMatrix(currentHairTransformInverse));
-	D3DXMATRIX WorldViewProjection = HairTransform * viewProjection;
+	DirectX::XMFLOAT4X4 WorldViewProjection = HairTransform * viewProjection;
 	transformViewProjection = g_TotalTransform * viewProjection;
 	V(g_Effect->GetVariableByName("RootTransformation")->AsMatrix()->SetMatrix(g_RootTransform));
 	V(g_Effect->GetVariableByName("HairToWorldTransform")->AsMatrix()->SetMatrix(g_InitialTotalTransform));
 	V(g_Effect->GetVariableByName("TotalTransformation")->AsMatrix()->SetMatrix(g_TotalTransform));
-	D3DXVECTOR3 transformedEyePosition; // transform the eye position from world space into the hair space
+	DirectX::XMFLOAT3 transformedEyePosition; // transform the eye position from world space into the hair space
 	D3DXVec3TransformCoord(&transformedEyePosition, &eyePosition, &g_InvInitialTotalTransform);
 
-	D3DXVECTOR3 lightVector = g_HairShadows.GetLightWorldDir();
+	DirectX::XMFLOAT3 lightVector = g_HairShadows.GetLightWorldDir();
 
-	D3DXVECTOR3 transformedLight;
+	DirectX::XMFLOAT3 transformedLight;
 	D3DXVec3TransformCoord(&transformedLight, &lightVector, &g_InvInitialRotationScale);
 	D3DXVec3Normalize(&transformedLight, &transformedLight);
 	V(g_Effect->GetVariableByName("vLightDirObjectSpace")->AsVector()->SetFloatVector(transformedLight));
@@ -1635,11 +1746,11 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *pd3dDevice, ID3D11DeviceContext *
 
 	g_windVector = g_windDirectionWidget.GetLightDirection();
 	D3DXVec3Normalize(&g_windVector, &g_windVector);
-	D3DXVECTOR3 windNormVector = g_windVector;
+	DirectX::XMFLOAT3 windNormVector = g_windVector;
 	g_windVector *= g_WindForce;
 	V(g_Effect->GetVariableByName("windForce")->AsVector()->SetFloatVector((float *)&g_windVector));
 
-	D3DXVECTOR3 vWindForce = g_windVector * g_windDirectionWidget.GetRadius() * 10;
+	DirectX::XMFLOAT3 vWindForce = g_windVector * g_windDirectionWidget.GetRadius() * 10;
 	float greenColor[4] = {0, 1, 0, 1};
 	g_ArrowColorShaderVariable->SetFloatVector(greenColor);
 	RenderArrow(pd3dDevice, pd3dContext, vWindForce);
@@ -1694,17 +1805,17 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *pd3dDevice, ID3D11DeviceContext *
 	//---------------------------------------------------------------------------------------
 
 	// World matrix for grid
-	D3DXMATRIX gridScale;
+	DirectX::XMFLOAT4X4 gridScale;
 	float diameter = (g_maxHairLengthHairSpace + g_scalpMaxRadiusHairSpace) * 2.0;
-	D3DXMatrixScaling(&gridScale, diameter, diameter, diameter);
-	D3DXMATRIX gridWorld = gridScale * g_currentHairTransform;
+	DirectX::XMMatrixScaling(&gridScale, diameter, diameter, diameter);
+	DirectX::XMFLOAT4X4 gridWorld = gridScale * g_currentHairTransform;
 
 	// World View projection matrix for grid
-	D3DXMATRIX worldViewProjectionGrid;
+	DirectX::XMFLOAT4X4 worldViewProjectionGrid;
 	worldViewProjectionGrid = gridWorld * viewProjection;
 
-	D3DXMatrixInverse(&g_gridWorldInv, NULL, &gridWorld);
-	D3DXMATRIX objToVolumeXForm = g_gridWorldInv;
+	DirectX::XMMatrixInverse(&g_gridWorldInv, NULL, &gridWorld);
+	DirectX::XMFLOAT4X4 objToVolumeXForm = g_gridWorldInv;
 
 	V(g_Effect->GetVariableByName("WorldToGrid")->AsMatrix()->SetMatrix(g_gridWorldInv));
 	V(g_Effect->GetVariableByName("GridToWorld")->AsMatrix()->SetMatrix(gridWorld));
@@ -1865,7 +1976,7 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *pd3dDevice, ID3D11DeviceContext *
 		V(g_Effect->GetVariableByName("ViewProjection")->AsMatrix()->SetMatrix(g_HairShadows.GetLightWorldViewProj()));
 		V(g_Effect->GetVariableByName("TransformedEyePosition")->AsVector()->SetFloatVector(g_HairShadows.GetLightCenterWorld()));
 		pd3dContext->IASetInputLayout(g_MasterStrandIL);
-		g_HairShadows.BeginShadowMapRendering(pd3dDevice, pd3dContext);
+		g_HairShadows.BeginShadowMapRendering(pd3dContext);
 		{
 			if (g_InterpolateModel == HYBRID)
 			{
@@ -1900,12 +2011,6 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *pd3dDevice, ID3D11DeviceContext *
 	pd3dContext->OMSetRenderTargets(1, &pRTV, pDSV);
 #endif
 
-	if (g_VisShadowMap)
-	{
-		g_HairShadows.VisualizeShadowMap(pd3dDevice, pd3dContext);
-		return;
-	}
-
 	V(g_Effect->GetVariableByName("ViewProjection")->AsMatrix()->SetMatrix(WorldViewProjection));
 	V(g_Effect->GetVariableByName("TransformedEyePosition")->AsVector()->SetFloatVector(transformedEyePosition));
 
@@ -1927,11 +2032,11 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *pd3dDevice, ID3D11DeviceContext *
 
 	if (g_RenderFloor && g_RenderScene)
 	{
-		D3DXVECTOR3 lightVector = g_HairShadows.GetLightWorldDir();
-		D3DXVECTOR3 transformedLight;
+		DirectX::XMFLOAT3 lightVector = g_HairShadows.GetLightWorldDir();
+		DirectX::XMFLOAT3 transformedLight;
 		D3DXVec3TransformCoord(&transformedLight, &lightVector, &g_InvInitialRotationScale);
 		D3DXVec3Normalize(&transformedLight, &transformedLight);
-		D3DXVECTOR3 lightPos = g_Center - lightVector;
+		DirectX::XMFLOAT3 lightPos = g_Center - lightVector;
 
 		V(g_Effect->GetVariableByName("ViewProjection")->AsMatrix()->SetMatrix(viewProjection));
 		V(g_Effect->GetVariableByName("vLightPos")->AsVector()->SetFloatVector(lightPos));
@@ -2073,8 +2178,8 @@ HRESULT resetScene(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext)
 	g_firstMovedFrame = true;
 	g_firstFrame = true;
 	g_hairReset = true;
-	D3DXMatrixIdentity(&g_Transform);
-	D3DXMatrixIdentity(&g_TotalTransform);
+	DirectX::XMMatrixIdentity(&g_Transform);
+	DirectX::XMMatrixIdentity(&g_TotalTransform);
 
 	g_playTransforms = false;
 	g_SampleUI.GetCheckBox(IDC_PLAY_TRANSFORMS)->SetChecked(g_playTransforms);
@@ -2114,10 +2219,10 @@ void PlayTransforms()
 			v20, v21, v22, v23,
 			v30, v31, v32, v33;
 		g_transformsFileIn >> v00 >> v01 >> v02 >> v03 >> v10 >> v11 >> v12 >> v13 >> v20 >> v21 >> v22 >> v23 >> v30 >> v31 >> v32 >> v33;
-		g_Transform = D3DXMATRIX(v00, v01, v02, v03,
-								 v10, v11, v12, v13,
-								 v20, v21, v22, v23,
-								 v30, v31, v32, v33);
+		g_Transform = DirectX::XMFLOAT4X4(v00, v01, v02, v03,
+										  v10, v11, v12, v13,
+										  v20, v21, v22, v23,
+										  v30, v31, v32, v33);
 		g_UseTransformations = true;
 	}
 	else
@@ -2128,7 +2233,7 @@ void PlayTransforms()
 		g_UseTransformations = false;
 		g_SampleUI.GetCheckBox(IDC_PLAY_TRANSFORMS)->SetChecked(g_playTransforms);
 
-		D3DXMatrixIdentity(&g_TotalTransform); // clear previous transformations before playing
+		DirectX::XMMatrixIdentity(&g_TotalTransform); // clear previous transformations before playing
 		g_RestoreHairStrandsToDefault = true;
 
 		TCHAR RecordedTransformsFile[MAX_PATH];
@@ -2288,12 +2393,12 @@ void CALLBACK OnFrameMove(double fTime, float fElapsedTime, void *pUserContext)
 	// Update the camera's position based on user input
 	g_Camera.FrameMove(fElapsedTime);
 	g_HairShadows.GetCamera().FrameMove(fElapsedTime);
-	D3DXVECTOR3 bbExtents = D3DXVECTOR3((g_maxHairLengthWorld + g_scalpMaxRadiusWorld),
-										(g_maxHairLengthWorld + g_scalpMaxRadiusWorld),
-										(g_maxHairLengthWorld + g_scalpMaxRadiusWorld));
+	DirectX::XMFLOAT3 bbExtents = DirectX::XMFLOAT3((g_maxHairLengthWorld + g_scalpMaxRadiusWorld),
+													(g_maxHairLengthWorld + g_scalpMaxRadiusWorld),
+													(g_maxHairLengthWorld + g_scalpMaxRadiusWorld));
 	g_HairShadows.UpdateMatrices(g_Center, bbExtents);
 
-	D3DXVECTOR3 v = *g_Camera.GetEyePt() - g_Center;
+	DirectX::XMFLOAT3 v = *g_Camera.GetEyePt() - g_Center;
 	double fDist = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 	// LOD has to be updated according to distance from camera
 
@@ -2377,49 +2482,49 @@ void changeCameraAndWindPresets()
 {
 	if (g_cameraAndWindPreset == 0)
 	{
-		g_windVector = D3DXVECTOR3(0.75089055f, 0.12556140f, 0.64838076f);
+		g_windVector = DirectX::XMFLOAT3(0.75089055f, 0.12556140f, 0.64838076f);
 		g_windDirectionWidget.SetLightDirection(g_windVector);
 		g_applyHForce = true;
 		g_WindForce = 0.08f;
 
-		D3DXVECTOR3 at = D3DXVECTOR3(0, 0, 0);
-		D3DXVECTOR3 lightPos = D3DXVECTOR3(4.7908502f, 18.887268f, -9.7619190f);
+		DirectX::XMFLOAT3 at = DirectX::XMFLOAT3(0, 0, 0);
+		DirectX::XMFLOAT3 lightPos = DirectX::XMFLOAT3(4.7908502f, 18.887268f, -9.7619190f);
 		g_HairShadows.GetCamera().Reset();
 		g_HairShadows.GetCamera().SetViewParams(&lightPos, &at);
 
-		D3DXVECTOR3 eyePos = D3DXVECTOR3(0.0f, -1.0f, -15.0f);
+		DirectX::XMFLOAT3 eyePos = DirectX::XMFLOAT3(0.0f, -1.0f, -15.0f);
 		g_Camera.SetViewParams(&eyePos, &at);
 	}
 	else if (g_cameraAndWindPreset == 1)
 	{
-		g_windVector = D3DXVECTOR3(0.75089055f, 0.12556140f, 0.64838076f);
+		g_windVector = DirectX::XMFLOAT3(0.75089055f, 0.12556140f, 0.64838076f);
 		g_windDirectionWidget.SetLightDirection(g_windVector);
 		g_applyHForce = true;
 		g_WindForce = 0.05f;
 		g_windImpulseRandomness = 0.16f;
 		g_windImpulseRandomnessSmoothingInterval = 15;
 
-		D3DXVECTOR3 at = D3DXVECTOR3(0, 0, 0);
-		D3DXVECTOR3 lightPos = D3DXVECTOR3(2.19152f, 15.6187f, -14.4954f);
+		DirectX::XMFLOAT3 at = DirectX::XMFLOAT3(0, 0, 0);
+		DirectX::XMFLOAT3 lightPos = DirectX::XMFLOAT3(2.19152f, 15.6187f, -14.4954f);
 		g_HairShadows.GetCamera().Reset();
 		g_HairShadows.GetCamera().SetViewParams(&lightPos, &at);
 
-		D3DXVECTOR3 eyePos = D3DXVECTOR3(-9.81684f, -0.238484f, -15.0457f);
+		DirectX::XMFLOAT3 eyePos = DirectX::XMFLOAT3(-9.81684f, -0.238484f, -15.0457f);
 		g_Camera.SetViewParams(&eyePos, &at);
 	}
 	else if (g_cameraAndWindPreset == 2)
 	{
-		g_windVector = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+		g_windVector = DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f);
 		g_windDirectionWidget.SetLightDirection(g_windVector);
 		g_applyHForce = false;
 		g_WindForce = 0.08f;
 
-		D3DXVECTOR3 at = D3DXVECTOR3(0, 0, 0);
-		D3DXVECTOR3 lightPos = D3DXVECTOR3(-11.6984f, 16.5866f, 13.4442f);
+		DirectX::XMFLOAT3 at = DirectX::XMFLOAT3(0, 0, 0);
+		DirectX::XMFLOAT3 lightPos = DirectX::XMFLOAT3(-11.6984f, 16.5866f, 13.4442f);
 		g_HairShadows.GetCamera().Reset();
 		g_HairShadows.GetCamera().SetViewParams(&lightPos, &at);
 
-		D3DXVECTOR3 eyePos = D3DXVECTOR3(9.0111f, -0.293344f, 14.9507f);
+		DirectX::XMFLOAT3 eyePos = DirectX::XMFLOAT3(9.0111f, -0.293344f, 14.9507f);
 		g_Camera.SetViewParams(&eyePos, &at);
 	}
 
@@ -2490,12 +2595,6 @@ void CALLBACK OnKeyboard(UINT nChar, bool bKeyDown, bool bAltDown, void *pUserCo
 		g_takeImage = true;
 		break;
 	}
-	case 'v':
-	case 'V':
-	{
-		g_VisShadowMap = !g_VisShadowMap;
-		break;
-	}
 	}
 }
 
@@ -2503,14 +2602,14 @@ void CALLBACK OnKeyboard(UINT nChar, bool bKeyDown, bool bAltDown, void *pUserCo
 // move the model
 //--------------------------------------------------------------------------------------
 
-void WorldToScreen(const D3DXVECTOR3 &position, float &x, float &y)
+void WorldToScreen(const DirectX::XMFLOAT3 &position, float &x, float &y)
 {
-	D3DXVECTOR3 screenPosition;
-	D3DXMATRIX projection;
-	D3DXMATRIX view;
+	DirectX::XMFLOAT3 screenPosition;
+	DirectX::XMFLOAT4X4 projection;
+	DirectX::XMFLOAT4X4 view;
 	projection = *g_Camera.GetProjMatrix();
 	view = *g_Camera.GetViewMatrix();
-	D3DXMATRIX viewProjection;
+	DirectX::XMFLOAT4X4 viewProjection;
 	viewProjection = view * projection;
 
 	D3DXVec3TransformCoord(&screenPosition, &position, &viewProjection);
@@ -2518,7 +2617,7 @@ void WorldToScreen(const D3DXVECTOR3 &position, float &x, float &y)
 	y = (-screenPosition.y + 1) * g_Height / 2;
 }
 
-D3DXVECTOR3 ScreenToTrackballPoint(float x, float y)
+DirectX::XMFLOAT3 ScreenToTrackballPoint(float x, float y)
 {
 	float scale = 4;
 	x = -x / (scale * g_Width / 2);
@@ -2533,15 +2632,15 @@ D3DXVECTOR3 ScreenToTrackballPoint(float x, float y)
 	}
 	else
 		z = sqrtf(1.0f - mag);
-	return D3DXVECTOR3(x, y, z);
+	return DirectX::XMFLOAT3(x, y, z);
 }
 
 void MoveModel(HWND hWnd, int msg, WPARAM wParam, LPARAM lParam)
 {
 	static LPARAM g_LastMouse;
-	static D3DXVECTOR3 g_LastTrackballPoint;
+	static DirectX::XMFLOAT3 g_LastTrackballPoint;
 	static bool g_ModelIsMoved;
-	static D3DXMATRIX g_PivotMatrix, g_PivotMatrixInv;
+	static DirectX::XMFLOAT4X4 g_PivotMatrix, g_PivotMatrixInv;
 	static float g_ScreenModelCenterX, g_ScreenModelCenterY;
 
 	int mouseX = (short)LOWORD(lParam);
@@ -2552,12 +2651,12 @@ void MoveModel(HWND hWnd, int msg, WPARAM wParam, LPARAM lParam)
 	case WM_MBUTTONDOWN:
 		// Pivot transform
 		{
-			D3DXMATRIX pivotTranslation;
-			D3DXMatrixTranslation(&pivotTranslation, -g_Center.x, -g_Center.y, -g_Center.z);
-			D3DXMATRIX pivotRotation = *g_Camera.GetViewMatrix();
+			DirectX::XMFLOAT4X4 pivotTranslation;
+			DirectX::XMMatrixTranslation(&pivotTranslation, -g_Center.x, -g_Center.y, -g_Center.z);
+			DirectX::XMFLOAT4X4 pivotRotation = *g_Camera.GetViewMatrix();
 			pivotRotation(3, 0) = pivotRotation(3, 1) = pivotRotation(3, 2) = 0;
 			g_PivotMatrix = pivotTranslation * pivotRotation;
-			D3DXMatrixInverse(&g_PivotMatrixInv, 0, &g_PivotMatrix);
+			DirectX::XMMatrixInverse(&g_PivotMatrixInv, 0, &g_PivotMatrix);
 		}
 
 		WorldToScreen(g_Center, g_ScreenModelCenterX, g_ScreenModelCenterY);
@@ -2568,8 +2667,8 @@ void MoveModel(HWND hWnd, int msg, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 		if (g_ModelIsMoved)
 		{
-			D3DXMATRIX transform;
-			D3DXMatrixIdentity(&transform);
+			DirectX::XMFLOAT4X4 transform;
+			DirectX::XMMatrixIdentity(&transform);
 
 			// Translate
 			if (wParam & MK_RBUTTON)
@@ -2577,19 +2676,19 @@ void MoveModel(HWND hWnd, int msg, WPARAM wParam, LPARAM lParam)
 				float scale = 2;
 				float dx = (scale * ((short)LOWORD(g_LastMouse) - mouseX)) / g_Width;
 				float dy = (scale * ((short)HIWORD(g_LastMouse) - mouseY)) / g_Height;
-				D3DXMatrixTranslation(&transform, -dx, dy, 0);
+				DirectX::XMMatrixTranslation(&transform, -dx, dy, 0);
 				g_LastMouse = lParam;
 			}
 
 			// Rotate
 			else if (wParam & MK_MBUTTON)
 			{
-				D3DXVECTOR3 trackballPoint = ScreenToTrackballPoint(mouseX - g_ScreenModelCenterX, mouseY - g_ScreenModelCenterY);
-				D3DXVECTOR3 crossV;
+				DirectX::XMFLOAT3 trackballPoint = ScreenToTrackballPoint(mouseX - g_ScreenModelCenterX, mouseY - g_ScreenModelCenterY);
+				DirectX::XMFLOAT3 crossV;
 				D3DXVec3Cross(&crossV, &g_LastTrackballPoint, &trackballPoint);
 				float dotV = D3DXVec3Dot(&g_LastTrackballPoint, &trackballPoint);
 				D3DXQUATERNION dq(crossV.x, crossV.y, crossV.z, dotV);
-				D3DXMatrixRotationQuaternion(&transform, &dq);
+				DirectX::XMMatrixRotationQuaternion(&transform, &dq);
 				g_LastTrackballPoint = trackballPoint;
 			}
 
@@ -2647,7 +2746,7 @@ void CALLBACK OnGUIEvent(UINT nEvent, int nControlID, CDXUTControl *pControl, vo
 		// if we are not simulating then we start accumulating the transforms that have to be applied
 		// to the hair root vertices when we do start simulating again
 		if (!g_simulate)
-			D3DXMatrixIdentity(&g_RootTransform);
+			DirectX::XMMatrixIdentity(&g_RootTransform);
 		break;
 	}
 	case IDC_SHOW_SCENE:
@@ -2678,7 +2777,7 @@ void CALLBACK OnGUIEvent(UINT nEvent, int nControlID, CDXUTControl *pControl, vo
 	case IDC_COMBO_SHADING:
 	{
 		g_currHairShadingParams = (UI_OPTION)g_SampleUI.GetComboBox(IDC_COMBO_SHADING)->GetSelectedIndex();
-		hairShadingParams[g_currHairShadingParams].setShaderVariables(g_Effect);
+		hairShadingParams[g_currHairShadingParams].setShaderVariables();
 		g_Effect->GetVariableByName("hairTexture")->AsShaderResource()->SetResource(g_HairBaseRV[g_currHairShadingParams]);
 		break;
 	}
@@ -2858,30 +2957,30 @@ HRESULT ExtractAndSetCollisionImplicitMatrices()
 {
 	HRESULT hr = S_OK;
 
-	vector<D3DXMATRIX> sphereTransformationMatrices;
+	vector<DirectX::XMFLOAT4X4> sphereTransformationMatrices;
 	sphereTransformationMatrices.reserve(g_numSpheres);
-	vector<D3DXMATRIX> sphereInverseTransformationMatrices;
+	vector<DirectX::XMFLOAT4X4> sphereInverseTransformationMatrices;
 	sphereInverseTransformationMatrices.reserve(g_numSpheres);
 
-	vector<D3DXMATRIX> cylinderTransformationMatrices;
+	vector<DirectX::XMFLOAT4X4> cylinderTransformationMatrices;
 	cylinderTransformationMatrices.reserve(g_numCylinders);
-	vector<D3DXMATRIX> cylinderInverseTransformationMatrices;
+	vector<DirectX::XMFLOAT4X4> cylinderInverseTransformationMatrices;
 	cylinderInverseTransformationMatrices.reserve(g_numCylinders);
 
-	vector<D3DXMATRIX> sphereNoMoveConstraintTransformationMatrices;
+	vector<DirectX::XMFLOAT4X4> sphereNoMoveConstraintTransformationMatrices;
 	sphereNoMoveConstraintTransformationMatrices.reserve(g_numSpheresNoMoveConstraint);
-	vector<D3DXMATRIX> sphereNoMoveConstraintInverseTransformationMatrices;
+	vector<DirectX::XMFLOAT4X4> sphereNoMoveConstraintInverseTransformationMatrices;
 	sphereNoMoveConstraintInverseTransformationMatrices.reserve(g_numSpheresNoMoveConstraint);
 
 	for (int i = 0; i < int(collisionObjectTransforms.size()); i++)
 	{
-		D3DXMATRIX initialTransformation = collisionObjectTransforms.at(i).InitialTransform;
+		DirectX::XMFLOAT4X4 initialTransformation = collisionObjectTransforms.at(i).InitialTransform;
 		// if this is a static object all the collision objects have the same transform
-		D3DXMATRIX currentTransformation = g_TotalTransform;
-		D3DXMATRIX totalTransformation;
+		DirectX::XMFLOAT4X4 currentTransformation = g_TotalTransform;
+		DirectX::XMFLOAT4X4 totalTransformation;
 		totalTransformation = initialTransformation * currentTransformation;
-		D3DXMATRIX inverseTotalTransformation;
-		D3DXMatrixInverse(&inverseTotalTransformation, NULL, &totalTransformation);
+		DirectX::XMFLOAT4X4 inverseTotalTransformation;
+		DirectX::XMMatrixInverse(&inverseTotalTransformation, NULL, &totalTransformation);
 		if (collisionObjectTransforms.at(i).implicitType == SPHERE)
 		{
 			sphereTransformationMatrices.push_back(totalTransformation);
@@ -2959,13 +3058,12 @@ bool CALLBACK IsD3D11DeviceAcceptable(const CD3D11EnumAdapterInfo *AdapterInfo, 
 
 HRESULT MyCreateEffectFromFile(TCHAR *fName, DWORD dwShaderFlags, ID3D11Device *pDevice, ID3DX11Effect **pEffect);
 HRESULT MyCreateEffectFromCompiledFile(TCHAR *fName, DWORD dwShaderFlags, ID3D11Device *pDevice, ID3DX11Effect **pEffect);
-HRESULT LoadComputeShader(ID3D11Device *pd3dDevice, WCHAR *szFilename, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3D11ComputeShader **ppComputeShader);
 
 HRESULT InitEffect(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext)
 {
 	HRESULT hr;
 
-	// Read the D3DX effect file
+	HairEffect_Init(pd3dDevice);
 
 	// Try to read the pre-compiled file since its much faster, if that does not work read and compile the original file
 	hr = DXUTFindDXSDKMediaFileCch(g_pEffectPath, MAX_PATH, L"Hair.fxo");
@@ -2981,14 +3079,13 @@ HRESULT InitEffect(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext)
 
 	g_pTechniqueRenderArrow = g_Effect->GetTechniqueByName("RenderArrow");
 
-	V_RETURN(LoadComputeShader(pd3dDevice, L"HairSimulateCS.hlsl", "UpdateParticlesSimulate", "cs_4_0", &g_pCSSimulateParticles));
+	V_RETURN(pd3dDevice->CreateComputeShader(HairSimulateCS_bytecode, sizeof(HairSimulateCS_bytecode), NULL, &g_pCSSimulateParticles));
 
 	// get shader variables
 	g_pShadowsShaderVariable = g_Effect->GetVariableByName("useShadows")->AsScalar();
 	g_pShadowsShaderVariable->SetBool(g_renderShadows);
 	g_pApplyHForceShaderVariable = g_Effect->GetVariableByName("g_bApplyHorizontalForce")->AsScalar();
 	g_pApplyHForceShaderVariable->SetBool(g_applyHForce);
-	g_Effect->GetVariableByName("g_densityThreshold")->AsScalar()->SetFloat(g_densityThreshold);
 	g_pSimulateShaderVariable = g_Effect->GetVariableByName("g_bSimulate")->AsScalar();
 	g_pSimulateShaderVariable->SetBool(g_simulate);
 	g_pAddGravityShaderVariable = g_Effect->GetVariableByName("g_bAddGravity")->AsScalar();
@@ -3287,10 +3384,10 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *pd3dDevice, const DXGI_SURFAC
 	g_firstFrame = true;
 	g_firstMovedFrame = true;
 
-	g_Center = D3DXVECTOR3(0, 0, 0);
-	D3DXMatrixIdentity(&g_Transform);
-	D3DXMatrixIdentity(&g_TotalTransform);
-	D3DXMatrixIdentity(&g_RootTransform);
+	g_Center = DirectX::XMFLOAT3(0, 0, 0);
+	DirectX::XMMatrixIdentity(&g_Transform);
+	DirectX::XMMatrixIdentity(&g_TotalTransform);
+	DirectX::XMMatrixIdentity(&g_RootTransform);
 
 	g_UseTransformations = false;
 
@@ -3299,16 +3396,16 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *pd3dDevice, const DXGI_SURFAC
 	InitEffect(pd3dDevice, pd3dContext);
 
 	// Setup the camera's view parameters
-	D3DXVECTOR3 eye, at;
-	eye = D3DXVECTOR3(0.0f, -1.0f, -15.0f);
-	at = D3DXVECTOR3(0, 0, 0);
+	DirectX::XMFLOAT3 eye, at;
+	eye = DirectX::XMFLOAT3(0.0f, -1.0f, -15.0f);
+	at = DirectX::XMFLOAT3(0, 0, 0);
 
 	g_Camera.SetViewParams(&eye, &at);
 	g_Camera.SetModelCenter(at);
 	g_Camera.SetEnablePositionMovement(true);
 	g_Camera.SetScalers(0.001f, 20.f);
 
-	D3DXVECTOR3 lightPos = D3DXVECTOR3(4.7908502f, 18.887268f, -9.7619190f); // D3DXVECTOR3(-5,10.0f,10.0f);
+	DirectX::XMFLOAT3 lightPos = DirectX::XMFLOAT3(4.7908502f, 18.887268f, -9.7619190f); // DirectX::XMFLOAT3(-5,10.0f,10.0f);
 
 	g_HairShadows.GetCamera().SetViewParams(&lightPos, &at);
 	g_HairShadows.GetCamera().SetRadius(30);
@@ -3334,7 +3431,7 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *pd3dDevice, const DXGI_SURFAC
 	g_HairGrid = new HairGrid(pd3dDevice, pd3dContext);
 	if (!g_HairGrid)
 		return E_OUTOFMEMORY;
-	V_RETURN(g_HairGrid->Initialize(g_gridSize, g_gridSize, g_gridSize, g_Effect, g_pEffectPath));
+	V_RETURN(g_HairGrid->Initialize(g_gridSize, g_gridSize, g_gridSize));
 
 	// Initialize fluid state
 	InitializeFluidState(pd3dDevice, pd3dContext);
@@ -3489,29 +3586,29 @@ HRESULT CALLBACK OnD3D11SwapChainResized(ID3D11Device *pd3dDevice, IDXGISwapChai
 	return hr;
 }
 
-void RenderArrow(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, D3DXVECTOR3 pos)
+void RenderArrow(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, DirectX::XMFLOAT3 pos)
 {
 	HRESULT hr;
-	D3DXVECTOR3 g_modelCentroid = g_Center;
+	DirectX::XMFLOAT3 g_modelCentroid = g_Center;
 
 	// calculate and set the world view projection matrix for transforming the arrow
 	float arrowScale = 0.03f;
-	D3DXMATRIX mScale;
-	D3DXMatrixScaling(&mScale, arrowScale, arrowScale, arrowScale);
-	D3DXMATRIX mLookAtMatrix;
-	D3DXVECTOR3 mArrowPos = g_modelCentroid - pos;
-	D3DXVECTOR3 mOrigin = g_Center;
-	D3DXVECTOR3 mUp = D3DXVECTOR3(0, 1, 0);
-	D3DXMatrixLookAtLH(&mLookAtMatrix, &mArrowPos, &mOrigin, &mUp);
-	D3DXMATRIX mLookAtInv;
-	D3DXMatrixInverse(&mLookAtInv, NULL, &mLookAtMatrix);
-	D3DXMATRIX mWorldView, mWorldViewProj;
-	D3DXMATRIX mWorld = mScale * mLookAtInv;
+	DirectX::XMFLOAT4X4 mScale;
+	DirectX::XMMatrixScaling(&mScale, arrowScale, arrowScale, arrowScale);
+	DirectX::XMFLOAT4X4 mLookAtMatrix;
+	DirectX::XMFLOAT3 mArrowPos = g_modelCentroid - pos;
+	DirectX::XMFLOAT3 mOrigin = g_Center;
+	DirectX::XMFLOAT3 mUp = DirectX::XMFLOAT3(0, 1, 0);
+	DirectX::XMMatrixLookAtLH(&mLookAtMatrix, &mArrowPos, &mOrigin, &mUp);
+	DirectX::XMFLOAT4X4 mLookAtInv;
+	DirectX::XMMatrixInverse(&mLookAtInv, NULL, &mLookAtMatrix);
+	DirectX::XMFLOAT4X4 mWorldView, mWorldViewProj;
+	DirectX::XMFLOAT4X4 mWorld = mScale * mLookAtInv;
 	if (g_useSkinnedCam)
-		D3DXMatrixMultiply(&mWorldView, &mWorld, &g_ExternalCameraView);
+		DirectX::XMMatrixMultiply(&mWorldView, &mWorld, &g_ExternalCameraView);
 	else
-		D3DXMatrixMultiply(&mWorldView, &mWorld, g_Camera.GetViewMatrix());
-	D3DXMatrixMultiply(&mWorldViewProj, &mWorldView, g_Camera.GetProjMatrix());
+		DirectX::XMMatrixMultiply(&mWorldView, &mWorld, g_Camera.GetViewMatrix());
+	DirectX::XMMatrixMultiply(&mWorldViewProj, &mWorldView, g_Camera.GetProjMatrix());
 	V(g_Effect->GetVariableByName("ViewProjection")->AsMatrix()->SetMatrix(mWorldViewProj));
 
 	// render the arrow
@@ -3634,13 +3731,13 @@ void VisualizeCoordinateFrames(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd
 	}
 }
 
-HRESULT renderInstancedInterpolatedHairForGrid(D3DXMATRIX &worldViewProjection, ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, float ZMin, float ZStep, int numRTs)
+HRESULT renderInstancedInterpolatedHairForGrid(DirectX::XMFLOAT4X4 &worldViewProjection, ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, float ZMin, float ZStep, int numRTs)
 {
 	HRESULT hr = S_OK;
 
 	g_Effect->GetVariableByName("WorldViewProjection")->AsMatrix()->SetMatrix(worldViewProjection);
 	g_Effect->GetVariableByName("g_StrandWidthMultiplier")->AsScalar()->SetFloat(25);
-	D3DXVECTOR3 camPosition(1, 0, 0);
+	DirectX::XMFLOAT3 camPosition(1, 0, 0);
 	g_Effect->GetVariableByName("EyePosition")->AsVector()->SetFloatVector(camPosition);
 	g_Effect->GetVariableByName("g_gridZMin")->AsScalar()->SetFloat(ZMin);
 	g_Effect->GetVariableByName("g_gridZStep")->AsScalar()->SetFloat(ZStep);
@@ -3864,7 +3961,7 @@ HRESULT LoadCollisionObstacles(ID3D11Device *pd3dDevice)
 					for (int i = 0; i < 16; i++)
 						valuesString >> scalpToMeshMatrix[i];
 
-					g_ScalpToMesh = D3DXMATRIX(scalpToMeshMatrix);
+					g_ScalpToMesh = DirectX::XMFLOAT4X4(scalpToMeshMatrix);
 				}
 				else if ((s.find("'InitialTotalTransform'", 0) != string::npos))
 				{
@@ -3875,7 +3972,7 @@ HRESULT LoadCollisionObstacles(ID3D11Device *pd3dDevice)
 					istringstream valuesString(stringvalues);
 					for (int i = 0; i < 16; i++)
 						valuesString >> initialTransform[i];
-					g_InitialTotalTransform = D3DXMATRIX(initialTransform);
+					g_InitialTotalTransform = DirectX::XMFLOAT4X4(initialTransform);
 				}
 
 				if (type == SPHERE || type == CYLINDER || type == SPHERE_NO_MOVE_CONSTRAINT)
@@ -3908,8 +4005,8 @@ HRESULT LoadCollisionObstacles(ID3D11Device *pd3dDevice)
 					}
 
 					// see if there is a basePoseToMeshBind transform
-					D3DXMATRIX basePoseToMeshBind;
-					D3DXMatrixIdentity(&basePoseToMeshBind);
+					DirectX::XMFLOAT4X4 basePoseToMeshBind;
+					DirectX::XMMatrixIdentity(&basePoseToMeshBind);
 					if (valuesString.find("'basePoseToMeshBind'", 0) != string::npos)
 					{
 						infileCollisions.getline(c, MAX_PATH);
@@ -3918,7 +4015,7 @@ HRESULT LoadCollisionObstacles(ID3D11Device *pd3dDevice)
 						float transform[16];
 						for (int i = 0; i < 16; i++)
 							valuesIString >> transform[i];
-						basePoseToMeshBind = D3DXMATRIX(transform);
+						basePoseToMeshBind = DirectX::XMFLOAT4X4(transform);
 
 						// read the next line
 						infileCollisions.getline(c, MAX_PATH);
@@ -3944,18 +4041,18 @@ HRESULT LoadCollisionObstacles(ID3D11Device *pd3dDevice)
 
 					// maya applies scale,then rotation and then translation
 					// for rotation assuming maya does x then y then z
-					D3DXMATRIX initialScale, initialRotationX, initialRotationY, initialRotationZ, initialTranslation, initalTransformation;
+					DirectX::XMFLOAT4X4 initialScale, initialRotationX, initialRotationY, initialRotationZ, initialTranslation, initalTransformation;
 
-					D3DXMatrixScaling(&initialScale, imp.scale.x, imp.scale.y, imp.scale.z);
-					D3DXMatrixRotationX(&initialRotationX, imp.rotation.x);
-					D3DXMatrixRotationY(&initialRotationY, imp.rotation.y);
-					D3DXMatrixRotationZ(&initialRotationZ, imp.rotation.z);
-					D3DXMatrixTranslation(&initialTranslation, imp.center.x, imp.center.y, imp.center.z);
+					DirectX::XMMatrixScaling(&initialScale, imp.scale.x, imp.scale.y, imp.scale.z);
+					DirectX::XMMatrixRotationX(&initialRotationX, imp.rotation.x);
+					DirectX::XMMatrixRotationY(&initialRotationY, imp.rotation.y);
+					DirectX::XMMatrixRotationZ(&initialRotationZ, imp.rotation.z);
+					DirectX::XMMatrixTranslation(&initialTranslation, imp.center.x, imp.center.y, imp.center.z);
 
-					D3DXMatrixMultiply(&initalTransformation, &initialScale, &initialRotationX);
-					D3DXMatrixMultiply(&initalTransformation, &initalTransformation, &initialRotationY);
-					D3DXMatrixMultiply(&initalTransformation, &initalTransformation, &initialRotationZ);
-					D3DXMatrixMultiply(&initalTransformation, &initalTransformation, &initialTranslation);
+					DirectX::XMMatrixMultiply(&initalTransformation, &initialScale, &initialRotationX);
+					DirectX::XMMatrixMultiply(&initalTransformation, &initalTransformation, &initialRotationY);
+					DirectX::XMMatrixMultiply(&initalTransformation, &initalTransformation, &initialRotationZ);
+					DirectX::XMMatrixMultiply(&initalTransformation, &initalTransformation, &initialTranslation);
 
 					collisionObjectTransforms.push_back(collisionObject());
 
@@ -3991,8 +4088,8 @@ HRESULT LoadCollisionObstacles(ID3D11Device *pd3dDevice)
 					collisionObjectTransforms.back().boneName = boneName;
 					collisionObjectTransforms.back().objToMesh = basePoseToMeshBind;
 					collisionObjectTransforms.back().isHead = false;
-					D3DXMATRIX CurrrentTransform;
-					D3DXMatrixIdentity(&CurrrentTransform);
+					DirectX::XMFLOAT4X4 CurrrentTransform;
+					DirectX::XMMatrixIdentity(&CurrrentTransform);
 					collisionObjectTransforms.back().currentTransform = CurrrentTransform;
 
 					// find out if this is the head
@@ -4008,7 +4105,7 @@ HRESULT LoadCollisionObstacles(ID3D11Device *pd3dDevice)
 		infileCollisions.close();
 	}
 
-	D3DXMatrixInverse(&g_InvInitialTotalTransform, NULL, &g_InitialTotalTransform);
+	DirectX::XMMatrixInverse(&g_InvInitialTotalTransform, NULL, &g_InitialTotalTransform);
 	g_InvInitialRotationScale = g_InvInitialTotalTransform;
 	g_InvInitialRotationScale._41 = 0;
 	g_InvInitialRotationScale._42 = 0;
@@ -4019,8 +4116,8 @@ HRESULT LoadCollisionObstacles(ID3D11Device *pd3dDevice)
 	for (int i = 0; i < int(collisionObjectTransforms.size()); i++)
 	{
 
-		D3DXMATRIX initalTransformation = collisionObjectTransforms.at(i).InitialTransform;
-		D3DXMatrixMultiply(&initalTransformation, &initalTransformation, &g_InvInitialTotalTransform);
+		DirectX::XMFLOAT4X4 initalTransformation = collisionObjectTransforms.at(i).InitialTransform;
+		DirectX::XMMatrixMultiply(&initalTransformation, &initalTransformation, &g_InvInitialTotalTransform);
 		collisionObjectTransforms.at(i).InitialTransform = initalTransformation;
 	}
 
@@ -4258,7 +4355,7 @@ HRESULT CreateMasterStrandSimulationIBs(ID3D11Device *pd3dDevice)
 	return S_OK;
 }
 
-float vec3Length(D3DXVECTOR4 vec)
+float vec3Length(DirectX::XMFLOAT4 vec)
 {
 	return sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 }
@@ -4267,12 +4364,12 @@ float vec3Length(D3DXVECTOR4 vec)
 HRESULT CreateMasterStrandSpringLengthVBs(ID3D11Device *pd3dDevice)
 {
 	float *masterStrandLinearLengths = new float[g_NumMasterStrandControlVertices];
-	D3DXVECTOR2 *masterStrandAngularLengthsStiffness = new D3DXVECTOR2[g_NumMasterStrandControlVertices];
+	DirectX::XMFLOAT2 *masterStrandAngularLengthsStiffness = new DirectX::XMFLOAT2[g_NumMasterStrandControlVertices];
 
 	for (int i = 0; i < g_NumMasterStrandControlVertices - 1; i++)
 	{
 		masterStrandLinearLengths[i] = vec3Length(g_MasterStrandControlVertices[i].Position - g_MasterStrandControlVertices[i + 1].Position);
-		masterStrandAngularLengthsStiffness[i] = D3DXVECTOR2(vec3Length(g_MasterStrandControlVertices[i].Position - g_MasterStrandControlVertices[i + 2].Position), 0);
+		masterStrandAngularLengthsStiffness[i] = DirectX::XMFLOAT2(vec3Length(g_MasterStrandControlVertices[i].Position - g_MasterStrandControlVertices[i + 2].Position), 0);
 	}
 
 	// linear springs
@@ -4327,7 +4424,7 @@ HRESULT CreateMasterStrandSpringLengthVBs(ID3D11Device *pd3dDevice)
 		lastEndVertex = g_MasterStrandControlVertexOffsets[s];
 	}
 
-	bufferDesc.ByteWidth = g_NumMasterStrandControlVertices * sizeof(D3DXVECTOR2);
+	bufferDesc.ByteWidth = g_NumMasterStrandControlVertices * sizeof(DirectX::XMFLOAT2);
 	D3D11_SUBRESOURCE_DATA initialDataStiffness;
 	initialDataStiffness.pSysMem = masterStrandAngularLengthsStiffness;
 	SAFE_RELEASE(g_MasterStrandAngularSpringConstraintsVB);
@@ -4372,7 +4469,7 @@ HRESULT CreateMasterStrandSpringLengthVBs(ID3D11Device *pd3dDevice)
 	initialData2.SysMemPitch = 0;
 	initialData2.SysMemSlicePitch = 0;
 	D3D11_BUFFER_DESC bufferDesc2;
-	bufferDesc2.ByteWidth = g_NumMasterStrandControlVertices * sizeof(D3DXVECTOR3);
+	bufferDesc2.ByteWidth = g_NumMasterStrandControlVertices * sizeof(DirectX::XMFLOAT3);
 	bufferDesc2.Usage = D3D11_USAGE_IMMUTABLE;
 	bufferDesc2.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	bufferDesc2.CPUAccessFlags = 0;
@@ -4682,7 +4779,7 @@ HRESULT CreateMasterStrandVB(ID3D11Device *pd3dDevice)
 	bufferDescUA.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
 	bufferDescUA.CPUAccessFlags = 0;
 	bufferDescUA.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-	bufferDescUA.StructureByteStride = sizeof(D3DXVECTOR4);
+	bufferDescUA.StructureByteStride = sizeof(DirectX::XMFLOAT4);
 	initialData.pSysMem = g_MasterStrandControlVertices;
 	SAFE_RELEASE(g_MasterStrandUAB);
 	SAFE_RELEASE(g_MasterStrandPrevUAB);
@@ -4693,7 +4790,7 @@ HRESULT CreateMasterStrandVB(ID3D11Device *pd3dDevice)
 	// this will be used by the shaders trying to read data output by the compute shader pass
 	D3D11_SHADER_RESOURCE_VIEW_DESC sbSRVDesc;
 	sbSRVDesc.Buffer.ElementOffset = 0;
-	sbSRVDesc.Buffer.ElementWidth = sizeof(D3DXVECTOR4); // g_NumMasterStrandControlVertices
+	sbSRVDesc.Buffer.ElementWidth = sizeof(DirectX::XMFLOAT4); // g_NumMasterStrandControlVertices
 	sbSRVDesc.Buffer.FirstElement = 0;
 	sbSRVDesc.Buffer.NumElements = g_NumMasterStrandControlVertices;
 	sbSRVDesc.Format = DXGI_FORMAT_UNKNOWN; // DXGI_FORMAT_R32G32B32A32_FLOAT
@@ -5063,12 +5160,12 @@ HRESULT CreateTessellatedWispVB(ID3D11Device *pd3dDevice)
 	g_NumTessellatedWisps = 0;
 	g_NumUntessellatedWisps = 0;
 
-	D3DXVECTOR3 *rootsS = new D3DXVECTOR3[g_NumWisps];
-	g_masterCVIndices = new D3DXVECTOR3[g_NumWisps];
-	D3DXVECTOR4 *masterLengths = new D3DXVECTOR4[g_NumWisps];
+	DirectX::XMFLOAT3 *rootsS = new DirectX::XMFLOAT3[g_NumWisps];
+	g_masterCVIndices = new DirectX::XMFLOAT3[g_NumWisps];
+	DirectX::XMFLOAT4 *masterLengths = new DirectX::XMFLOAT4[g_NumWisps];
 
-	D3DXVECTOR3 *rootsSUntessellated = new D3DXVECTOR3[g_NumWisps];
-	D3DXVECTOR4 *masterLengthsUntessellated = new D3DXVECTOR4[g_NumWisps];
+	DirectX::XMFLOAT3 *rootsSUntessellated = new DirectX::XMFLOAT3[g_NumWisps];
+	DirectX::XMFLOAT4 *masterLengthsUntessellated = new DirectX::XMFLOAT4[g_NumWisps];
 
 	int *indices = g_indices;
 	g_MaxMStrandSegments = 0;
@@ -5091,16 +5188,16 @@ HRESULT CreateTessellatedWispVB(ID3D11Device *pd3dDevice)
 		}
 
 		// tessellated
-		rootsS[w] = D3DXVECTOR3(offset[0], offset[1], offset[2]);
-		g_masterCVIndices[w] = D3DXVECTOR3(indices[0], indices[1], indices[2]); // the positions of the 3 vertices of the triangle in the original VB of CVs
+		rootsS[w] = DirectX::XMFLOAT3(offset[0], offset[1], offset[2]);
+		g_masterCVIndices[w] = DirectX::XMFLOAT3(indices[0], indices[1], indices[2]); // the positions of the 3 vertices of the triangle in the original VB of CVs
 		Index n = (num[0] + num[1] + num[2]) / 3;
-		masterLengths[w] = D3DXVECTOR4(num[0] - 1, num[1] - 1, num[2] - 1, min(min(num[0] - 1, num[1] - 1), num[2] - 1));
+		masterLengths[w] = DirectX::XMFLOAT4(num[0] - 1, num[1] - 1, num[2] - 1, min(min(num[0] - 1, num[1] - 1), num[2] - 1));
 		g_MaxMStrandSegments = max((int)masterLengths[w].w - 1, g_MaxMStrandSegments);
 
 		// Un - tessellated
-		rootsSUntessellated[w] = D3DXVECTOR3(offsetUnTessellated[0], offsetUnTessellated[1], offsetUnTessellated[2]);
+		rootsSUntessellated[w] = DirectX::XMFLOAT3(offsetUnTessellated[0], offsetUnTessellated[1], offsetUnTessellated[2]);
 		Index nUntessellated = (numUnTessellated[0] + numUnTessellated[1] + numUnTessellated[2]) / 3;
-		masterLengthsUntessellated[w] = D3DXVECTOR4(numUnTessellated[0] - 1, numUnTessellated[1] - 1, numUnTessellated[2] - 1, n);
+		masterLengthsUntessellated[w] = DirectX::XMFLOAT4(numUnTessellated[0] - 1, numUnTessellated[1] - 1, numUnTessellated[2] - 1, n);
 
 		// tessellated VB
 		for (Index v = 0; v < n; ++v, ++g_NumTessellatedWisps)
@@ -5131,7 +5228,7 @@ HRESULT CreateTessellatedWispVB(ID3D11Device *pd3dDevice)
 	initialData2.SysMemPitch = 0;
 	initialData2.SysMemSlicePitch = 0;
 	D3D11_BUFFER_DESC bufferDesc2;
-	bufferDesc2.ByteWidth = g_NumWisps * sizeof(D3DXVECTOR3);
+	bufferDesc2.ByteWidth = g_NumWisps * sizeof(DirectX::XMFLOAT3);
 	bufferDesc2.Usage = D3D11_USAGE_IMMUTABLE;
 	bufferDesc2.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	bufferDesc2.CPUAccessFlags = 0;
@@ -5181,7 +5278,7 @@ HRESULT CreateTessellatedWispVB(ID3D11Device *pd3dDevice)
 	initialData2.SysMemPitch = 0;
 	initialData2.SysMemSlicePitch = 0;
 	D3D11_BUFFER_DESC bufferDesc3;
-	bufferDesc3.ByteWidth = g_NumWisps * sizeof(D3DXVECTOR3);
+	bufferDesc3.ByteWidth = g_NumWisps * sizeof(DirectX::XMFLOAT3);
 	bufferDesc3.Usage = D3D11_USAGE_IMMUTABLE;
 	bufferDesc3.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	bufferDesc3.CPUAccessFlags = 0;
@@ -5201,7 +5298,7 @@ HRESULT CreateTessellatedWispVB(ID3D11Device *pd3dDevice)
 	initialData2.pSysMem = masterLengths;
 	initialData2.SysMemPitch = 0;
 	initialData2.SysMemSlicePitch = 0;
-	bufferDesc2.ByteWidth = g_NumWisps * sizeof(D3DXVECTOR4);
+	bufferDesc2.ByteWidth = g_NumWisps * sizeof(DirectX::XMFLOAT4);
 	bufferDesc2.Usage = D3D11_USAGE_IMMUTABLE;
 	bufferDesc2.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	bufferDesc2.CPUAccessFlags = 0;
@@ -5266,7 +5363,7 @@ HRESULT CreateComputeShaderConstantBuffers(ID3D11Device *pd3dDevice)
 	SAFE_RELEASE(g_pcbCSTransforms);
 	V_RETURN(pd3dDevice->CreateBuffer(&Desc, NULL, &g_pcbCSTransforms));
 
-	Desc.ByteWidth = sizeof(D3DXMATRIX);
+	Desc.ByteWidth = sizeof(DirectX::XMFLOAT4X4);
 	SAFE_RELEASE(g_pcbCSRootXform);
 	V_RETURN(pd3dDevice->CreateBuffer(&Desc, NULL, &g_pcbCSRootXform));
 
@@ -5538,14 +5635,14 @@ HRESULT CreateDeviantStrandsAndStrandSizes(ID3D11Device *pd3dDevice)
 	int numSegments = numCVs - 3;
 	int numVerticesPerSegment = ceil(g_TessellatedMasterStrandLengthMax / float(numSegments));
 	float uStep = 1.0 / numVerticesPerSegment;
-	D3DXVECTOR2 *CVs = new D3DXVECTOR2[numCVs];
-	CVs[0] = D3DXVECTOR2(0, 0);
-	CVs[1] = D3DXVECTOR2(0, 0);
+	DirectX::XMFLOAT2 *CVs = new DirectX::XMFLOAT2[numCVs];
+	CVs[0] = DirectX::XMFLOAT2(0, 0);
+	CVs[1] = DirectX::XMFLOAT2(0, 0);
 	float x, y;
 	int index = 0;
 	int lastIndex = 0;
 
-	D3DXMATRIX basisMatrix = D3DXMATRIX(
+	DirectX::XMFLOAT4X4 basisMatrix = DirectX::XMFLOAT4X4(
 		-1 / 6.0f, 3 / 6.0f, -3 / 6.0f, 1 / 6.0f,
 		3 / 6.0f, -6 / 6.0f, 0, 4 / 6.0f,
 		-3 / 6.0f, 3 / 6.0f, 3 / 6.0f, 1 / 6.0f,
@@ -5600,7 +5697,7 @@ HRESULT CreateDeviantStrandsAndStrandSizes(ID3D11Device *pd3dDevice)
 				BoxMullerTransform(x, y);
 				x *= sd * sdScale;
 				y *= sd * sdScale;
-				CVs[j] = D3DXVECTOR2(x, y);
+				CVs[j] = DirectX::XMFLOAT2(x, y);
 			}
 
 			// create the points
@@ -5696,16 +5793,16 @@ HRESULT CreateCurlDeviations(ID3D11Device *pd3dDevice)
 	int numSegments = numCVs - 3;
 	int numVerticesPerSegment = ceil(g_TessellatedMasterStrandLengthMax / float(numSegments));
 	float uStep = 1.0 / numVerticesPerSegment;
-	D3DXVECTOR2 *CVs = new D3DXVECTOR2[numCVs];
-	CVs[0] = D3DXVECTOR2(0, 0);
-	CVs[1] = D3DXVECTOR2(0, 0);
-	CVs[2] = D3DXVECTOR2(0, 0);
-	CVs[3] = D3DXVECTOR2(0, 0);
+	DirectX::XMFLOAT2 *CVs = new DirectX::XMFLOAT2[numCVs];
+	CVs[0] = DirectX::XMFLOAT2(0, 0);
+	CVs[1] = DirectX::XMFLOAT2(0, 0);
+	CVs[2] = DirectX::XMFLOAT2(0, 0);
+	CVs[3] = DirectX::XMFLOAT2(0, 0);
 	float x, y;
 	int index = 0;
 	int lastIndex = 0;
 
-	D3DXMATRIX basisMatrix = D3DXMATRIX(
+	DirectX::XMFLOAT4X4 basisMatrix = DirectX::XMFLOAT4X4(
 		-1 / 6.0f, 3 / 6.0f, -3 / 6.0f, 1 / 6.0f,
 		3 / 6.0f, -6 / 6.0f, 0, 4 / 6.0f,
 		-3 / 6.0f, 3 / 6.0f, 3 / 6.0f, 1 / 6.0f,
@@ -5720,7 +5817,7 @@ HRESULT CreateCurlDeviations(ID3D11Device *pd3dDevice)
 			BoxMullerTransform(x, y);
 			x *= sd;
 			y *= sd;
-			CVs[j] = D3DXVECTOR2(x, y);
+			CVs[j] = DirectX::XMFLOAT2(x, y);
 		}
 
 		// create the points
@@ -5804,7 +5901,7 @@ HRESULT CreateStrandBarycentricCoordinates(ID3D11Device *pd3dDevice)
 	D3D11_SUBRESOURCE_DATA initialData;
 	if (g_BarycentricCoordinates)
 		delete[] g_BarycentricCoordinates;
-	g_BarycentricCoordinates = new D3DXVECTOR2[g_NumStrandVariables];
+	g_BarycentricCoordinates = new DirectX::XMFLOAT2[g_NumStrandVariables];
 	float coord1 = 1;
 	float coord2 = 0;
 	for (int c = 0; c < g_NumStrandVariables; ++c)
@@ -5817,12 +5914,12 @@ HRESULT CreateStrandBarycentricCoordinates(ID3D11Device *pd3dDevice)
 			coord2 = 1.0 - coord2;
 		}
 
-		g_BarycentricCoordinates[c] = D3DXVECTOR2(coord1, coord2);
+		g_BarycentricCoordinates[c] = DirectX::XMFLOAT2(coord1, coord2);
 	}
 	initialData.pSysMem = g_BarycentricCoordinates;
 	HRESULT hr;
 	D3D11_BUFFER_DESC bufferDesc;
-	bufferDesc.ByteWidth = g_NumStrandVariables * sizeof(D3DXVECTOR2);
+	bufferDesc.ByteWidth = g_NumStrandVariables * sizeof(DirectX::XMFLOAT2);
 	bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
 	bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	bufferDesc.CPUAccessFlags = 0;
@@ -5845,20 +5942,20 @@ HRESULT CreateTangentJitter(ID3D11Device *pd3dDevice)
 	D3D11_SUBRESOURCE_DATA initialData;
 	if (g_tangentJitter)
 		delete[] g_tangentJitter;
-	g_tangentJitter = new D3DXVECTOR2[g_NumStrandVariables];
+	g_tangentJitter = new DirectX::XMFLOAT2[g_NumStrandVariables];
 	float val1 = 0;
 	float val2 = 0;
 	for (int c = 0; c < g_NumStrandVariables; ++c)
 	{
 		val1 = random() - 0.5;
 		val2 = random() - 0.5;
-		g_tangentJitter[c] = D3DXVECTOR2(val1, val2);
+		g_tangentJitter[c] = DirectX::XMFLOAT2(val1, val2);
 	}
 	ID3D11Buffer *TangentJitterVB;
 	initialData.pSysMem = g_tangentJitter;
 	HRESULT hr;
 	D3D11_BUFFER_DESC bufferDesc;
-	bufferDesc.ByteWidth = g_NumStrandVariables * sizeof(D3DXVECTOR2);
+	bufferDesc.ByteWidth = g_NumStrandVariables * sizeof(DirectX::XMFLOAT2);
 	bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
 	bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	bufferDesc.CPUAccessFlags = 0;
@@ -5922,7 +6019,7 @@ HRESULT CreateStrandToClumpIndexMap(ID3D11Device *pd3dDevice)
 	int avgSStrands = 0;
 	for (int i = 0; i < g_NumMasterStrands; i++)
 	{
-		D3DXVECTOR2 Texcoord = g_MasterAttributes[i].texcoord;
+		DirectX::XMFLOAT2 Texcoord = g_MasterAttributes[i].texcoord;
 		int num = texture[int(Texcoord.y * 256)][int(Texcoord.x * 256)] * g_NumSStrandsPerWisp;
 		numStrandsCumulativeTri[i] = num;
 		minSStrands = min(num, minSStrands);
@@ -6051,8 +6148,8 @@ HRESULT CreateStrandToBarycentricIndexMap(ID3D11Device *pd3dDevice)
 	g_MaxMStrandsPerWisp = 0;
 	for (int i = 0; i < g_NumWisps; i++)
 	{
-		D3DXVECTOR3 indices = g_masterCVIndices[i];
-		D3DXVECTOR2 averageTexcoord = D3DXVECTOR2(0, 0);
+		DirectX::XMFLOAT3 indices = g_masterCVIndices[i];
+		DirectX::XMFLOAT2 averageTexcoord = DirectX::XMFLOAT2(0, 0);
 		averageTexcoord += 0.3333f * g_MasterAttributes[(int)indices.x].texcoord;
 		averageTexcoord += 0.3333f * g_MasterAttributes[(int)indices.y].texcoord;
 		averageTexcoord += 0.3333f * g_MasterAttributes[(int)indices.z].texcoord;
@@ -6142,12 +6239,12 @@ HRESULT CreateRandomCircularCoordinates(ID3D11Device *pd3dDevice)
 {
 	if (g_clumpCoordinates)
 		delete[] g_clumpCoordinates;
-	g_clumpCoordinates = new D3DXVECTOR2[g_NumStrandVariables];
+	g_clumpCoordinates = new DirectX::XMFLOAT2[g_NumStrandVariables];
 	// create two coordinates that lie inside the unit circle
 	int c = 0;
 	float coord1 = 0;
 	float coord2 = 0;
-	g_clumpCoordinates[c++] = D3DXVECTOR2(coord1, coord2);
+	g_clumpCoordinates[c++] = DirectX::XMFLOAT2(coord1, coord2);
 	while (c < g_NumStrandVariables)
 	{
 		// distributed with a gaussian distribution
@@ -6157,14 +6254,14 @@ HRESULT CreateRandomCircularCoordinates(ID3D11Device *pd3dDevice)
 		coord2 *= sd;
 
 		if (sqrt(sqr(coord1) + sqr(coord2)) < 1)
-			g_clumpCoordinates[c++] = D3DXVECTOR2(coord1, coord2);
+			g_clumpCoordinates[c++] = DirectX::XMFLOAT2(coord1, coord2);
 	}
 
 	D3D11_SUBRESOURCE_DATA initialData;
 	initialData.pSysMem = g_clumpCoordinates;
 	HRESULT hr;
 	D3D11_BUFFER_DESC bufferDesc;
-	bufferDesc.ByteWidth = g_NumStrandVariables * sizeof(D3DXVECTOR2);
+	bufferDesc.ByteWidth = g_NumStrandVariables * sizeof(DirectX::XMFLOAT2);
 	bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
 	bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	bufferDesc.CPUAccessFlags = 0;
@@ -6580,13 +6677,13 @@ float vecLength(HairVertex v1, HairVertex v2)
 	return sqrt(sqr(v1.Position.x - v2.Position.x) + sqr(v1.Position.y - v2.Position.y) + sqr(v1.Position.z - v2.Position.z));
 }
 
-void vectorMatrixMultiply(D3DXVECTOR3 *vecOut, const D3DXMATRIX matrix, const D3DXVECTOR3 vecIn)
+void vectorMatrixMultiply(DirectX::XMFLOAT3 *vecOut, const DirectX::XMFLOAT4X4 matrix, const DirectX::XMFLOAT3 vecIn)
 {
 	vecOut->x = vecIn.x * matrix(0, 0) + vecIn.y * matrix(1, 0) + vecIn.z * matrix(2, 0) + matrix(3, 0);
 	vecOut->y = vecIn.x * matrix(0, 1) + vecIn.y * matrix(1, 1) + vecIn.z * matrix(2, 1) + matrix(3, 1);
 	vecOut->z = vecIn.x * matrix(0, 2) + vecIn.y * matrix(1, 2) + vecIn.z * matrix(2, 2) + matrix(3, 2);
 }
-void vectorMatrixMultiply(D3DXVECTOR4 *vecOut, const D3DXMATRIX matrix, const D3DXVECTOR4 vecIn)
+void vectorMatrixMultiply(DirectX::XMFLOAT4 *vecOut, const DirectX::XMFLOAT4X4 matrix, const DirectX::XMFLOAT4 vecIn)
 {
 	vecOut->x = vecIn.x * matrix(0, 0) + vecIn.y * matrix(0, 1) + vecIn.z * matrix(0, 2) + vecIn.w * matrix(0, 3);
 	vecOut->y = vecIn.x * matrix(1, 0) + vecIn.y * matrix(1, 1) + vecIn.z * matrix(1, 2) + vecIn.w * matrix(1, 3);
@@ -6612,10 +6709,10 @@ void rotateVector(const float3 &rotationAxis, float theta, const float3 &prevVec
 	float y = rotationAxis.y;
 	float z = rotationAxis.z;
 
-	D3DXMATRIX rotationMatrix(t * x * x + c, t * x * y - s * z, t * x * z + s * y, 0,
-							  t * x * y + s * z, t * y * y + c, t * y * z - s * x, 0,
-							  t * x * z - s * y, t * y * z + s * x, t * z * z + c, 0,
-							  0, 0, 0, 1);
+	DirectX::XMFLOAT4X4 rotationMatrix(t * x * x + c, t * x * y - s * z, t * x * z + s * y, 0,
+									   t * x * y + s * z, t * y * y + c, t * y * z - s * x, 0,
+									   t * x * z - s * y, t * y * z + s * x, t * z * z + c, 0,
+									   0, 0, 0, 1);
 
 	vectorMatrixMultiply(&newVec, rotationMatrix, prevVec);
 }
@@ -6641,17 +6738,17 @@ HRESULT CreateCollisionScreenQuadVB(ID3D11Device *pd3dDevice)
 	float top = 1.0f - 2.0f / h;
 	float bottom = -1.0f + 2.0f / h;
 
-	tempVertex1.Pos = D3DXVECTOR3(left, top, 0.0f);
-	tempVertex1.Tex = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	tempVertex1.Pos = DirectX::XMFLOAT3(left, top, 0.0f);
+	tempVertex1.Tex = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
 
-	tempVertex2.Pos = D3DXVECTOR3(right, top, 0.0f);
-	tempVertex2.Tex = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	tempVertex2.Pos = DirectX::XMFLOAT3(right, top, 0.0f);
+	tempVertex2.Tex = DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f);
 
-	tempVertex3.Pos = D3DXVECTOR3(right, bottom, 0.0f);
-	tempVertex3.Tex = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
+	tempVertex3.Pos = DirectX::XMFLOAT3(right, bottom, 0.0f);
+	tempVertex3.Tex = DirectX::XMFLOAT3(1.0f, 1.0f, 0.0f);
 
-	tempVertex4.Pos = D3DXVECTOR3(left, bottom, 0.0f);
-	tempVertex4.Tex = D3DXVECTOR3(0.0f, 1.0, 0.0f);
+	tempVertex4.Pos = DirectX::XMFLOAT3(left, bottom, 0.0f);
+	tempVertex4.Tex = DirectX::XMFLOAT3(0.0f, 1.0, 0.0f);
 
 	int index = 0;
 	renderQuad[index++] = tempVertex1;
@@ -6702,17 +6799,17 @@ HRESULT CreateScreenQuadVB(ID3D11Device *pd3dDevice)
 	float top = 1.0f;
 	float bottom = -1.0f;
 
-	tempVertex1.Pos = D3DXVECTOR3(left, top, 0.0f);
-	tempVertex1.Tex = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	tempVertex1.Pos = DirectX::XMFLOAT3(left, top, 0.0f);
+	tempVertex1.Tex = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
 
-	tempVertex2.Pos = D3DXVECTOR3(right, top, 0.0f);
-	tempVertex2.Tex = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	tempVertex2.Pos = DirectX::XMFLOAT3(right, top, 0.0f);
+	tempVertex2.Tex = DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f);
 
-	tempVertex3.Pos = D3DXVECTOR3(right, bottom, 0.0f);
-	tempVertex3.Tex = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
+	tempVertex3.Pos = DirectX::XMFLOAT3(right, bottom, 0.0f);
+	tempVertex3.Tex = DirectX::XMFLOAT3(1.0f, 1.0f, 0.0f);
 
-	tempVertex4.Pos = D3DXVECTOR3(left, bottom, 0.0f);
-	tempVertex4.Tex = D3DXVECTOR3(0.0f, 1.0, 0.0f);
+	tempVertex4.Pos = DirectX::XMFLOAT3(left, bottom, 0.0f);
+	tempVertex4.Tex = DirectX::XMFLOAT3(0.0f, 1.0, 0.0f);
 
 	int index = 0;
 	renderQuad[index++] = tempVertex1;
@@ -6762,17 +6859,17 @@ HRESULT CreateSuperSampleScreenQuadVB(ID3D11Device *pd3dDevice)
 	float top = 1.0f;
 	float bottom = -1.0f;
 
-	tempVertex1.Pos = D3DXVECTOR3(left, top, 0.0f);
-	tempVertex1.Tex = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	tempVertex1.Pos = DirectX::XMFLOAT3(left, top, 0.0f);
+	tempVertex1.Tex = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
 
-	tempVertex2.Pos = D3DXVECTOR3(right, top, 0.0f);
-	tempVertex2.Tex = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	tempVertex2.Pos = DirectX::XMFLOAT3(right, top, 0.0f);
+	tempVertex2.Tex = DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f);
 
-	tempVertex3.Pos = D3DXVECTOR3(right, bottom, 0.0f);
-	tempVertex3.Tex = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
+	tempVertex3.Pos = DirectX::XMFLOAT3(right, bottom, 0.0f);
+	tempVertex3.Tex = DirectX::XMFLOAT3(1.0f, 1.0f, 0.0f);
 
-	tempVertex4.Pos = D3DXVECTOR3(left, bottom, 0.0f);
-	tempVertex4.Tex = D3DXVECTOR3(0.0f, 1.0, 0.0f);
+	tempVertex4.Pos = DirectX::XMFLOAT3(left, bottom, 0.0f);
+	tempVertex4.Tex = DirectX::XMFLOAT3(0.0f, 1.0, 0.0f);
 
 	int index = 0;
 	renderQuad[index++] = tempVertex1;
@@ -6822,7 +6919,7 @@ float3 TrasformFromWorldToLocalCF(int index, float3 oldVector)
 	float3 worldY = float3(0, 1, 0);
 	float3 worldZ = float3(0, 0, 1);
 
-	D3DXMATRIX WorldToV = D3DXMATRIX(
+	DirectX::XMFLOAT4X4 WorldToV = DirectX::XMFLOAT4X4(
 		D3DXVec3Dot(&vX, &worldX), D3DXVec3Dot(&vY, &worldX), D3DXVec3Dot(&vZ, &worldX), 0,
 		D3DXVec3Dot(&vX, &worldY), D3DXVec3Dot(&vY, &worldY), D3DXVec3Dot(&vZ, &worldY), 0,
 		D3DXVec3Dot(&vX, &worldZ), D3DXVec3Dot(&vY, &worldZ), D3DXVec3Dot(&vZ, &worldZ), 0,
@@ -6927,8 +7024,8 @@ HRESULT LoadTextureArray(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dCont
 
 struct PlaneVertex
 {
-	D3DXVECTOR3 Pos;
-	D3DXVECTOR3 Normal;
+	DirectX::XMFLOAT3 Pos;
+	DirectX::XMFLOAT3 Normal;
 };
 
 HRESULT CreatePlane(ID3D11Device *pd3dDevice, float radius, float height)
@@ -6936,10 +7033,10 @@ HRESULT CreatePlane(ID3D11Device *pd3dDevice, float radius, float height)
 	HRESULT hr;
 	PlaneVertex vertices[] =
 		{
-			{D3DXVECTOR3(-radius, height, radius), D3DXVECTOR3(0.0f, 1.0f, 0.0f)},
-			{D3DXVECTOR3(radius, height, radius), D3DXVECTOR3(0.0f, 1.0f, 0.0f)},
-			{D3DXVECTOR3(radius, height, -radius), D3DXVECTOR3(0.0f, 1.0f, 0.0f)},
-			{D3DXVECTOR3(-radius, height, -radius), D3DXVECTOR3(0.0f, 1.0f, 0.0f)},
+			{DirectX::XMFLOAT3(-radius, height, radius), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)},
+			{DirectX::XMFLOAT3(radius, height, radius), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)},
+			{DirectX::XMFLOAT3(radius, height, -radius), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)},
+			{DirectX::XMFLOAT3(-radius, height, -radius), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)},
 		};
 	D3D11_BUFFER_DESC bd;
 	bd.Usage = D3D11_USAGE_DEFAULT;

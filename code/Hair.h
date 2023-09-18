@@ -13,10 +13,12 @@
 // Please direct any bugs or questions to SDKFeedback@nvidia.com
 
 #ifndef HAIR_H
-#define HAIR_H
+#define HAIR_H 1
 
 #pragma warning(disable : 4995) // avoid warning for "...was marked as #pragma deprecated"
 #pragma warning(disable : 4244) // avoid warning for "conversion from 'float' to 'int'"
+
+#include "../shaders/HairCommon.h"
 
 extern int g_Width;
 extern int g_Height;
@@ -46,9 +48,9 @@ using namespace std;
 extern Fluid *g_fluid;
 
 typedef int int4[4];
-typedef D3DXVECTOR2 float2;
-typedef D3DXVECTOR3 float3;
-typedef D3DXVECTOR4 float4;
+typedef DirectX::XMFLOAT2 float2;
+typedef DirectX::XMFLOAT3 float3;
+typedef DirectX::XMFLOAT4 float4;
 
 struct coordinateFrame
 {
@@ -65,7 +67,7 @@ struct CFVertex
 
 struct Attributes
 {
-	D3DXVECTOR2 texcoord;
+	DirectX::XMFLOAT2 texcoord;
 };
 
 struct collisionImplicit
@@ -77,19 +79,19 @@ struct collisionImplicit
 
 struct StrandRoot
 {
-	D3DXVECTOR3 Position;
-	D3DXVECTOR3 Normal;
-	D3DXVECTOR2 Texcoord;
-	D3DXVECTOR3 Tangent;
+	DirectX::XMFLOAT3 Position;
+	DirectX::XMFLOAT3 Normal;
+	DirectX::XMFLOAT2 Texcoord;
+	DirectX::XMFLOAT3 Tangent;
 };
 
 struct GRID_TEXTURE_DISPLAY_STRUCT
 {
-	D3DXVECTOR3 Pos; // Clip space position for slice vertices
-	D3DXVECTOR3 Tex; // Cell coordinates in 0-"texture dimension" range
+	DirectX::XMFLOAT3 Pos; // Clip space position for slice vertices
+	DirectX::XMFLOAT3 Tex; // Cell coordinates in 0-"texture dimension" range
 };
 
-struct hairShadingParameters
+class hairShadingParameters
 {
 	float m_baseColor[4];
 	float m_specColor[4];
@@ -101,7 +103,13 @@ struct hairShadingParameters
 	float m_ksP_sparkles;
 	float m_specPowerPrimarySparkles;
 	float m_ka;
-	hairShadingParameters(){};
+	
+public:
+	hairShadingParameters()
+	{
+
+	};
+
 	void assignValues(float baseColor[4], float specColor[4], float ksP, float ksS, float kd, float specPowerPrimary, float specPowerSecondary, float ksP_sparkles, float specPowerPrimarySparkles, float ka)
 	{
 		m_baseColor[0] = baseColor[0];
@@ -121,18 +129,12 @@ struct hairShadingParameters
 		m_specPowerPrimarySparkles = specPowerPrimarySparkles;
 		m_ka = ka;
 	};
-	void setShaderVariables(ID3DX11Effect *pEffect)
+
+	void setShaderVariables()
 	{
-		pEffect->GetVariableByName("g_ksP")->AsScalar()->SetFloat(m_ksP);
-		pEffect->GetVariableByName("g_ksS")->AsScalar()->SetFloat(m_ksS);
-		pEffect->GetVariableByName("g_kd")->AsScalar()->SetFloat(m_kd);
-		pEffect->GetVariableByName("g_ka")->AsScalar()->SetFloat(m_ka);
-		pEffect->GetVariableByName("g_specPowerPrimary")->AsScalar()->SetFloat(m_specPowerPrimary);
-		pEffect->GetVariableByName("g_specPowerSecondary")->AsScalar()->SetFloat(m_specPowerSecondary);
-		pEffect->GetVariableByName("g_ksP_sparkles")->AsScalar()->SetFloat(m_ksP_sparkles);
-		pEffect->GetVariableByName("g_specPowerPrimarySparkles")->AsScalar()->SetFloat(m_specPowerPrimarySparkles);
-		pEffect->GetVariableByName("g_baseColor")->AsVector()->SetFloatVector(m_baseColor);
-		pEffect->GetVariableByName("g_specColor")->AsVector()->SetFloatVector(m_specColor);
+		DirectX::XMFLOAT4 const baseColor(this->m_baseColor[0], this->m_baseColor[1], this->m_baseColor[2], this->m_baseColor[3]);
+		DirectX::XMFLOAT4 const specColor(this->m_specColor[0], this->m_specColor[1], this->m_specColor[2], this->m_specColor[3]);
+		HairEffect_SetShaderVariables(this->m_ksP, this->m_ksS, this->m_kd, this->m_ka, this->m_specPowerPrimary, this->m_specPowerSecondary, this->m_ksP_sparkles, this->m_specPowerPrimarySparkles, baseColor, specColor);
 	}
 };
 
@@ -152,24 +154,23 @@ enum IMPLICIT_TYPE
 
 struct collisionObject
 {
-	bool isHead;				 // if this is the head it is also used to transform the hair
-	string boneName;			 // the name of the bone that this object is attached. if there is no bone then we use the global transform for the object
-	IMPLICIT_TYPE implicitType;	 // type of implicit: sphere or cylinder
-	D3DXMATRIX InitialTransform; // the total initial transform; this is the transform that takes a unit implicit to the hair base pose
-	D3DXMATRIX currentTransform; // the transform that takes the implicit from base pose to the current hair space (different from world space)
-	D3DXMATRIX objToMesh;		 // the transform that goes from the hair base pose to the mesh bind pose, such that after multiplying with the meshWorldXForm we end up at the correct real world position
+	bool isHead;						  // if this is the head it is also used to transform the hair
+	string boneName;					  // the name of the bone that this object is attached. if there is no bone then we use the global transform for the object
+	IMPLICIT_TYPE implicitType;			  // type of implicit: sphere or cylinder
+	DirectX::XMFLOAT4X4 InitialTransform; // the total initial transform; this is the transform that takes a unit implicit to the hair base pose
+	DirectX::XMFLOAT4X4 currentTransform; // the transform that takes the implicit from base pose to the current hair space (different from world space)
+	DirectX::XMFLOAT4X4 objToMesh;		  // the transform that goes from the hair base pose to the mesh bind pose, such that after multiplying with the meshWorldXForm we end up at the correct real world position
 };
 
 enum RENDERTYPE
 {
-	INSTANCED_DEPTH,
-	INSTANCED_DENSITY,
-	INSTANCED_NORMAL_HAIR,
-	INSTANCED_INTERPOLATED_COLLISION,
-	INSTANCED_HAIR_DEPTHPASS,
-	INSTANCED_COLLISION_RESULTS,
+	INSTANCED_DEPTH, 
+	INSTANCED_DENSITY, 
+	INSTANCED_NORMAL_HAIR, 
+	INSTANCED_INTERPOLATED_COLLISION, 
 	SOATTRIBUTES,
-	INSTANCED_DEPTH_DOM,
+
+	INSTANCED_COLLISION_RESULTS,
 };
 enum INTERPOLATE_MODEL
 {
@@ -212,7 +213,7 @@ extern float vecLength(HairVertex v1, HairVertex v2);
 bool LoadMayaHair(char *directory, bool b_shortHair);
 
 extern void rotateVector(const float3 &rotationAxis, float theta, const float3 &prevVec, float3 &newVec);
-extern void vectorMatrixMultiply(D3DXVECTOR3 *vecOut, const D3DXMATRIX matrix, const D3DXVECTOR3 vecIn);
-extern void vectorMatrixMultiply(D3DXVECTOR4 *vecOut, const D3DXMATRIX matrix, const D3DXVECTOR4 vecIn);
+extern void vectorMatrixMultiply(DirectX::XMFLOAT3 *vecOut, const DirectX::XMFLOAT4X4 matrix, const DirectX::XMFLOAT3 vecIn);
+extern void vectorMatrixMultiply(DirectX::XMFLOAT4 *vecOut, const DirectX::XMFLOAT4X4 matrix, const DirectX::XMFLOAT4 vecIn);
 
 #endif

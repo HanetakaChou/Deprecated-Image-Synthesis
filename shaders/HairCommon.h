@@ -12,8 +12,8 @@
 //
 // Please direct any bugs or questions to SDKFeedback@nvidia.com
 
-#ifndef HAIR_H
-#define HAIR_H
+#ifndef SHADERS_HAIRCOMMON_H
+#define SHADERS_HAIRCOMMON_H 1
 
 #define NUM_MRTS 8
 #define NUM_PASSES 1
@@ -34,8 +34,8 @@
 #endif
 
 // #define USE_CSM
-#define CSM_ZMAX 1.0
-#define CSM_HALF_NUM_TEX 4
+// #define CSM_ZMAX 1.0
+// #define CSM_HALF_NUM_TEX 4
 
 //-------------------------------------------------------------------
 
@@ -55,20 +55,57 @@
 #endif
 */
 
-#ifdef __cplusplus
+//-------------------------------------------------------------------
+#define MAX_INTERPOLATED_HAIR_PER_WISP 200 // note the g_NumMStrandsPerWisp variable cannot/should not be larger than this
+
+#define g_NumMStrandsPerWisp 45
+#define g_NumSStrandsPerWisp 80
+
+#define g_thinning 0.5
+
+//-------------------------------------------------------------------
+#define SLOT_MASTERSTRANDSB 57
+#define SLOT_MASTERSTRAND 10
+#define SLOT_TESSELLATEDMASTERSTRAND 9
+#define SLOT_TESSELLATEDCOORDINATEFRAMES 19
+#define SLOT_TESSELLATEDLENGTHSTOROOTS 20
+#define SLOT_TESSELLATEDTANGENTS 22
+#define SLOT_COLLISIONSTEXTURE 44
+#define SLOT_INTERPOLATEDPOSITIONANDWIDTH 29
+#define SLOT_INTERPOLATEDIDALPHATEX 30
+#define SLOT_INTERPOLATEDTANGENT 31
+#define SLOT_INTERPOLATEDPOSITIONANDWIDTHCLUMP 32
+#define SLOT_INTERPOLATEDIDALPHATEXCLUMP 33
+#define SLOT_INTERPOLATEDTANGENTCLUMP 34
+#define SLOT_SSTRANDSPERMASTERSTRANDCUMULATIVE_OR_MSTRANDPERWISPCUMULATIVE 35
+
+#define SLOT_TEXTURE_DENSITY 48
+#define SLOT_TEXTURE_DENSITY_DEMUX 49
+#define SLOT_TEXTURE_DENSITY_BLUR_TEMP 50
+#define SLOT_TEXTURE_DENSITY_BLUR 51
+#define SLOT_TEXTURE_TO_BLUR 52
+#define SLOT_TEXTURE_VOXELIZED_OBSTACLES 53
+
+#define SLOT_TSHADOWMAP 54
+
+#if defined(__STDC__) || defined(__cplusplus)
 
 struct HairVertex
 {
-	float4 Position;
+	DirectX::XMFLOAT4 Position;
 };
 
-#else
+#elif defined(HLSL_VERSION) || defined(__HLSL_VERSION)
 
 struct HairVertex
 {
 	float4 Position : Position;
 };
 
+#define TEXREG(n) register(t##n)
+
+#else
+#error Unknown Compiler
 #endif
 
 #define MAX_IMPLICITS 10

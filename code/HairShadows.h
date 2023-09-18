@@ -12,11 +12,15 @@
 //
 // Please direct any bugs or questions to SDKFeedback@nvidia.com
 
+#ifndef _HAIR_SHADOWS_H_
+#define _HAIR_SHADOWS_H_ 1
+
+#include <DXUT.h>
+#include <DXUTcamera.h>
+
 #include "SimpleRT.h"
 
 #define LIGHT_RES 1024
-
-extern ID3DX11Effect *g_Effect;
 
 class HairShadows
 {
@@ -25,18 +29,9 @@ class HairShadows
 	SimpleRT *m_pDepthsRT;
 	DepthRT *m_pDepthsDS;
 
-	// extra variables for DOM
-	SimpleRT *m_DOM;
-	SimpleRT *m_pDepthsRT_DOM;
-	// TEMP SARAH! SimpleArrayRT*          m_DOM; //if you need more than one RT
-	float m_Zi[ARRAY_SIZE * 4 + 1];
-	static int m_NumLayers;
-	bool m_useDOM;
-
-	D3DXMATRIX mWorldI, mWorldIT;
-	D3DXMATRIX mWorldView, mWorldViewI, mWorldViewIT;
-	D3DXMATRIX mWorldViewProj, mWorldViewProjI;
-	D3DXVECTOR3 vLightDirWorld, vLightCenterWorld;
+	DirectX::XMFLOAT4X4 m_mWorldViewProj;
+	DirectX::XMFLOAT3 m_vLightDirWorld;
+	DirectX::XMFLOAT3 m_vLightCenterWorld;
 
 public:
 	HairShadows()
@@ -50,9 +45,6 @@ public:
 
 		m_pDepthsRT = NULL;
 		m_pDepthsDS = NULL;
-		m_pDepthsRT_DOM = NULL;
-
-		m_useDOM = false;
 	}
 
 	void OnD3D11CreateDevice(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext)
@@ -81,292 +73,168 @@ public:
 		texDesc.SampleDesc.Quality = 0;
 		texDesc.Usage = D3D11_USAGE_DEFAULT;
 		m_pDepthsDS = new DepthRT(pd3dDevice, &texDesc);
-
-		// create the resources for Opacity Shadow Maps
-		D3D11_TEXTURE2D_DESC texDesc2;
-		texDesc2.Width = LIGHT_RES;
-		texDesc2.Height = LIGHT_RES;
-		if (m_NumLayers == 1)
-			texDesc2.ArraySize = 1;
-		else
-			texDesc2.ArraySize = ARRAY_SIZE;
-		texDesc2.MiscFlags = 0;
-		texDesc2.MipLevels = 1;
-		texDesc2.SampleDesc.Count = 1;
-		texDesc2.SampleDesc.Quality = 0;
-		texDesc2.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
-		if (m_NumLayers == 1)
-			m_DOM = new SimpleRT(pd3dDevice, pd3dContext, &texDesc2);
-		else
-			m_DOM = new SimpleArrayRT(pd3dDevice, pd3dContext, &texDesc2);
-
-		texDesc.Width = LIGHT_RES;
-		texDesc.Height = LIGHT_RES;
-		texDesc.ArraySize = 1;
-		texDesc.MiscFlags = 0;
-		texDesc.MipLevels = 1;
-		texDesc.SampleDesc.Count = 1;
-		texDesc.SampleDesc.Quality = 0;
-		texDesc.Format = DXGI_FORMAT_R32_FLOAT;
-		m_pDepthsRT_DOM = new SimpleRT(pd3dDevice, pd3dContext, &texDesc);
 	}
 
 	void OnD3D11DestroyDevice()
 	{
 		SAFE_DELETE(m_pDepthsRT);
 		SAFE_DELETE(m_pDepthsDS);
-		SAFE_DELETE(m_DOM);
-		SAFE_DELETE(m_pDepthsRT_DOM);
 	}
 
 	CModelViewerCamera &GetCamera()
 	{
-		return m_LCamera;
+		return this->m_LCamera;
 	}
 
-	D3DXMATRIX &GetLightWorldViewProj()
+	DirectX::XMFLOAT4X4 &GetLightWorldViewProj()
 	{
-		return mWorldViewProj;
+		return this->m_mWorldViewProj;
 	}
 
-	D3DXVECTOR3 &GetLightWorldDir()
+	DirectX::XMFLOAT3 &GetLightWorldDir()
 	{
-		return vLightDirWorld;
+		return this->m_vLightDirWorld;
 	}
 
-	D3DXVECTOR3 &GetLightCenterWorld()
+	DirectX::XMFLOAT3 &GetLightCenterWorld()
 	{
-		return vLightCenterWorld;
+		return this->m_vLightCenterWorld;
 	}
 
-	void UpdateMatrices(D3DXVECTOR3 bbCenter, D3DXVECTOR3 bbExtents)
+	void UpdateMatrices(DirectX::XMFLOAT3 bbCenter, DirectX::XMFLOAT3 bbExtents)
 	{
-		HRESULT hr;
+		DirectX::XMMATRIX mTrans = DirectX::XMMatrixTranslation(-bbCenter.x, -bbCenter.y, -bbCenter.z);
 
-		D3DXMATRIX mTrans, mWorld;
-		D3DXMatrixTranslation(&mTrans, -bbCenter.x, -bbCenter.y, -bbCenter.z);
-		D3DXMatrixMultiply(&mWorld, &mTrans, m_LCamera.GetWorldMatrix());
+		DirectX::XMMATRIX mWorld = DirectX::XMMatrixMultiply(mTrans, m_LCamera.GetWorldMatrix());
 
-		D3DXMATRIX mView = *m_LCamera.GetViewMatrix();
-		D3DXMatrixInverse(&mWorldI, NULL, &mWorld);
-		D3DXMatrixTranspose(&mWorldIT, &mWorldI);
-		D3DXMatrixMultiply(&mWorldView, &mWorld, &mView);
-		D3DXMatrixInverse(&mWorldViewI, NULL, &mWorldView);
-		D3DXMatrixTranspose(&mWorldViewIT, &mWorldViewI);
+		DirectX::XMMATRIX mWorldI = DirectX::XMMatrixInverse(NULL, mWorld);
 
-		D3DXVECTOR3 vBox[2];
-		vBox[0] = bbCenter - bbExtents;
-		vBox[1] = bbCenter + bbExtents;
+		DirectX::XMMATRIX mWorldIT = DirectX::XMMatrixTranspose(mWorldI);
 
-		D3DXVECTOR3 BBox[2];
-		BBox[0][0] = BBox[0][1] = BBox[0][2] = FLT_MAX;
-		BBox[1][0] = BBox[1][1] = BBox[1][2] = -FLT_MAX;
+		DirectX::XMMATRIX mView = this->m_LCamera.GetViewMatrix();
+
+		DirectX::XMMATRIX mWorldView = DirectX::XMMatrixMultiply(mWorld, mView);
+
+		DirectX::XMMATRIX mWorldViewI = DirectX::XMMatrixInverse(NULL, mWorldView);
+
+		DirectX::XMMATRIX mWorldViewIT = DirectX::XMMatrixTranspose(mWorldViewI);
+
+		DirectX::XMFLOAT3 vBox[2];
+		vBox[0].x = bbCenter.x - bbExtents.x;
+		vBox[0].y = bbCenter.y - bbExtents.y;
+		vBox[0].z = bbCenter.z - bbExtents.z;
+		vBox[1].x = bbCenter.x + bbExtents.x;
+		vBox[1].y = bbCenter.y + bbExtents.y;
+		vBox[1].z = bbCenter.z + bbExtents.z;
+
+		DirectX::XMFLOAT3 BBox[2];
+		BBox[0].x = BBox[0].y = BBox[0].z = FLT_MAX;
+		BBox[1].x = BBox[1].y = BBox[1].z = -FLT_MAX;
 		for (int i = 0; i < 8; ++i)
 		{
-			D3DXVECTOR3 v, v1;
-			v[0] = vBox[(i & 1) ? 0 : 1][0];
-			v[1] = vBox[(i & 2) ? 0 : 1][1];
-			v[2] = vBox[(i & 4) ? 0 : 1][2];
-			D3DXVec3TransformCoord(&v1, &v, &mWorldView);
-			for (int j = 0; j < 3; ++j)
-			{
-				BBox[0][j] = min(BBox[0][j], v1[j]);
-				BBox[1][j] = max(BBox[1][j], v1[j]);
-			}
+			DirectX::XMFLOAT3 v;
+			v.x = vBox[(i & 1) ? 0 : 1].x;
+			v.y = vBox[(i & 2) ? 0 : 1].y;
+			v.z = vBox[(i & 4) ? 0 : 1].z;
+
+			DirectX::XMFLOAT3 v1;
+			DirectX::XMStoreFloat3(&v1, DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&v), mWorldView));
+
+			BBox[0].x = std::min(BBox[0].x, v1.x);
+			BBox[0].y = std::min(BBox[0].y, v1.y);
+			BBox[0].z = std::min(BBox[0].z, v1.z);
+			BBox[1].x = std::max(BBox[1].x, v1.x);
+			BBox[1].y = std::max(BBox[1].y, v1.y);
+			BBox[1].z = std::max(BBox[1].z, v1.z);
 		}
 
-		float ZNear = BBox[0][2];
-		float ZFar = BBox[1][2];
-		V(g_Effect->GetVariableByName("ZNear")->AsScalar()->SetFloat(ZNear));
-		V(g_Effect->GetVariableByName("ZFar")->AsScalar()->SetFloat(ZFar));
+		float ZNear = BBox[0].z;
+		float ZFar = BBox[1].z;
 
-		int NumSlices = m_NumLayers * 4 - 1;
-		float Zn = 0;
+		float w = (FLOAT)std::max(std::abs(BBox[0].x), (FLOAT)std::abs(BBox[1].x)) * 2;
+		float h = (FLOAT)std::max(std::abs(BBox[0].y), (FLOAT)std::abs(BBox[1].y)) * 2;
+		
+		DirectX::XMMATRIX mProj = DirectX::XMMatrixOrthographicLH(w, h, ZNear, ZFar);
 
-		/*
-		//constant spacing
-		float DzInc = 6; //this value has to be exposed through a slider to the user
-		float dz[33];
-		for (int i = 0; i < NumSlices+1; i++) {
-			dz[i] = DzInc;
-			m_Zi[i] = Zn + dz[i] * i;
-		}*/
+		DirectX::XMMATRIX mWorldViewProj = DirectX::XMMatrixMultiply(mWorldView, mProj);
 
-		// linear spacing
-		float dzInc = 3;
-		float dz[33];
-		for (int i = 0; i < NumSlices + 1; i++)
-		{
-			dz[i] = dzInc * (i + 1);
-			if (i == 0)
-				m_Zi[0] = Zn;
-			else
-				m_Zi[i] = m_Zi[i - 1] + dz[i - 1];
-		}
+		DirectX::XMMATRIX mWorldViewProjI = DirectX::XMMatrixInverse(NULL, mWorldViewProj);
 
-		// V(g_Effect->GetVariableByName("g_DZ")->AsScalar()->SetFloat(DZ));
-		V(g_Effect->GetVariableByName("g_Dz")->AsVector()->SetFloatVectorArray(&dz[0], 0, ARRAY_SIZE));
-		V(g_Effect->GetVariableByName("g_Zi")->AsVector()->SetFloatVectorArray(&m_Zi[1], 0, ARRAY_SIZE));
-		// V(g_Effect->GetVariableByName("NumLayers")->AsScalar()->SetInt(m_NumLayers));
+		DirectX::XMFLOAT4X4 mClip2Tex =
+			DirectX::XMFLOAT4X4(
+				0.5, 0, 0, 0,
+				0, -0.5, 0, 0,
+				0, 0, 1, 0,
+				0.5, 0.5, 0, 1);
+		DirectX::XMMATRIX mLightViewProjClip2Tex = DirectX::XMMatrixMultiply(mWorldViewProj, DirectX::XMLoadFloat4x4(&mClip2Tex));
 
-		float w = (FLOAT)max(abs(BBox[0][0]), (FLOAT)abs(BBox[1][0])) * 2;
-		float h = (FLOAT)max(abs(BBox[0][1]), (FLOAT)abs(BBox[1][1])) * 2;
-		D3DXMATRIX mProj;
-		D3DXMatrixOrthoLH(&mProj, w, h, ZNear, ZFar);
-		// D3DXMatrixPerspectiveLH(&mProj, w, h, ZNear, ZFar);
+		DirectX::XMFLOAT3 vLightDirClip = DirectX::XMFLOAT3(0, 0, 1);
+		DirectX::XMVECTOR vLightDirWorld = DirectX::XMVector3TransformCoord(DirectX::XMLoadFloat3(&vLightDirClip), mWorldViewProjI);
+		vLightDirWorld = DirectX::XMVectorScale(vLightDirWorld, -1.0F);
+		vLightDirWorld = DirectX::XMVector3Normalize(vLightDirWorld);
 
-		D3DXMatrixMultiply(&mWorldViewProj, &mWorldView, &mProj);
-		D3DXMatrixInverse(&mWorldViewProjI, NULL, &mWorldViewProj);
-		V(g_Effect->GetVariableByName("mLightView")->AsMatrix()->SetMatrix(mWorldView));
-		V(g_Effect->GetVariableByName("mLightProj")->AsMatrix()->SetMatrix(mProj));
-		V(g_Effect->GetVariableByName("mLightViewProj")->AsMatrix()->SetMatrix(mWorldViewProj));
-		V(g_Effect->GetVariableByName("mLightViewProjI")->AsMatrix()->SetMatrix(mWorldViewProjI));
+		DirectX::XMFLOAT3 vLightCenterClip = DirectX::XMFLOAT3(0, 0, 0.5);
+		DirectX::XMVECTOR vLightCenterWorld = DirectX::XMVector3TransformCoord(DirectX::XMLoadFloat3(&vLightCenterClip), mWorldViewProjI);
 
-		D3DXMATRIX mClip2Tex = D3DXMATRIX(
-			0.5, 0, 0, 0,
-			0, -0.5, 0, 0,
-			0, 0, 1, 0,
-			0.5, 0.5, 0, 1);
-		D3DXMATRIX mLightViewProjClip2Tex;
-		D3DXMatrixMultiply(&mLightViewProjClip2Tex, &mWorldViewProj, &mClip2Tex);
-		V(g_Effect->GetVariableByName("mLightViewProjClip2Tex")->AsMatrix()->SetMatrix(mLightViewProjClip2Tex));
+		DirectX::XMStoreFloat4x4(&this->m_mWorldViewProj, mWorldViewProj);
+		DirectX::XMStoreFloat3(&this->m_vLightDirWorld, vLightDirWorld);
+		DirectX::XMStoreFloat3(&this->m_vLightCenterWorld, vLightCenterWorld);
 
-		D3DXVECTOR3 vLightClip = D3DXVECTOR3(0, 0, 1);
-		D3DXVec3TransformCoord(&vLightDirWorld, &vLightClip, &mWorldViewProjI);
+		DirectX::XMFLOAT4X4 _mLightViewProjClip2Tex;
+		DirectX::XMStoreFloat4x4(&_mLightViewProjClip2Tex, mLightViewProjClip2Tex);
+		
+		DirectX::XMFLOAT4X4 _mLightView;
+		DirectX::XMStoreFloat4x4(&_mLightView, mWorldView);
 
-		vLightClip = D3DXVECTOR3(0, 0, 0.5);
-		D3DXVec3TransformCoord(&vLightCenterWorld, &vLightClip, &mWorldViewProjI);
+		DirectX::XMFLOAT4X4 _mLightViewProj;
+		DirectX::XMStoreFloat4x4(&_mLightViewProj, mWorldViewProj);
 
-		vLightDirWorld -= vLightCenterWorld;
-		D3DXVec3Normalize(&vLightDirWorld, &vLightDirWorld);
-		V(g_Effect->GetVariableByName("vLightDir")->AsVector()->SetFloatVector(vLightDirWorld));
+		HairEffect_SetLight(this->m_vLightDirWorld, _mLightViewProjClip2Tex, _mLightView, _mLightViewProj);
 	}
 
-	void BeginShadowMapRendering(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext, bool DOMPrepass = false)
+	void BeginShadowMapRendering(ID3D11DeviceContext *context)
 	{
 		float ClearColor[4] = {FLT_MAX};
-		if (!DOMPrepass)
-			pd3dContext->ClearRenderTargetView(*m_pDepthsRT, ClearColor);
-		else
-			pd3dContext->ClearRenderTargetView(*m_pDepthsRT_DOM, ClearColor);
+		context->ClearRenderTargetView(*m_pDepthsRT, ClearColor);
 
-		pd3dContext->ClearDepthStencilView(*m_pDepthsDS, D3D11_CLEAR_DEPTH, 1.0, 0);
+		context->ClearDepthStencilView(*m_pDepthsDS, D3D11_CLEAR_DEPTH, 1.0, 0);
 
-		g_Effect->GetVariableByName("tShadowMap")->AsShaderResource()->SetResource(NULL);
+		ID3D11ShaderResourceView *const NULLSRV = NULL;
+		context->VSSetShaderResources(SLOT_TSHADOWMAP, 1, &NULLSRV);
+		context->HSSetShaderResources(SLOT_TSHADOWMAP, 1, &NULLSRV);
+		context->DSSetShaderResources(SLOT_TSHADOWMAP, 1, &NULLSRV);
+		context->GSSetShaderResources(SLOT_TSHADOWMAP, 1, &NULLSRV);
+		context->PSSetShaderResources(SLOT_TSHADOWMAP, 1, &NULLSRV);
 
-		ID3D11RenderTargetView *pRTVs[1];
-		if (!DOMPrepass)
-			pRTVs[0] = *m_pDepthsRT;
-		else
-			pRTVs[0] = *m_pDepthsRT_DOM;
-		pd3dContext->OMSetRenderTargets(1, pRTVs, *m_pDepthsDS);
-		pd3dContext->RSSetViewports(1, &m_LViewport);
-	}
-	void EndShadowMapRendering(ID3D11DeviceContext *pd3dContext, bool DOMPrepass = false)
-	{
-		pd3dContext->OMSetRenderTargets(0, NULL, NULL);
+		ID3D11RenderTargetView *pRTVs[1] = {*m_pDepthsRT};
+		context->OMSetRenderTargets(1, pRTVs, *m_pDepthsDS);
+		context->RSSetViewports(1, &m_LViewport);
 	}
 
-	void setupDOMShadowMapRendering(ID3D11DeviceContext *pd3dContext)
+	void EndShadowMapRendering(ID3D11DeviceContext *context)
 	{
-		pd3dContext->RSSetViewports(1, &m_LViewport);
-
-		float Zero[4] = {0.0f, 0.0f, 0.0f, FLT_MAX};
-		pd3dContext->ClearRenderTargetView(*m_DOM, Zero);
-
-		g_Effect->GetVariableByName("tShadowMap")->AsShaderResource()->SetResource(NULL);
-		g_Effect->GetVariableByName("tShadowMapArray")->AsShaderResource()->SetResource(NULL);
-
-		g_Effect->GetVariableByName("tHairDepthMap")->AsShaderResource()->SetResource(*m_pDepthsRT_DOM);
+		context->OMSetRenderTargets(0, NULL, NULL);
 	}
 
-	void setShadowMapRT(ID3D11DeviceContext *pd3dContext)
+	void SetHairShadowTexture(ID3D11DeviceContext *context)
 	{
-		assert(m_NumLayers == 1);
-		pd3dContext->OMSetRenderTargets(1, &m_DOM->pRTV, NULL);
-		pd3dContext->RSSetViewports(1, &m_LViewport);
+		ID3D11ShaderResourceView *const pDepthsRT_SRV = (*m_pDepthsRT);
+		context->VSSetShaderResources(SLOT_TSHADOWMAP, 1, &pDepthsRT_SRV);
+		context->HSSetShaderResources(SLOT_TSHADOWMAP, 1, &pDepthsRT_SRV);
+		context->DSSetShaderResources(SLOT_TSHADOWMAP, 1, &pDepthsRT_SRV);
+		context->GSSetShaderResources(SLOT_TSHADOWMAP, 1, &pDepthsRT_SRV);
+		context->PSSetShaderResources(SLOT_TSHADOWMAP, 1, &pDepthsRT_SRV);
 	}
 
-	void endDOMShadowMapRendering(ID3D11DeviceContext *pd3dContext)
+	void UnSetHairShadowTexture(ID3D11DeviceContext *context)
 	{
-		g_Effect->GetVariableByName("tHairDepthMap")->AsShaderResource()->SetResource(NULL);
-	}
-
-	void renderDOMPass(ID3D11DeviceContext *pd3dContext, int pass)
-	{
-		g_Effect->GetVariableByName("g_Zmin")->AsVector()->SetFloatVectorArray(&m_Zi[pass * 4 * NUM_MRTS], 0, NUM_MRTS);
-		g_Effect->GetVariableByName("g_Zmax")->AsVector()->SetFloatVectorArray(&m_Zi[pass * 4 * NUM_MRTS + 1], 0, NUM_MRTS);
-
-		if (m_NumLayers == 1)
-			pd3dContext->OMSetRenderTargets(1, &m_DOM->pRTV, NULL);
-		else
-			pd3dContext->OMSetRenderTargets(NUM_MRTS, &(static_cast<SimpleArrayRT *>(m_DOM))->ppRTVs[pass * NUM_MRTS], NULL);
-	}
-	int getNumDOMPasses()
-	{
-		return ceil((float)m_NumLayers / NUM_MRTS);
-	}
-
-	void SetHairShadowTexture()
-	{
-		HRESULT hr;
-
-		if (m_useDOM)
-		{
-			if (m_NumLayers == 1)
-			{
-				V(g_Effect->GetVariableByName("tShadowMap")->AsShaderResource()->SetResource(m_DOM->pSRV));
-			}
-			else
-			{
-				V(g_Effect->GetVariableByName("tShadowMapArray")->AsShaderResource()->SetResource(m_DOM->pSRV));
-			}
-
-			V(g_Effect->GetVariableByName("tHairDepthMap")->AsShaderResource()->SetResource(*m_pDepthsRT_DOM));
-		}
-		else
-		{
-			V(g_Effect->GetVariableByName("tShadowMap")->AsShaderResource()->SetResource(*m_pDepthsRT));
-		}
-	}
-
-	void setHairDepthMap()
-	{
-		HRESULT hr;
-		V(g_Effect->GetVariableByName("tHairDepthMap")->AsShaderResource()->SetResource(*m_pDepthsRT_DOM));
-	}
-
-	void unsetHairDepthMap()
-	{
-		HRESULT hr;
-		V(g_Effect->GetVariableByName("tHairDepthMap")->AsShaderResource()->SetResource(NULL));
-	}
-
-	void UnSetHairShadowTexture()
-	{
-		HRESULT hr;
-		V(g_Effect->GetVariableByName("tShadowMap")->AsShaderResource()->SetResource(NULL));
-		if (m_useDOM)
-		{
-			V(g_Effect->GetVariableByName("tHairDepthMap")->AsShaderResource()->SetResource(NULL));
-		}
-		if (m_useDOM && m_NumLayers > 1)
-		{
-			V(g_Effect->GetVariableByName("tShadowMapArray")->AsShaderResource()->SetResource(NULL));
-		}
-	}
-
-	void VisualizeShadowMap(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext)
-	{
-		SetHairShadowTexture();
-		pd3dContext->IASetInputLayout(NULL);
-		pd3dContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-		g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("VisualizeShadowMap")->Apply(0, pd3dContext);
-		pd3dContext->Draw(3, 0);
-		UnSetHairShadowTexture();
-		g_Effect->GetTechniqueByName("RenderHair")->GetPassByName("VisualizeShadowMap")->Apply(0, pd3dContext);
+		ID3D11ShaderResourceView *const NULLSRV = NULL;
+		context->VSSetShaderResources(SLOT_TSHADOWMAP, 1, &NULLSRV);
+		context->HSSetShaderResources(SLOT_TSHADOWMAP, 1, &NULLSRV);
+		context->DSSetShaderResources(SLOT_TSHADOWMAP, 1, &NULLSRV);
+		context->GSSetShaderResources(SLOT_TSHADOWMAP, 1, &NULLSRV);
+		context->PSSetShaderResources(SLOT_TSHADOWMAP, 1, &NULLSRV);
 	}
 };
 
-int HairShadows::m_NumLayers = 1;
-// m_NumLayers = NUM_MRTS;
+#endif

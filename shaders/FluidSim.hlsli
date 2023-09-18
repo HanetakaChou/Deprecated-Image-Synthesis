@@ -12,7 +12,7 @@
 //
 // Please direct any bugs or questions to SDKFeedback@nvidia.com
 
-#include "FluidCommon.fxh"
+#include "FluidCommon.h"
 
 //--------------------------------------------------------------------------------------
 // Shaders to implement a "stable fluids" style semi-Lagrangian solver for 3D smoke
@@ -23,66 +23,75 @@
 // The diffusion step is skipped
 //--------------------------------------------------------------------------------------
 
-#define FT_SMOKE 0
-#define FT_FIRE 1
-#define FT_LIQUID 2
 //--------------------------------------------------------------------------------------
 // Textures
 //--------------------------------------------------------------------------------------
 
 Texture2D Texture_inDensity;
 
-Texture3D Texture_pressure;
-Texture3D Texture_velocity;
-Texture3D Texture_vorticity;
-Texture3D Texture_divergence;
+Texture3D Texture_pressure : TEXREG(SLOT_TEXTURE_PRESSURE);
+Texture3D Texture_velocity : TEXREG(SLOT_TEXTURE_VELOCITY);
+Texture3D Texture_vorticity : TEXREG(SLOT_TEXTURE_VORTICITY);
+Texture3D Texture_divergence : TEXREG(SLOT_TEXTURE_DIVERGENCE);
 
-Texture3D Texture_phi;
-Texture3D Texture_phi_hat;
-Texture3D Texture_phi_next;
-Texture3D Texture_levelset;
+Texture3D Texture_phi : TEXREG(SLOT_TEXTURE_PHI);
+Texture3D Texture_phi_hat : TEXREG(SLOT_TEXTURE_PHI_HAT);
+Texture3D Texture_phi_next : TEXREG(SLOT_TEXTURE_PHI_NEXT);
+Texture3D Texture_levelset : TEXREG(SLOT_TEXTURE_PHI_LEVELSET);
 
-Texture3D Texture_obstacles;
-Texture3D Texture_obstvelocity;
+Texture3D Texture_obstacles : TEXREG(SLOT_TEXTURE_OBSTACLES);
+Texture3D Texture_obstvelocity : TEXREG(SLOT_TEXTURE_OBSTVELOCITY);
 
 //--------------------------------------------------------------------------------------
 // Variables
 //--------------------------------------------------------------------------------------
 
-int fluidType = FT_SMOKE;
-bool advectAsTemperature = false;
-bool treatAsLiquidVelocity = false;
-
-int drawTextureNumber = 1;
-
-float textureWidth;
-float textureHeight;
-float textureDepth;
-
-float liquidHeight = 24;
-
-// NOTE: The spacing between simulation grid cells is \delta x  = 1, so it is omitted everywhere
-float timestep = 1.0f;
-float decay = 1.0f;                // this is the (1.0 - dissipation_rate). dissipation_rate >= 0 ==> decay <= 1
-float rho = 1.2f;                  // rho = density of the fluid
-float viscosity = 5e-6f;           // kinematic viscosity
-float vortConfinementScale = 0.0f; // this is typically a small value >= 0
-float3 gravity = 0;                // note this is assumed to be given as pre-multiplied by the timestep, so it's really velocity: cells per step
-float temperatureLoss = 0.003;     // a constant amount subtracted at every step when advecting a quatnity as tempterature
-
-float radius;
-float3 center;
-float4 color;
-
-float4 obstBoxVelocity = float4(0, 0, 0, 0);
-float3 obstBoxLBDcorner;
-float3 obstBoxRTUcorner;
+#define liquidHeight 24
+#define rho 1.2               // rho = density of the fluid
+#define temperatureLoss 0.003 // a constant amount subtracted at every step when advecting a quatnity as tempterature
 
 // parameters for attenuating velocity based on porous obstacles.
 // these values are not hooked into CPP code yet, and so this option is not used currently
-bool doVelocityAttenuation = false;
-float maxDensityAmount = 0.7;
-float maxDensityDecay = 0.95;
+#define doVelocityAttenuation -1.0
+#define maxDensityAmount 0.7
+#define maxDensityDecay 0.95
+
+cbuffer cbFluidSimPerDraw : register(b0)
+{
+    int fluidType;
+    float advectAsTemperature;
+    float treatAsLiquidVelocity;
+    int drawTextureNumber;
+
+    float textureWidth;
+    float textureHeight;
+    float textureDepth;
+    float _Unused_Padding_0;
+
+    // NOTE: The spacing between simulation grid cells is \delta x  = 1, so it is omitted everywhere
+    float timestep;
+    float decay;                // this is the (1.0 - dissipation_rate). dissipation_rate >= 0 ==> decay <= 1
+    float viscosity;            // kinematic viscosity
+    float vortConfinementScale; // this is typically a small value >= 0
+    float3 gravity;             // note this is assumed to be given as pre-multiplied by the timestep, so it's really velocity: cells per step
+    float _Unused_Padding_1;
+
+    float radius;
+    float _Unused_Padding_2;
+    float _Unused_Padding_3;
+    float _Unused_Padding_4;
+    float3 center;
+    float _Unused_Padding_5;
+    float4 color;
+
+    float3 obstBoxVelocity;
+    float _Unused_Padding_7;
+    float3 obstBoxLBDcorner;
+    float _Unused_Padding_8;
+    float3 obstBoxRTUcorner;
+    float _Unused_Padding_9;
+};
+
 //--------------------------------------------------------------------------------------
 // Pipeline State definitions
 //--------------------------------------------------------------------------------------
@@ -301,7 +310,7 @@ float3 GetAdvectedPosTexCoords(GS_OUTPUT_FLUIDSIM input)
 
 bool IsOutsideSimulationDomain(float3 cellTexcoords)
 {
-    if (treatAsLiquidVelocity)
+    if (treatAsLiquidVelocity > 0.0)
     {
         if (Texture_levelset.SampleLevel(samPointClamp, cellTexcoords, 0).r <= 0)
             return false;
@@ -439,7 +448,7 @@ float4 PS_ADVECT_MACCORMACK(GS_OUTPUT_FLUIDSIM input) : SV_Target
     // clamp result to the desired range
     ret = max(min(ret, phiMax), phiMin) * decay;
 
-    if (advectAsTemperature)
+    if (advectAsTemperature > 0.0)
     {
         ret -= temperatureLoss * timestep;
         ret = clamp(ret, float4(0, 0, 0, 0), float4(5, 5, 5, 5));
@@ -455,7 +464,7 @@ float4 PS_ADVECT(GS_OUTPUT_FLUIDSIM input) : SV_Target
 
     float decayAmount = decay;
 
-    if (doVelocityAttenuation)
+    if (doVelocityAttenuation > 0.0)
     {
         float obstacle = Texture_obstacles.SampleLevel(samPointClamp, input.texcoords.xyz, 0).r;
         if (obstacle <= OBSTACLE_BOUNDARY)
@@ -468,7 +477,7 @@ float4 PS_ADVECT(GS_OUTPUT_FLUIDSIM input) : SV_Target
     float3 npos = GetAdvectedPosTexCoords(input);
     float4 ret = Texture_phi.SampleLevel(samLinear, npos, 0) * decayAmount;
 
-    if (advectAsTemperature)
+    if (advectAsTemperature > 0.0)
     {
         ret -= temperatureLoss * timestep;
         ret = clamp(ret, float4(0, 0, 0, 0), float4(5, 5, 5, 5));
@@ -891,7 +900,7 @@ PSDrawBoxOut PS_DYNAMIC_OBSTACLE_BOX(GS_OUTPUT_FLUIDSIM input)
     if (PointIsInsideBox(input.cell0, obstBoxLBDcorner, obstBoxRTUcorner))
     {
         voxel.obstacle = OBSTACLE_BOUNDARY;
-        voxel.velocity = float4(obstBoxVelocity.xyz, 1);
+        voxel.velocity = float4(obstBoxVelocity, 1);
         return voxel;
     }
 

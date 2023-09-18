@@ -23,11 +23,36 @@
 #define OBSTACLE_BOUNDARY 128.0f / 255.0f
 #define OBSTACLE_INTERIOR 0.0f
 
-#ifndef __cplusplus
+#define SLOT_TEXTURE_PRESSURE 0
+#define SLOT_TEXTURE_VELOCITY 1
+#define SLOT_TEXTURE_VORTICITY 2
+#define SLOT_TEXTURE_DIVERGENCE 3
+#define SLOT_TEXTURE_PHI 4
+#define SLOT_TEXTURE_PHI_HAT 5
+#define SLOT_TEXTURE_PHI_NEXT 6
+#define SLOT_TEXTURE_PHI_LEVELSET 7
+#define SLOT_TEXTURE_OBSTACLES 8 
+#define SLOT_TEXTURE_OBSTVELOCITY 9 
 
-// HLSL-only code
-//========================================
+#if defined(__STDC__) || defined(__cplusplus)
 
+enum FLUID_TYPE
+{
+    FT_SMOKE = 0,
+    FT_FIRE = 1,
+    FT_LIQUID = 2
+};
+
+#elif defined(HLSL_VERSION) || defined(__HLSL_VERSION)
+
+#define FT_SMOKE 0
+#define FT_FIRE 1
+#define FT_LIQUID 2
+
+#define TEXREG(n) register(t##n)
+
+#else
+#error Unknown Compiler
 #endif
 
 #endif

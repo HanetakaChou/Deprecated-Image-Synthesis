@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="code">
+      <UniqueIdentifier>{fd4b58f5-3c46-428c-a948-5493c6e656b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{f9247d03-4931-48b7-ae0e-0077b31a8f78}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\LoadHairFile.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Common.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\DensityGrid.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Fluid.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Grid.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\main.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\HairShadows.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\SimpleRT.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Common.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\DensityGrid.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="shaders\FluidCommon.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="shaders\HairCommon.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Fluid.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Grid.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Hair.h">
+      <Filter>code</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\Hair.hlsli">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\FluidSim.hlsli">
+      <Filter>shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\HairSimulateCS.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_InterpolateVS_DUMMY11.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_InterpolateHSMultiStrand.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_InterpolateDSMultiStrand.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_InterpolateGS.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_RenderPS.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_InterpolateHSSingleStrand.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_InterpolateDSSingleStrand_NORMAL.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_InterpolateHSMultiStrandCollisions.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_InterpolateDSMultiStrandCollisionsWithGS.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_InterpolateGSMultiStrandCollisions.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_InterpolatePSMultiStrandCollisions.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_VS_GRID.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\FluidSim_VS_GRID.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_PS_DEMUX.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_PS_DEMUX_TO_3D_OBSTACLE_TEX.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_PS_VOXELIZE_OBSTACLES.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_VS_GRID_FLUIDSIM.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\Hair_GS_ARRAY.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

@@ -12,15 +12,26 @@
 //
 // Please direct any bugs or questions to SDKFeedback@nvidia.com
 
-#pragma warning(disable : 4201) // avoid warning from mmsystem.h "warning C4201: nonstandard extension used : nameless struct/union"
-
+#include <DXUT.h>
 #include "Fluid.h"
-#include "FluidCommon.fxh"
-#include <math.h>
-#include <iostream>
-#include <stdlib.h>
-#include <Strsafe.h>
+#include "../shaders/FluidCommon.h"
 #include "Common.h"
+
+#ifndef SAFE_ACQUIRE
+#define SAFE_ACQUIRE(dst, p)   \
+    {                          \
+        if (dst)               \
+        {                      \
+            SAFE_RELEASE(dst); \
+        }                      \
+        if (p)                 \
+        {                      \
+            (p)->AddRef();     \
+        }                      \
+        dst = (p);             \
+    }
+#endif
+
 using namespace std;
 
 float g_zVelocityScale = 4.0;
@@ -32,21 +43,7 @@ float g_xyVelocityScale = 4.0;
 // Fluid
 //---------------------------------------------------------------------------
 
-Fluid::Fluid(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext) : m_pGrid(NULL), m_pD3DDevice(NULL), m_pEffect(NULL),
-                                                                           m_etAdvect(NULL), m_etAdvectMACCORMACK(NULL), m_etVorticity(NULL), m_etConfinement(NULL), m_etDiffuse(NULL),
-                                                                           m_etGaussian(NULL), m_etDivergence(NULL), m_etScalarJacobi(NULL), m_etProject(NULL),
-                                                                           m_etExtrapolateVelocity(NULL), m_etRedistance(NULL),
-                                                                           m_etDrawTexture(NULL), m_etStaticObstacleTriangles(NULL), m_etStaticObstacleLines(NULL),
-                                                                           m_etDrawBox(NULL), m_etCopyTextureDensity(NULL), m_etAddDensityDerivativeVelocity(NULL),
-                                                                           m_etInitLevelSetToLiquidHeight(NULL), m_etInjectLiquid(NULL), m_etLiquidStream_LevelSet(NULL),
-                                                                           m_etLiquidStream_Velocity(NULL), m_etGravity(NULL), m_etAirPressure(NULL),
-                                                                           m_evTextureWidth(NULL), m_evTextureHeight(NULL), m_evTextureDepth(NULL), m_evDrawTexture(NULL),
-                                                                           m_evDecay(NULL), m_evViscosity(NULL), m_evRadius(NULL), m_evCenter(NULL), m_evColor(NULL), m_evGravity(NULL),
-                                                                           m_evVortConfinementScale(NULL), m_evTimeStep(NULL), m_evAdvectAsTemperature(NULL), m_evTreatAsLiquidVelocity(NULL),
-                                                                           m_evFluidType(NULL), m_evObstBoxLBDcorner(NULL), m_evObstBoxRTUcorner(NULL), m_evObstBoxVelocity(NULL),
-                                                                           m_evTexture_pressure(NULL), m_evTexture_velocity(NULL), m_evTexture_vorticity(NULL),
-                                                                           m_evTexture_divergence(NULL), m_evTexture_phi(NULL), m_evTexture_phi_hat(NULL), m_evTexture_phi_next(NULL),
-                                                                           m_evTexture_levelset(NULL), m_evTexture_obstacles(NULL), m_evTexture_obstvelocity(NULL),
+Fluid::Fluid(ID3D11Device *pd3dDevice, ID3D11DeviceContext *pd3dContext) : m_pGrid(NULL), m_pD3DDevice(NULL),
                                                                            m_currentDstScalar(RENDER_TARGET_SCALAR0), m_currentSrcScalar(RENDER_TARGET_SCALAR1), m_eFluidType(FT_SMOKE),
                                                                            m_bMouseDown(false), m_bGravity(false), m_bTreatAsLiquidVelocity(true), m_bUseMACCORMACK(false),
                                                                            m_nJacobiIterations(6), m_nDiffusionIterations(2), m_nVelExtrapolationIterations(6), m_nRedistancingIterations(2),
@@ -120,9 +117,7 @@ HRESULT Fluid::Initialize(int width, int height, int depth, FLUID_TYPE fluidType
         V_RETURN(CreateTextureAndViews(rtIndex, desc));
     }
 
-    V_RETURN(m_evTextureWidth->SetFloat(float(width)));
-    V_RETURN(m_evTextureHeight->SetFloat(float(height)));
-    V_RETURN(m_evTextureDepth->SetFloat(float(depth)));
+    FluidSimEffect_SetFluidGrid(width, height, depth);
 
     try
     {
@@ -134,7 +129,7 @@ HRESULT Fluid::Initialize(int width, int height, int depth, FLUID_TYPE fluidType
         return E_OUTOFMEMORY;
     }
 
-    V_RETURN(m_pGrid->Initialize(width, height, depth, m_etAdvect));
+    V_RETURN(m_pGrid->Initialize(width, height, depth));
 
     Reset();
 
@@ -169,16 +164,16 @@ HRESULT Fluid::Initialize(int width, int height, int depth, FLUID_TYPE fluidType
     m_bClosedBoundaries = false;
 
     m_bDrawObstacleBox = false;
-    m_vObstBoxPos = D3DXVECTOR4(0, 0, 0, 0);
-    m_vObstBoxPrevPos = D3DXVECTOR4(0, 0, 0, 0);
-    m_vObstBoxVelocity = D3DXVECTOR4(0, 0, 0, 0);
+    m_vObstBoxPos = DirectX::XMFLOAT4(0, 0, 0, 0);
+    m_vObstBoxPrevPos = DirectX::XMFLOAT4(0, 0, 0, 0);
+    m_vObstBoxVelocity = DirectX::XMFLOAT4(0, 0, 0, 0);
 
     if (m_eFluidType == FT_LIQUID)
     {
         m_fImpulseSize = 0.20f;
 
         m_fStreamSize = 3.5;
-        m_streamCenter = D3DXVECTOR4(float(m_pGrid->GetDimX() / 2 - 3), float(m_pGrid->GetDimY() / 2 - 20), float(m_pGrid->GetDimZ() / 2 + 12), 1.0f);
+        m_streamCenter = DirectX::XMFLOAT4(float(m_pGrid->GetDimX() / 2 - 3), float(m_pGrid->GetDimY() / 2 - 20), float(m_pGrid->GetDimZ() / 2 + 12), 1.0f);
 
         // Used closed boundaries for water
         m_bClosedBoundaries = true;
@@ -207,7 +202,6 @@ Fluid::~Fluid(void)
     SAFE_DELETE(m_pGrid);
     SAFE_RELEASE(m_pD3DDevice);
     SAFE_RELEASE(m_pD3DContext);
-    SAFE_RELEASE(m_pEffect);
 
     for (int i = 0; i < NUM_RENDER_TARGETS; i++)
     {
@@ -219,21 +213,26 @@ Fluid::~Fluid(void)
 
 void Fluid::SetObstaclePositionInNormalizedGrid(float x, float y, float z)
 {
-    m_vObstBoxPos = D3DXVECTOR4(x, y, z, 1);
-    D3DXVECTOR3 pos = D3DXVECTOR3(x, y, z);
+    m_vObstBoxPos = DirectX::XMFLOAT4(x, y, z, 1);
+    DirectX::XMFLOAT3 pos = DirectX::XMFLOAT3(x, y, z);
 
-    D3DXVECTOR3 boxHDims(0.2f * 0.5f, 0.3f * 0.5f, 0.3f * 0.5f);
-    D3DXVECTOR3 boxLBDcorner = (pos - boxHDims);
+    DirectX::XMFLOAT3 boxHDims(0.2f * 0.5f, 0.3f * 0.5f, 0.3f * 0.5f);
+    DirectX::XMFLOAT3 boxLBDcorner;
+    boxLBDcorner.x = (pos.x - boxHDims.x);
+    boxLBDcorner.y = (pos.y - boxHDims.y);
+    boxLBDcorner.z = (pos.z - boxHDims.z);
     boxLBDcorner.x *= m_pGrid->GetDimX();
     boxLBDcorner.y *= m_pGrid->GetDimY();
     boxLBDcorner.z *= m_pGrid->GetDimZ();
-    D3DXVECTOR3 boxRTUcorner = (pos + boxHDims);
+    DirectX::XMFLOAT3 boxRTUcorner;
+    boxRTUcorner.x = (pos.x + boxHDims.x);
+    boxRTUcorner.y = (pos.y + boxHDims.y);
+    boxRTUcorner.z = (pos.z + boxHDims.z);
     boxRTUcorner.x *= m_pGrid->GetDimX();
     boxRTUcorner.y *= m_pGrid->GetDimY();
     boxRTUcorner.z *= m_pGrid->GetDimZ();
 
-    m_evObstBoxLBDcorner->SetFloatVector(boxLBDcorner);
-    m_evObstBoxRTUcorner->SetFloatVector(boxRTUcorner);
+    FluidSimEffect_SetObstBoxcorner(boxLBDcorner, boxRTUcorner);
 
     m_bDrawObstacleBox = true;
 }
@@ -270,14 +269,19 @@ void Fluid::Update(float timestep, bool bUseMACCORMACKVelocity, bool bUseSupplie
     {
         // Update the obstacle box velocity based on its movement
         {
-            m_vObstBoxVelocity = (m_vObstBoxPos - m_vObstBoxPrevPos) / timestep;
+            m_vObstBoxVelocity.x = (m_vObstBoxPos.x - m_vObstBoxPrevPos.x) / timestep;
+            m_vObstBoxVelocity.y = (m_vObstBoxPos.y - m_vObstBoxPrevPos.y) / timestep;
+            m_vObstBoxVelocity.z = (m_vObstBoxPos.z - m_vObstBoxPrevPos.z) / timestep;
             // Exagerate the velocity a bit to give more momentum to the fluid
-            m_vObstBoxVelocity *= 1.5f;
+            m_vObstBoxVelocity.x *= 1.5F;
+            m_vObstBoxVelocity.y *= 1.5F;
+            m_vObstBoxVelocity.z *= 1.5F;
             // Scale m_vObstBoxVelocity to voxel space
             m_vObstBoxVelocity.x *= m_pGrid->GetDimX();
             m_vObstBoxVelocity.y *= m_pGrid->GetDimY();
             m_vObstBoxVelocity.z *= m_pGrid->GetDimZ();
-            m_evObstBoxVelocity->SetFloatVector(m_vObstBoxVelocity);
+            DirectX::XMFLOAT3 _vObstBoxVelocity(this->m_vObstBoxVelocity.x, this->m_vObstBoxVelocity.y, this->m_vObstBoxVelocity.z);
+            FluidSimEffect_SetObstBoxVelocity(_vObstBoxVelocity);
             m_vObstBoxPrevPos = m_vObstBoxPos;
         }
 
@@ -341,7 +345,7 @@ void Fluid::Update(float timestep, bool bUseMACCORMACKVelocity, bool bUseSupplie
     double dDensityDecay = pow((double)m_fDensityDecay, (double)(timestep / 2.0));
     float fDensityDecay = (float)dDensityDecay;
 
-    m_evFluidType->SetInt(m_eFluidType);
+    FluidSimEffect_SetFluidType(this->m_eFluidType);
 
     static RENDER_TARGET currentSrcVelocity = RENDER_TARGET_VELOCITY0;
     static RENDER_TARGET currentDstVelocity = RENDER_TARGET_VELOCITY1;
@@ -454,25 +458,75 @@ HRESULT Fluid::Draw(int field)
     ID3D11RenderTargetView *pRTV = DXUTGetD3D11RenderTargetView();
     m_pD3DContext->OMSetRenderTargets(1, &pRTV, NULL);
 
-    m_evDrawTexture->SetInt(field);
+    FluidSimEffect_SetDrawTextureNumber(field);
 
     // Set resources and apply technique
-    m_evTexture_phi->SetResource(m_pShaderResourceViews[m_currentDstScalar]);
-    m_evTexture_velocity->SetResource(m_pShaderResourceViews[RENDER_TARGET_VELOCITY0]);
-    m_evTexture_obstacles->SetResource(m_pShaderResourceViews[RENDER_TARGET_OBSTACLES]);
-    m_evTexture_obstvelocity->SetResource(m_pShaderResourceViews[RENDER_TARGET_OBSTVELOCITY]);
-    m_evTexture_pressure->SetResource(m_pShaderResourceViews[RENDER_TARGET_PRESSURE]);
-    V_RETURN(m_etDrawTexture->GetPassByIndex(0)->Apply(0, m_pD3DContext));
+    m_pD3DContext->VSSetShaderResources(SLOT_TEXTURE_PHI, 1, &this->m_pShaderResourceViews[m_currentDstScalar]);
+    m_pD3DContext->HSSetShaderResources(SLOT_TEXTURE_PHI, 1, &this->m_pShaderResourceViews[m_currentDstScalar]);
+    m_pD3DContext->DSSetShaderResources(SLOT_TEXTURE_PHI, 1, &this->m_pShaderResourceViews[m_currentDstScalar]);
+    m_pD3DContext->GSSetShaderResources(SLOT_TEXTURE_PHI, 1, &this->m_pShaderResourceViews[m_currentDstScalar]);
+    m_pD3DContext->PSSetShaderResources(SLOT_TEXTURE_PHI, 1, &this->m_pShaderResourceViews[m_currentDstScalar]);
+
+    m_pD3DContext->VSSetShaderResources(SLOT_TEXTURE_VELOCITY, 1, &this->m_pShaderResourceViews[RENDER_TARGET_VELOCITY0]);
+    m_pD3DContext->HSSetShaderResources(SLOT_TEXTURE_VELOCITY, 1, &this->m_pShaderResourceViews[RENDER_TARGET_VELOCITY0]);
+    m_pD3DContext->DSSetShaderResources(SLOT_TEXTURE_VELOCITY, 1, &this->m_pShaderResourceViews[RENDER_TARGET_VELOCITY0]);
+    m_pD3DContext->GSSetShaderResources(SLOT_TEXTURE_VELOCITY, 1, &this->m_pShaderResourceViews[RENDER_TARGET_VELOCITY0]);
+    m_pD3DContext->PSSetShaderResources(SLOT_TEXTURE_VELOCITY, 1, &this->m_pShaderResourceViews[RENDER_TARGET_VELOCITY0]);
+
+    m_pD3DContext->VSSetShaderResources(SLOT_TEXTURE_OBSTACLES, 1, &this->m_pShaderResourceViews[RENDER_TARGET_OBSTACLES]);
+    m_pD3DContext->HSSetShaderResources(SLOT_TEXTURE_OBSTACLES, 1, &this->m_pShaderResourceViews[RENDER_TARGET_OBSTACLES]);
+    m_pD3DContext->DSSetShaderResources(SLOT_TEXTURE_OBSTACLES, 1, &this->m_pShaderResourceViews[RENDER_TARGET_OBSTACLES]);
+    m_pD3DContext->GSSetShaderResources(SLOT_TEXTURE_OBSTACLES, 1, &this->m_pShaderResourceViews[RENDER_TARGET_OBSTACLES]);
+    m_pD3DContext->PSSetShaderResources(SLOT_TEXTURE_OBSTACLES, 1, &this->m_pShaderResourceViews[RENDER_TARGET_OBSTACLES]);
+
+    m_pD3DContext->VSSetShaderResources(SLOT_TEXTURE_OBSTVELOCITY, 1, &this->m_pShaderResourceViews[RENDER_TARGET_OBSTVELOCITY]);
+    m_pD3DContext->HSSetShaderResources(SLOT_TEXTURE_OBSTVELOCITY, 1, &this->m_pShaderResourceViews[RENDER_TARGET_OBSTVELOCITY]);
+    m_pD3DContext->DSSetShaderResources(SLOT_TEXTURE_OBSTVELOCITY, 1, &this->m_pShaderResourceViews[RENDER_TARGET_OBSTVELOCITY]);
+    m_pD3DContext->GSSetShaderResources(SLOT_TEXTURE_OBSTVELOCITY, 1, &this->m_pShaderResourceViews[RENDER_TARGET_OBSTVELOCITY]);
+    m_pD3DContext->PSSetShaderResources(SLOT_TEXTURE_OBSTVELOCITY, 1, &this->m_pShaderResourceViews[RENDER_TARGET_OBSTVELOCITY]);
+
+    m_pD3DContext->VSSetShaderResources(SLOT_TEXTURE_PRESSURE, 1, &this->m_pShaderResourceViews[RENDER_TARGET_PRESSURE]);
+    m_pD3DContext->HSSetShaderResources(SLOT_TEXTURE_PRESSURE, 1, &this->m_pShaderResourceViews[RENDER_TARGET_PRESSURE]);
+    m_pD3DContext->DSSetShaderResources(SLOT_TEXTURE_PRESSURE, 1, &this->m_pShaderResourceViews[RENDER_TARGET_PRESSURE]);
+    m_pD3DContext->GSSetShaderResources(SLOT_TEXTURE_PRESSURE, 1, &this->m_pShaderResourceViews[RENDER_TARGET_PRESSURE]);
+    m_pD3DContext->PSSetShaderResources(SLOT_TEXTURE_PRESSURE, 1, &this->m_pShaderResourceViews[RENDER_TARGET_PRESSURE]);
+
+    FluidSimEffect_Apply_DrawTexture(m_pD3DContext);
 
     m_pGrid->DrawSlicesToScreen();
 
     // Unset resources and apply technique (so that the resource is actually unbound)
-    m_evTexture_phi->SetResource(NULL);
-    m_evTexture_velocity->SetResource(NULL);
-    m_evTexture_obstacles->SetResource(NULL);
-    m_evTexture_obstvelocity->SetResource(NULL);
-    m_evTexture_pressure->SetResource(NULL);
-    V_RETURN(m_etDrawTexture->GetPassByIndex(0)->Apply(0, m_pD3DContext));
+    ID3D11ShaderResourceView* const NULLSRV = NULL;
+
+    m_pD3DContext->VSSetShaderResources(SLOT_TEXTURE_PHI, 1, &NULLSRV);
+    m_pD3DContext->HSSetShaderResources(SLOT_TEXTURE_PHI, 1, &NULLSRV);
+    m_pD3DContext->DSSetShaderResources(SLOT_TEXTURE_PHI, 1, &NULLSRV);
+    m_pD3DContext->GSSetShaderResources(SLOT_TEXTURE_PHI, 1, &NULLSRV);
+    m_pD3DContext->PSSetShaderResources(SLOT_TEXTURE_PHI, 1, &NULLSRV);
+
+    m_pD3DContext->VSSetShaderResources(SLOT_TEXTURE_VELOCITY, 1, &NULLSRV);
+    m_pD3DContext->HSSetShaderResources(SLOT_TEXTURE_VELOCITY, 1, &NULLSRV);
+    m_pD3DContext->DSSetShaderResources(SLOT_TEXTURE_VELOCITY, 1, &NULLSRV);
+    m_pD3DContext->GSSetShaderResources(SLOT_TEXTURE_VELOCITY, 1, &NULLSRV);
+    m_pD3DContext->PSSetShaderResources(SLOT_TEXTURE_VELOCITY, 1, &NULLSRV);
+
+    m_pD3DContext->VSSetShaderResources(SLOT_TEXTURE_OBSTACLES, 1, &NULLSRV);
+    m_pD3DContext->HSSetShaderResources(SLOT_TEXTURE_OBSTACLES, 1, &NULLSRV);
+    m_pD3DContext->DSSetShaderResources(SLOT_TEXTURE_OBSTACLES, 1, &NULLSRV);
+    m_pD3DContext->GSSetShaderResources(SLOT_TEXTURE_OBSTACLES, 1, &NULLSRV);
+    m_pD3DContext->PSSetShaderResources(SLOT_TEXTURE_OBSTACLES, 1, &NULLSRV);
+
+    m_pD3DContext->VSSetShaderResources(SLOT_TEXTURE_OBSTVELOCITY, 1, &NULLSRV);
+    m_pD3DContext->HSSetShaderResources(SLOT_TEXTURE_OBSTVELOCITY, 1, &NULLSRV);
+    m_pD3DContext->DSSetShaderResources(SLOT_TEXTURE_OBSTVELOCITY, 1, &NULLSRV);
+    m_pD3DContext->GSSetShaderResources(SLOT_TEXTURE_OBSTVELOCITY, 1, &NULLSRV);
+    m_pD3DContext->PSSetShaderResources(SLOT_TEXTURE_OBSTVELOCITY, 1, &NULLSRV);
+
+    m_pD3DContext->VSSetShaderResources(SLOT_TEXTURE_PRESSURE, 1, &NULLSRV);
+    m_pD3DContext->HSSetShaderResources(SLOT_TEXTURE_PRESSURE, 1, &NULLSRV);
+    m_pD3DContext->DSSetShaderResources(SLOT_TEXTURE_PRESSURE, 1, &NULLSRV);
+    m_pD3DContext->GSSetShaderResources(SLOT_TEXTURE_PRESSURE, 1, &NULLSRV);
+    m_pD3DContext->PSSetShaderResources(SLOT_TEXTURE_PRESSURE, 1, &NULLSRV);
 
     return hr;
 }
@@ -809,7 +863,7 @@ void Fluid::AddNewMatter(float timestep, RENDER_TARGET dstPhi, RENDER_TARGET src
     {
         // density of the fire is computed using a sinusoidal function of 'm_t' to make it more interesting.
         FLOAT fireDensity = 3.0f /**timestep*/ * ((((sin(m_t) * 0.5f + 0.5f)) * random() * 2) * (1.0f - m_fSaturation) + m_fSaturation);
-        D3DXVECTOR4 vDensity(fireDensity, fireDensity, fireDensity, 1.0f);
+        DirectX::XMFLOAT4 vDensity(fireDensity, fireDensity, fireDensity, 1.0f);
 
         m_evColor->SetFloatVector((float *)&vDensity);
         m_evTexture_obstacles->SetResource(m_pShaderResourceViews[srcObst]);
@@ -827,7 +881,7 @@ void Fluid::AddNewMatter(float timestep, RENDER_TARGET dstPhi, RENDER_TARGET src
     {
         // the density of the smoke is computed using a sinusoidal function of 'm_t' to make it more interesting.
         FLOAT density = 1.5f /*timestep*/ * (((sin(m_t + 2.0f * float(PI) / 3.0f) * 0.5f + 0.5f)) * m_fSaturation + (1.0f - m_fSaturation));
-        D3DXVECTOR4 smokeDensity(density, density, density, 1.0f);
+        DirectX::XMFLOAT4 smokeDensity(density, density, density, 1.0f);
 
         m_evRadius->SetFloat(m_fImpulseSize);
         m_evCenter->SetFloatVector((float *)&m_vImpulsePos);
@@ -888,9 +942,9 @@ void Fluid::AddExternalForces(float timestep, RENDER_TARGET dstVel, RENDER_TARGE
 
         float var = 0.25f;
         FLOAT fireDensity = 1.5f * ((((sin(m_t) * 0.5f + 0.5f)) * random() * 2) * (1.0f - m_fSaturation) + m_fSaturation);
-        D3DXVECTOR4 fireVelocity(g_xyVelocityScale * (0.5f + var) + fireDensity,
-                                 g_xyVelocityScale * (0.5f + var) + fireDensity,
-                                 g_zVelocityScale * (0.5f + var) + fireDensity, 1.0f);
+        DirectX::XMFLOAT4 fireVelocity(g_xyVelocityScale * (0.5f + var) + fireDensity,
+                                       g_xyVelocityScale * (0.5f + var) + fireDensity,
+                                       g_zVelocityScale * (0.5f + var) + fireDensity, 1.0f);
 
         m_evColor->SetFloatVector((float *)&fireVelocity);
         m_evTexture_obstacles->SetResource(m_pShaderResourceViews[srcObst]);
@@ -908,7 +962,7 @@ void Fluid::AddExternalForces(float timestep, RENDER_TARGET dstVel, RENDER_TARGE
         // Add gaussian ball of Velocity
         m_t += 0.025f * timestep;
 
-        D3DXVECTOR4 center(m_vImpulsePos.x + lilrand() * randCenterScale, m_vImpulsePos.y + lilrand() * randCenterScale, m_vImpulsePos.z + lilrand() * randCenterScale, 1);
+        DirectX::XMFLOAT4 center(m_vImpulsePos.x + lilrand() * randCenterScale, m_vImpulsePos.y + lilrand() * randCenterScale, m_vImpulsePos.z + lilrand() * randCenterScale, 1);
 
         // m_evColor in this case is the initial velocity given to the emitted smoke
         m_evRadius->SetFloat(impulseSize);
@@ -928,28 +982,28 @@ void Fluid::AddExternalForces(float timestep, RENDER_TARGET dstVel, RENDER_TARGE
     {
 #if 0
             // for boat
-            D3DXVECTOR4 posBoat(- 10.0f, m_pGrid->GetDimY()/2.0f + 4.0f, 38.0f, 1.0f );
-            D3DXMATRIX rotBoat;
+            DirectX::XMFLOAT4 posBoat(- 10.0f, m_pGrid->GetDimY()/2.0f + 4.0f, 38.0f, 1.0f );
+            DirectX::XMFLOAT4X4 rotBoat;
 
-            D3DXMatrixRotationY(&rotBoat, g_fModelRotation);
-            D3DXVec3Transform((D3DXVECTOR4*)&posBoat, (D3DXVECTOR3*)&posBoat, &rotBoat);
+            DirectX::XMMatrixRotationY(&rotBoat, g_fModelRotation);
+            D3DXVec3Transform((DirectX::XMFLOAT4*)&posBoat, (DirectX::XMFLOAT3*)&posBoat, &rotBoat);
          
-            D3DXVECTOR4 dirBoat(-0.4f * g_fRotSpeed /10.0f - 0.3f, -0.3f * g_fRotSpeed/10.0f, 0.0f, 1.0f);
-            D3DXVec3Transform((D3DXVECTOR4*)&dirBoat, (D3DXVECTOR3*)&dirBoat, &rotBoat);
+            DirectX::XMFLOAT4 dirBoat(-0.4f * g_fRotSpeed /10.0f - 0.3f, -0.3f * g_fRotSpeed/10.0f, 0.0f, 1.0f);
+            D3DXVec3Transform((DirectX::XMFLOAT4*)&dirBoat, (DirectX::XMFLOAT3*)&dirBoat, &rotBoat);
 
             // for water ski
-            D3DXVECTOR4 posWaterSki(-8.0f, m_pGrid->GetDimY()/2.0f + 4.0f, -41.0f, 1.0f);
-            D3DXMATRIX rotWaterSki;
+            DirectX::XMFLOAT4 posWaterSki(-8.0f, m_pGrid->GetDimY()/2.0f + 4.0f, -41.0f, 1.0f);
+            DirectX::XMFLOAT4X4 rotWaterSki;
 
-            D3DXMatrixRotationY(&rotWaterSki, g_fModelRotation);
-            D3DXVec3Transform((D3DXVECTOR4*)&posWaterSki, (D3DXVECTOR3*)&posWaterSki, &rotWaterSki);
+            DirectX::XMMatrixRotationY(&rotWaterSki, g_fModelRotation);
+            D3DXVec3Transform((DirectX::XMFLOAT4*)&posWaterSki, (DirectX::XMFLOAT3*)&posWaterSki, &rotWaterSki);
 
-            D3DXVECTOR4 dirWaterSki(-0.4f * g_fRotSpeed /10.0f, -0.2f * g_fRotSpeed/10.0f, -0.2f * g_fRotSpeed/10.0f, 1.0f);
-            D3DXVec3Transform((D3DXVECTOR4*)&dirWaterSki, (D3DXVECTOR3*)&dirWaterSki, &rotWaterSki);
+            DirectX::XMFLOAT4 dirWaterSki(-0.4f * g_fRotSpeed /10.0f, -0.2f * g_fRotSpeed/10.0f, -0.2f * g_fRotSpeed/10.0f, 1.0f);
+            D3DXVec3Transform((DirectX::XMFLOAT4*)&dirWaterSki, (DirectX::XMFLOAT3*)&dirWaterSki, &rotWaterSki);
 
 
             // velocity impulse for boat
-            D3DXVECTOR3 centerBoat(  posBoat.x+lilrand() + m_pGrid->GetDimX()/2, posBoat.y+lilrand(), posBoat.z+lilrand() + m_pGrid->GetDimZ()/2);
+            DirectX::XMFLOAT3 centerBoat(  posBoat.x+lilrand() + m_pGrid->GetDimX()/2, posBoat.y+lilrand(), posBoat.z+lilrand() + m_pGrid->GetDimZ()/2);
 
             m_evRadius->SetFloat(m_fImpulseSize);
             m_evCenter->SetFloatVector((float*)&centerBoat);
@@ -961,7 +1015,7 @@ void Fluid::AddExternalForces(float timestep, RENDER_TARGET dstVel, RENDER_TARGE
 
             
             // velocity impulse for water ski
-            D3DXVECTOR3 centerWaterSki(  posWaterSki.x+lilrand() + m_pGrid->GetDimX()/2, posWaterSki.y+lilrand(), posWaterSki.z+lilrand() + m_pGrid->GetDimZ()/2);
+            DirectX::XMFLOAT3 centerWaterSki(  posWaterSki.x+lilrand() + m_pGrid->GetDimX()/2, posWaterSki.y+lilrand(), posWaterSki.z+lilrand() + m_pGrid->GetDimZ()/2);
 
             m_evRadius->SetFloat(m_fImpulseSize*1.2f);
             m_evCenter->SetFloatVector((float*)&centerWaterSki);
@@ -979,7 +1033,7 @@ void Fluid::AddExternalForces(float timestep, RENDER_TARGET dstVel, RENDER_TARGE
 #if 1
         if (m_bLiquidStream)
         {
-            D3DXVECTOR4 streamVelocity(-0.7f, 1.0f, -2.0f, 1.0f);
+            DirectX::XMFLOAT4 streamVelocity(-0.7f, 1.0f, -2.0f, 1.0f);
 
             m_evRadius->SetFloat(m_fStreamSize);
             m_evCenter->SetFloatVector((float *)&m_streamCenter);
@@ -1003,7 +1057,7 @@ void Fluid::AddExternalForces(float timestep, RENDER_TARGET dstVel, RENDER_TARGE
     // Apply gravity
     if (m_bGravity)
     {
-        D3DXVECTOR3 gravity(0.0f, 0.0f, -0.04f);
+        DirectX::XMFLOAT3 gravity(0.0f, 0.0f, -0.04f);
 
         m_evGravity->SetFloatVector((float *)&gravity);
         if ((m_eFluidType == FT_LIQUID) && m_bTreatAsLiquidVelocity)
@@ -1112,6 +1166,8 @@ void Fluid::ProjectVelocity(RENDER_TARGET dstVel, RENDER_TARGET srcPressure, REN
 
 HRESULT Fluid::LoadShaders()
 {
+    FluidSimEffect_Init(m_pD3DDevice);
+
     HRESULT hr(S_OK);
     DWORD dwShaderFlags = 0;
     V_RETURN(NVUTFindDXSDKMediaFileCchT(m_effectPath, MAX_PATH, L"FluidSim.fx"));

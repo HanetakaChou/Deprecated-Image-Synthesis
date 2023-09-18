@@ -1,0 +1,4 @@
+[submodule "DXUT"]
+	path = DXUT
+	url = git@github.com:microsoft/DXUT.git
+	branch = main

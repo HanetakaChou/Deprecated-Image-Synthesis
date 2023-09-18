@@ -18,7 +18,7 @@
 
 #include "Common.h"
 #include "Hair.h"
-#include "math.h"
+#include <math.h>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -74,26 +74,6 @@ float vecDot(float3 vec1, float3 vec2)
 float vecLength(float3 vec1)
 {
 	return sqrt(sqr(vec1.x) + sqr(vec1.y) + sqr(vec1.z));
-}
-
-void GramSchmidtOrthogonalize(float3 &x, float3 &y, float3 &z)
-{
-	// x remains as it is
-	y = y - vecDot(x, y) / sqr(vecLength(x)) * x;
-	z = z - vecDot(x, z) / sqr(vecLength(x)) * x - vecDot(y, z) / sqr(vecLength(y)) * y;
-	y = y / vecLength(y);
-	z = z / vecLength(z);
-}
-
-void GramSchmidtOrthoNormalize(float3 &x, float3 &y, float3 &z)
-{
-	x = x / vecLength(x);
-
-	y = y - vecDot(x, y) * x;
-	y = y / vecLength(y);
-
-	z = z - vecDot(x, z) * x - vecDot(y, z) * y;
-	z = z / vecLength(z);
 }
 
 typedef vector<vertex> VertexVector;
