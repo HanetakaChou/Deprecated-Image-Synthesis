@@ -1,22 +1,22 @@
-// This code contains NVIDIA Confidential Information and is disclosed 
-// under the Mutual Non-Disclosure Agreement. 
-// 
-// Notice 
-// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES 
-// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO 
-// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT, 
-// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. 
-// 
-// NVIDIA Corporation assumes no responsibility for the consequences of use of such 
-// information or for any infringement of patents or other rights of third parties that may 
-// result from its use. No license is granted by implication or otherwise under any patent 
-// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless 
-// expressly authorized by NVIDIA.  Details are subject to change without notice. 
-// This code supersedes and replaces all information previously supplied. 
-// NVIDIA Corporation products are not authorized for use as critical 
-// components in life support devices or systems without express written approval of 
-// NVIDIA Corporation. 
-// 
+// This code contains NVIDIA Confidential Information and is disclosed
+// under the Mutual Non-Disclosure Agreement.
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA Corporation assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless
+// expressly authorized by NVIDIA.  Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA Corporation products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA Corporation.
+//
 // Copyright (c) 2013 NVIDIA Corporation. All rights reserved.
 //
 // NVIDIA Corporation and its licensors retain all intellectual property and proprietary
@@ -31,28 +31,28 @@
 
 using namespace DirectX;
 
-HRESULT FurSampleSkinnedMeshes::Init(ID3D11Device* device)
+HRESULT FurSampleSkinnedMeshes::Init(ID3D11Device *device)
 {
 	HRESULT hr;
 	{
 		// Create skinned mesh vertex shader
-		ID3DBlob* blob = NULL;
+		ID3DBlob *blob = NULL;
 		hr = FurSample_CreateVertexShader(device, "samples\\FurSampleCommon\\HairWorksSampleSkinnedVertexShader.hlsl", &m_skinnedVS, &blob);
 		if (FAILED(hr))
 			return hr;
 
 		// Create input layout for skinned mesh
 		const D3D11_INPUT_ELEMENT_DESC layout[] =
-		{
-			{ "POSITION",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "NORMAL",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 16,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TANGENT",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 32,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "BINORMAL",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 48,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "BLENDWEIGHT",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 64,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "BLENDINDICES",  0, DXGI_FORMAT_R32G32B32A32_UINT, 0, 80,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 96,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD",  1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 112,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		};
+			{
+				{"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{"NORMAL", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{"TANGENT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{"BINORMAL", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{"BLENDWEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 64, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{"BLENDINDICES", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0, 80, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{"TEXCOORD", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 96, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{"TEXCOORD", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 112, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			};
 		hr = device->CreateInputLayout(layout, ARRAYSIZE(layout), blob->GetBufferPointer(), blob->GetBufferSize(), &m_skinnedInputLayout);
 		if (FAILED(hr))
 			return hr;
@@ -94,8 +94,8 @@ HRESULT FurSampleSkinnedMeshes::Init(ID3D11Device* device)
 
 	{
 		D3D11_DEPTH_STENCIL_DESC desc;
-		desc.DepthEnable	= true;
-		desc.DepthFunc		= D3D11_COMPARISON_LESS;
+		desc.DepthEnable = true;
+		desc.DepthFunc = D3D11_COMPARISON_LESS;
 		desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 		desc.StencilEnable = false;
 		desc.StencilReadMask = 0xff;
@@ -107,11 +107,11 @@ HRESULT FurSampleSkinnedMeshes::Init(ID3D11Device* device)
 	}
 
 	// rasterizer state
-	
+
 	{
 		D3D11_RASTERIZER_DESC desc;
-		desc.FillMode	= D3D11_FILL_SOLID;
-		desc.CullMode	= D3D11_CULL_NONE;
+		desc.FillMode = D3D11_FILL_SOLID;
+		desc.CullMode = D3D11_CULL_NONE;
 		desc.AntialiasedLineEnable = false;
 		desc.MultisampleEnable = true;
 		desc.FrontCounterClockwise = true;
@@ -146,25 +146,25 @@ void FurSampleSkinnedMeshes::Release()
 	}
 }
 
-HRESULT FurSampleSkinnedMeshes::LoadSkinnedMesh(ID3D11Device* device, const XMFLOAT3* positions, int numPositions, const unsigned int* srcIndices, int numIndices, const XMVECTOR* boneIndices, const XMVECTOR* boneWeights)
+HRESULT FurSampleSkinnedMeshes::LoadSkinnedMesh(ID3D11Device *device, const XMFLOAT3 *positions, int numPositions, const unsigned int *srcIndices, int numIndices, const XMVECTOR *boneIndices, const XMVECTOR *boneWeights)
 {
 	HRESULT hr;
 	FurSample_Vector<MySkinnedVertexFormat> vertices;
 
 	// Create on heap so a copy isn't needed to a vector
-	MySkinnedMesh* mesh = new MySkinnedMesh;
+	MySkinnedMesh *mesh = new MySkinnedMesh;
 	// Add to the array, such that it is freed if this goes out of scope
 	m_meshes.pushBack(mesh);
 
 	// Build vertices
 	{
 		vertices.setSize(numPositions);
-		MySkinnedVertexFormat* dst = vertices.data();
+		MySkinnedVertexFormat *dst = vertices.data();
 		memset(dst, 0, sizeof(MySkinnedVertexFormat) * numPositions);
 
 		for (int vertIdx = 0; vertIdx < numPositions; ++vertIdx)
 		{
-			MySkinnedVertexFormat& vert = dst[vertIdx];
+			MySkinnedVertexFormat &vert = dst[vertIdx];
 			// Position
 			vert.m_position[0] = positions[vertIdx].x;
 			vert.m_position[1] = positions[vertIdx].y;
@@ -206,7 +206,7 @@ HRESULT FurSampleSkinnedMeshes::LoadSkinnedMesh(ID3D11Device* device, const XMFL
 		subResourceDesc.pSysMem = vertices.data();
 		subResourceDesc.SysMemPitch = 0;
 		subResourceDesc.SysMemSlicePitch = 0;
-		
+
 		hr = device->CreateBuffer(&bufferDesc, &subResourceDesc, &mesh->m_vertexBuffer);
 		if (FAILED(hr))
 			return hr;
@@ -223,11 +223,11 @@ HRESULT FurSampleSkinnedMeshes::LoadSkinnedMesh(ID3D11Device* device, const XMFL
 		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
 
 		D3D11_SUBRESOURCE_DATA subResourceDesc;
-		//init_data_desc.pSysMem = (const void*)&dstIndices[0];
-		subResourceDesc.pSysMem = (const void*)srcIndices;
+		// init_data_desc.pSysMem = (const void*)&dstIndices[0];
+		subResourceDesc.pSysMem = (const void *)srcIndices;
 		subResourceDesc.SysMemPitch = 0;
 		subResourceDesc.SysMemSlicePitch = 0;
-		
+
 		hr = device->CreateBuffer(&bufferDesc, &subResourceDesc, &mesh->m_indexBuffer);
 		if (FAILED(hr))
 			return hr;
@@ -242,7 +242,7 @@ HRESULT FurSampleSkinnedMeshes::LoadSkinnedMesh(ID3D11Device* device, const XMFL
 	return S_OK;
 }
 
-HRESULT FurSampleSkinnedMeshes::RenderMeshes(ID3D11Device* device, ID3D11DeviceContext* context, const float* viewMatrix, const float* projectionMatrix)
+HRESULT FurSampleSkinnedMeshes::RenderMeshes(ID3D11Device *device, ID3D11DeviceContext *context, const float *viewMatrix, const float *projectionMatrix)
 {
 	HRESULT hr;
 
@@ -251,11 +251,11 @@ HRESULT FurSampleSkinnedMeshes::RenderMeshes(ID3D11Device* device, ID3D11DeviceC
 
 	for (SkinnedMeshVector::Iterator it = m_meshes.begin(); it != m_meshes.end(); ++it)
 	{
-		MySkinnedMesh* mesh = *it;
+		MySkinnedMesh *mesh = *it;
 
 		// Set vertex buffer
-		UINT strides[] = { sizeof(MySkinnedVertexFormat) };
-		UINT offsets[] = { 0 };
+		UINT strides[] = {sizeof(MySkinnedVertexFormat)};
+		UINT offsets[] = {0};
 		context->IASetVertexBuffers(0, 1, &mesh->m_vertexBuffer, strides, offsets);
 
 		// Set index buffer
@@ -265,10 +265,10 @@ HRESULT FurSampleSkinnedMeshes::RenderMeshes(ID3D11Device* device, ID3D11DeviceC
 		{
 			D3D11_MAPPED_SUBRESOURCE mapped_resource;
 			hr = context->Map(m_modelViewProjectionCB, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
-			if (FAILED(hr)) 
+			if (FAILED(hr))
 				return hr;
 
-			MyModelViewProjMatrix* mvp = reinterpret_cast<MyModelViewProjMatrix*>(mapped_resource.pData);
+			MyModelViewProjMatrix *mvp = reinterpret_cast<MyModelViewProjMatrix *>(mapped_resource.pData);
 
 			mvp->m_worldMatrix = XMMatrixIdentity();
 
@@ -279,14 +279,14 @@ HRESULT FurSampleSkinnedMeshes::RenderMeshes(ID3D11Device* device, ID3D11DeviceC
 		}
 
 		// Update skinning matrices from the animation bones
-		MySkinningMatrices* skinningMatrices = nullptr;
+		MySkinningMatrices *skinningMatrices = nullptr;
 		{
 			D3D11_MAPPED_SUBRESOURCE mapped_resource;
 			hr = context->Map(m_skinningMatricesCB, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
 			if (FAILED(hr))
 				return hr;
 
-			skinningMatrices = reinterpret_cast<MySkinningMatrices*>(mapped_resource.pData);
+			skinningMatrices = reinterpret_cast<MySkinningMatrices *>(mapped_resource.pData);
 			memcpy(skinningMatrices->m_boneTransforms, m_skinning_matrices.m_boneTransforms, sizeof(m_skinning_matrices.m_boneTransforms));
 			context->Unmap(m_skinningMatricesCB, 0);
 		}
@@ -312,7 +312,7 @@ HRESULT FurSampleSkinnedMeshes::RenderMeshes(ID3D11Device* device, ID3D11DeviceC
 	return S_OK;
 }
 
-void FurSampleSkinnedMeshes::UpdateMeshes(unsigned int numSkinBones, const XMMATRIX* skinningBoneMatrices)
+void FurSampleSkinnedMeshes::UpdateMeshes(unsigned int numSkinBones, const XMMATRIX *skinningBoneMatrices)
 {
 	for (SkinnedMeshVector::SizeType meshIdx = 0; meshIdx < m_meshes.getSize(); ++meshIdx)
 	{

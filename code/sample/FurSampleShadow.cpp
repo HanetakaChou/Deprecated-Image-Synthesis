@@ -1,22 +1,22 @@
-// This code contains NVIDIA Confidential Information and is disclosed 
-// under the Mutual Non-Disclosure Agreement. 
-// 
-// Notice 
-// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES 
-// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO 
-// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT, 
-// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. 
-// 
-// NVIDIA Corporation assumes no responsibility for the consequences of use of such 
-// information or for any infringement of patents or other rights of third parties that may 
-// result from its use. No license is granted by implication or otherwise under any patent 
-// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless 
-// expressly authorized by NVIDIA.  Details are subject to change without notice. 
-// This code supersedes and replaces all information previously supplied. 
-// NVIDIA Corporation products are not authorized for use as critical 
-// components in life support devices or systems without express written approval of 
-// NVIDIA Corporation. 
-// 
+// This code contains NVIDIA Confidential Information and is disclosed
+// under the Mutual Non-Disclosure Agreement.
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA Corporation assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless
+// expressly authorized by NVIDIA.  Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA Corporation products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA Corporation.
+//
 // Copyright (c) 2013 NVIDIA Corporation. All rights reserved.
 //
 // NVIDIA Corporation and its licensors retain all intellectual property and proprietary
@@ -34,7 +34,7 @@
 
 	HIGHLIGHTS:
 	This code sample shows
-	- How to use custom constant buffer 
+	- How to use custom constant buffer
 	- How to combine user's own constant buffer with constant buffer needed for hair shader
 	- How to render hairs to user's own shadow map
 	- How to compute hair shadows in the hair shader
@@ -65,8 +65,8 @@
 
 #include "GFSDK_HairWorks.h" // hairworks main header file
 
-#include "FurSampleAppBase.h" // application wrapper to hide non hair-related codes
-#include "FurSampleCommon.h" // general DX utility functions shared among samples
+#include "FurSampleAppBase.h"		  // application wrapper to hide non hair-related codes
+#include "FurSampleCommon.h"		  // general DX utility functions shared among samples
 #include "FurSampleHairWorksHelper.h" // convenience functions related to hairworks
 
 using namespace DirectX;
@@ -74,42 +74,43 @@ using namespace DirectX;
 //--------------------------------------------------------------------------------------
 // global variables (used only in this file)
 //--------------------------------------------------------------------------------------
-namespace {
-	GFSDK_HairSDK*					g_hairSDK = nullptr; // HairWorks SDK runtime 
-	GFSDK_HairAssetDescriptor		g_hairAssetDescriptor;	// hair asset descriptor
-	GFSDK_HairAssetID				g_hairAssetID = GFSDK_HairAssetID_NULL;	// hair asset ID
-	GFSDK_HairInstanceDescriptor	g_hairInstanceDescriptor; // hair instance descriptor
-	GFSDK_HairInstanceID			g_hairInstanceID = GFSDK_HairInstanceID_NULL; // hair instance ID
-	
+namespace
+{
+	GFSDK_HairSDK *g_hairSDK = nullptr;								   // HairWorks SDK runtime
+	GFSDK_HairAssetDescriptor g_hairAssetDescriptor;				   // hair asset descriptor
+	GFSDK_HairAssetID g_hairAssetID = GFSDK_HairAssetID_NULL;		   // hair asset ID
+	GFSDK_HairInstanceDescriptor g_hairInstanceDescriptor;			   // hair instance descriptor
+	GFSDK_HairInstanceID g_hairInstanceID = GFSDK_HairInstanceID_NULL; // hair instance ID
+
 	// apx file path
 	char g_apxFilePath[1024];
 
 	// custom pixel shader for hair rendering
-	ID3D11PixelShader*	g_customHairWorksShader = 0;
+	ID3D11PixelShader *g_customHairWorksShader = 0;
 
 	// custom pixel shader for shadowmap rendering pass
-	ID3D11PixelShader*	g_customHairWorksShadowShader = 0;
+	ID3D11PixelShader *g_customHairWorksShadowShader = 0;
 
 	// custom constant buffer for use with custom pixel shader
-	ID3D11Buffer*		g_hairShaderConstantBuffer = 0;
+	ID3D11Buffer *g_hairShaderConstantBuffer = 0;
 
 	// visualize shadow map?
-	bool				g_visualizeShadowMap = false;
+	bool g_visualizeShadowMap = false;
 
 	// we add additional info about light matrices in our custom constant bufffer
 	struct MyConstantBuffer
 	{
-		XMMATRIX	lightView;
-		XMMATRIX	lightWorldToTex;
+		XMMATRIX lightView;
+		XMMATRIX lightWorldToTex;
 
-		GFSDK_HairShaderConstantBuffer	hairShaderConstantBuffer;
+		GFSDK_HairShaderConstantBuffer hairShaderConstantBuffer;
 	};
 }
 
 //--------------------------------------------------------------------------------------
 // This function contains all the steps necessary to prepare hair asset and resources
 //--------------------------------------------------------------------------------------
-HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DESC* backBufferSurfaceDesc, void* userContext)
+HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DESC *backBufferSurfaceDesc, void *userContext)
 {
 	HRESULT hr;
 	// initialize sample app
@@ -124,9 +125,9 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DE
 	// note that actual asset might have used different coord system (e.g. r.h.s/z-up), so we need this setting to be properly set.
 	GFSDK_HairConversionSettings conversionSettings;
 	{
-		conversionSettings.m_targetHandednessHint	= GFSDK_HAIR_LEFT_HANDED;
-		conversionSettings.m_targetUpAxisHint		= GFSDK_HAIR_Y_UP;
-		conversionSettings.m_targetSceneUnit		= 1.0 ; // centimeter
+		conversionSettings.m_targetHandednessHint = GFSDK_HAIR_LEFT_HANDED;
+		conversionSettings.m_targetUpAxisHint = GFSDK_HAIR_Y_UP;
+		conversionSettings.m_targetSceneUnit = 1.0; // centimeter
 	}
 
 	// Load hair asset from .apx file
@@ -162,7 +163,7 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DE
 	FurSample_SetupTextureResource(device, g_hairSDK, g_hairAssetID, g_hairInstanceID, g_apxFilePath);
 
 	// set up default DXUT camera
-	XMVECTOR modelCenter = XMVectorSet(0,175, 0, 0);
+	XMVECTOR modelCenter = XMVectorSet(0, 175, 0, 0);
 	XMVECTOR camCenter = XMVectorAdd(modelCenter, XMVectorSet(0, 0, -50, 0));
 
 	FurSampleAppBase::InitDefaultCamera(camCenter, modelCenter);
@@ -176,9 +177,9 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DE
 }
 
 //--------------------------------------------------------------------------------------
-// Release D3D11 resources created in OnD3D11CreateDevice 
+// Release D3D11 resources created in OnD3D11CreateDevice
 //--------------------------------------------------------------------------------------
-void CALLBACK OnD3D11DestroyDevice(void* userContext)
+void CALLBACK OnD3D11DestroyDevice(void *userContext)
 {
 	FurSampleAppBase::OnDestroyDevice();
 
@@ -195,7 +196,7 @@ void CALLBACK OnD3D11DestroyDevice(void* userContext)
 //--------------------------------------------------------------------------------------
 // Called at every frame. This is the main function for hair rendering
 //--------------------------------------------------------------------------------------
-void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* context, double time, float elapsedTime, void* userContext)
+void CALLBACK OnD3D11FrameRender(ID3D11Device *device, ID3D11DeviceContext *context, double time, float elapsedTime, void *userContext)
 {
 	// Set render context for HairWorks
 	g_hairSDK->SetCurrentContext(context);
@@ -215,9 +216,9 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 
 		// 2. get shadow camera's view projection matrix and set to HairWorks
 		{
-			XMMATRIX projection	= FurSampleAppBase::GetLightProjection();
-			XMMATRIX view			= FurSampleAppBase::GetLightViewMatrix();
-			g_hairSDK->SetViewProjection((const gfsdk_float4x4*)&view,(const gfsdk_float4x4*)&projection, GFSDK_HAIR_LEFT_HANDED);
+			XMMATRIX projection = FurSampleAppBase::GetLightProjection();
+			XMMATRIX view = FurSampleAppBase::GetLightViewMatrix();
+			g_hairSDK->SetViewProjection((const gfsdk_float4x4 *)&view, (const gfsdk_float4x4 *)&projection, GFSDK_HAIR_LEFT_HANDED);
 		}
 
 		// 3. set shader settings and render hairs with our custom hair shadow shader
@@ -244,38 +245,37 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 	{
 		// 1. get view and projection matrix from your app, set to HairWorks
 		{
-			XMMATRIX projection	= FurSampleAppBase::GetCameraProjection();
-			XMMATRIX view		= FurSampleAppBase::GetCameraViewMatrix();
-			g_hairSDK->SetViewProjection((const gfsdk_float4x4*)&view,(const gfsdk_float4x4*)&projection, GFSDK_HAIR_LEFT_HANDED);
+			XMMATRIX projection = FurSampleAppBase::GetCameraProjection();
+			XMMATRIX view = FurSampleAppBase::GetCameraViewMatrix();
+			g_hairSDK->SetViewProjection((const gfsdk_float4x4 *)&view, (const gfsdk_float4x4 *)&projection, GFSDK_HAIR_LEFT_HANDED);
 		}
 
 		// 2. prepare HairWorks constant buffer and copy shadow matrices to our custom buffer
 		{
-			D3D11_MAPPED_SUBRESOURCE mappedSubResource;		
-			context->Map( g_hairShaderConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
-			MyConstantBuffer* constantBuffer = ( MyConstantBuffer* )mappedSubResource.pData;
+			D3D11_MAPPED_SUBRESOURCE mappedSubResource;
+			context->Map(g_hairShaderConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
+			MyConstantBuffer *constantBuffer = (MyConstantBuffer *)mappedSubResource.pData;
 			{
 				// copy additional data we defined (light matrices)
-				constantBuffer->lightView			= FurSampleAppBase::GetLightViewMatrix();
-				constantBuffer->lightWorldToTex	= FurSampleAppBase::GetLightWorldToTex();
+				constantBuffer->lightView = FurSampleAppBase::GetLightViewMatrix();
+				constantBuffer->lightWorldToTex = FurSampleAppBase::GetLightWorldToTex();
 				// use HairWorks API to fill the HairWorks portion of constant buffer
 				g_hairSDK->PrepareShaderConstantBuffer(g_hairInstanceID, &constantBuffer->hairShaderConstantBuffer);
-
-			}	
-			context->Unmap(g_hairShaderConstantBuffer,0);
+			}
+			context->Unmap(g_hairShaderConstantBuffer, 0);
 			context->PSSetConstantBuffers(0, 1, &g_hairShaderConstantBuffer);
 		}
-	
+
 		// 3. set resources for hair shader (color textures, shadow tex, attribute resources)
 		// The resource mapping here should match decalartions in the shader.
 		{
 			// get standard shader resources for attribute interpolation
-			ID3D11ShaderResourceView* srvs[GFSDK_HAIR_NUM_SHADER_RESOUCES];
+			ID3D11ShaderResourceView *srvs[GFSDK_HAIR_NUM_SHADER_RESOUCES];
 			g_hairSDK->GetShaderResources(g_hairInstanceID, srvs);
-			context->PSSetShaderResources( 0, GFSDK_HAIR_NUM_SHADER_RESOUCES, srvs);
+			context->PSSetShaderResources(0, GFSDK_HAIR_NUM_SHADER_RESOUCES, srvs);
 
 			// set texture resource
-			ID3D11ShaderResourceView* textureSRVs[3];
+			ID3D11ShaderResourceView *textureSRVs[3];
 
 			g_hairSDK->GetTextureSRV(g_hairInstanceID, GFSDK_HAIR_TEXTURE_ROOT_COLOR, &textureSRVs[0]);
 			g_hairSDK->GetTextureSRV(g_hairInstanceID, GFSDK_HAIR_TEXTURE_TIP_COLOR, &textureSRVs[1]);
@@ -283,16 +283,15 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 			// shadow srv, which is user side creation
 			textureSRVs[2] = FurSampleAppBase::GetShadowSRV();
 
-			context->PSSetShaderResources( GFSDK_HAIR_NUM_SHADER_RESOUCES, 3, textureSRVs);
+			context->PSSetShaderResources(GFSDK_HAIR_NUM_SHADER_RESOUCES, 3, textureSRVs);
 		}
 
 		// 4. set texture sampler for color sampling and shadow PCF sampling
 		{
 			ID3D11SamplerState *states[2] = {
-				FurSampleAppBase::GetSamplerLinear(), 
-				FurSampleAppBase::GetSamplerPointClamp() 
-			};
-			context->PSSetSamplers( 0, 2, states );
+				FurSampleAppBase::GetSamplerLinear(),
+				FurSampleAppBase::GetSamplerPointClamp()};
+			context->PSSetSamplers(0, 2, states);
 		}
 
 		// 5. set hair shader and render hairs
@@ -300,7 +299,7 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 			// set your hair pixel shader before rendering hairs
 			context->PSSetShader(g_customHairWorksShader, NULL, 0);
 
-			// set shader settings.  
+			// set shader settings.
 			GFSDK_HairShaderSettings settings;
 			settings.m_useCustomConstantBuffer = true; // we use our own constant buffer
 
@@ -311,7 +310,7 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 		// 6. clear shader resource references
 		{
 			const int numResources = GFSDK_HAIR_NUM_SHADER_RESOUCES + 3;
-			ID3D11ShaderResourceView* nullResources[numResources] = { NULL };
+			ID3D11ShaderResourceView *nullResources[numResources] = {NULL};
 			context->PSSetShaderResources(0, numResources, nullResources);
 		}
 	}
@@ -323,17 +322,17 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 //--------------------------------------------------------------------------------------
 // Called once per frame when animation is on.
 //--------------------------------------------------------------------------------------
-void CALLBACK OnFrameMove(double time, float elapsedTime, void* userContext)
+void CALLBACK OnFrameMove(double time, float elapsedTime, void *userContext)
 {
 	if (S_OK != FurSampleAppBase::OnFrameMove(time, elapsedTime, userContext))
 		return;
 
-	ID3D11DeviceContext* context = FurSampleAppBase::GetDeviceContext();
+	ID3D11DeviceContext *context = FurSampleAppBase::GetDeviceContext();
 
 	// update simulation parameters
 	g_hairSDK->UpdateInstanceDescriptor(g_hairInstanceID, g_hairInstanceDescriptor);
 
-	// Set simulation context for HairWorks 
+	// Set simulation context for HairWorks
 	g_hairSDK->SetCurrentContext(context);
 
 	// run simulation for all hairs
@@ -343,26 +342,31 @@ void CALLBACK OnFrameMove(double time, float elapsedTime, void* userContext)
 //--------------------------------------------------------------------------------------
 // Process key events
 //--------------------------------------------------------------------------------------
-#define TOGGLE(x) { x = !x; }
+#define TOGGLE(x) \
+	{             \
+		x = !x;   \
+	}
 
-void CALLBACK OnKeyboard(UINT character, bool keyDown, bool altDown, void* userContext)
-{	
+void CALLBACK OnKeyboard(UINT character, bool keyDown, bool altDown, void *userContext)
+{
 	if (!keyDown)
 		return;
 
-	switch(character)
+	switch (character)
 	{
-		case 'v': case 'V':  
-			TOGGLE(g_visualizeShadowMap); 
-			break;
-		case 's': case 'S':  
-			TOGGLE(g_hairInstanceDescriptor.m_receiveShadows); 
-			break;
+	case 'v':
+	case 'V':
+		TOGGLE(g_visualizeShadowMap);
+		break;
+	case 's':
+	case 'S':
+		TOGGLE(g_hairInstanceDescriptor.m_receiveShadows);
+		break;
 	}
 }
 
 //--------------------------------------------------------------------------------------
-// Entry point to the program. Initializes everything and goes into a message processing 
+// Entry point to the program. Initializes everything and goes into a message processing
 // loop. Idle time is used to render the scene.
 //--------------------------------------------------------------------------------------
 int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPWSTR cmdLine, int cmdShow)
@@ -372,7 +376,7 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPWSTR cmdLine, 
 	wcstombs(arg1, cmdLine, 1024);
 
 	// find file path for sample apx file
-	const char* fileName = strlen(arg1) > 0 ? arg1 : "media\\HumanSamples\\Female\\Eve\\gm_main.apx";
+	const char *fileName = strlen(arg1) > 0 ? arg1 : "media\\HumanSamples\\Female\\Eve\\gm_main.apx";
 
 	FurSample_GetSampleMediaFilePath(fileName, g_apxFilePath);
 
@@ -386,4 +390,3 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPWSTR cmdLine, 
 
 	return FurSampleAppBase::WinMain(L"FurSampleShadow");
 }
-

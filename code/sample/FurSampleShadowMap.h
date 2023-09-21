@@ -1,22 +1,22 @@
-// This code contains NVIDIA Confidential Information and is disclosed 
-// under the Mutual Non-Disclosure Agreement. 
-// 
-// Notice 
-// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES 
-// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO 
-// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT, 
-// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. 
-// 
-// NVIDIA Corporation assumes no responsibility for the consequences of use of such 
-// information or for any infringement of patents or other rights of third parties that may 
-// result from its use. No license is granted by implication or otherwise under any patent 
-// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless 
-// expressly authorized by NVIDIA.  Details are subject to change without notice. 
-// This code supersedes and replaces all information previously supplied. 
-// NVIDIA Corporation products are not authorized for use as critical 
-// components in life support devices or systems without express written approval of 
-// NVIDIA Corporation. 
-// 
+// This code contains NVIDIA Confidential Information and is disclosed
+// under the Mutual Non-Disclosure Agreement.
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA Corporation assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless
+// expressly authorized by NVIDIA.  Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA Corporation products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA Corporation.
+//
 // Copyright (c) 2013 NVIDIA Corporation. All rights reserved.
 //
 // NVIDIA Corporation and its licensors retain all intellectual property and proprietary
@@ -35,16 +35,15 @@ struct FurSampleShadowMap
 public:
 	FurSampleShadowMap();
 
-	HRESULT Init(ID3D11Device* device, int resolution );
+	HRESULT Init(ID3D11Device *device, int resolution);
 	HRESULT Release();
 
-	ID3D11Texture2D*			m_shadowTexture;
-	ID3D11RenderTargetView*		m_shadowRTV;
-	ID3D11ShaderResourceView*	m_shadowSRV;
+	ID3D11Texture2D *m_shadowTexture;
+	ID3D11RenderTargetView *m_shadowRTV;
+	ID3D11ShaderResourceView *m_shadowSRV;
 
-	ID3D11Texture2D*			m_depthTexture;
-	ID3D11DepthStencilView*		m_depthDSV;
+	ID3D11Texture2D *m_depthTexture;
+	ID3D11DepthStencilView *m_depthDSV;
 
-	D3D11_VIEWPORT				m_viewport;
+	D3D11_VIEWPORT m_viewport;
 };
-

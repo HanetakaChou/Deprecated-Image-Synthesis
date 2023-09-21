@@ -1,22 +1,22 @@
-// This code contains NVIDIA Confidential Information and is disclosed 
-// under the Mutual Non-Disclosure Agreement. 
-// 
-// Notice 
-// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES 
-// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO 
-// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT, 
-// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. 
-// 
-// NVIDIA Corporation assumes no responsibility for the consequences of use of such 
-// information or for any infringement of patents or other rights of third parties that may 
-// result from its use. No license is granted by implication or otherwise under any patent 
-// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless 
-// expressly authorized by NVIDIA.  Details are subject to change without notice. 
-// This code supersedes and replaces all information previously supplied. 
-// NVIDIA Corporation products are not authorized for use as critical 
-// components in life support devices or systems without express written approval of 
-// NVIDIA Corporation. 
-// 
+// This code contains NVIDIA Confidential Information and is disclosed
+// under the Mutual Non-Disclosure Agreement.
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA Corporation assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless
+// expressly authorized by NVIDIA.  Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA Corporation products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA Corporation.
+//
 // Copyright (c) 2013 NVIDIA Corporation. All rights reserved.
 //
 // NVIDIA Corporation and its licensors retain all intellectual property and proprietary
@@ -32,14 +32,15 @@
 //---------------------------------------------------------------------------------------------
 // Custom log handler
 //---------------------------------------------------------------------------------------------
-class CustomLogHandler : public GFSDK_HAIR_LogHandler {
+class CustomLogHandler : public GFSDK_HAIR_LogHandler
+{
 public:
 	~CustomLogHandler()
 	{
 		OutputDebugStringA("GFSDK_HAIR_SAMPLE: log handler destroyed\n");
 	}
 
-	void Log(GFSDK_HAIR_LOG_TYPES logType, const char* message, const char* file, int line)
+	void Log(GFSDK_HAIR_LOG_TYPES logType, const char *message, const char *file, int line)
 	{
 		switch (logType)
 		{
@@ -61,15 +62,15 @@ public:
 static CustomLogHandler s_logger;
 
 //---------------------------------------------------------------------------------------------
-// Load hairworks runtime 
+// Load hairworks runtime
 //---------------------------------------------------------------------------------------------
-GFSDK_HairSDK* FurSample_LoadHairWorksDLL(void)
+GFSDK_HairSDK *FurSample_LoadHairWorksDLL(void)
 {
 	// Load hairworks dll
 #ifdef _WIN64
-	const char* coreDLLPath = "GFSDK_HairWorks.win64.dll";
+	const char *coreDLLPath = "GFSDK_HairWorks.win64.dll";
 #else
-	const char* coreDLLPath = "GFSDK_HairWorks.win32.dll";
+	const char *coreDLLPath = "GFSDK_HairWorks.win32.dll";
 #endif
 
 	return GFSDK_LoadHairSDK(coreDLLPath, GFSDK_HAIRWORKS_VERSION, 0, &s_logger);
@@ -78,15 +79,15 @@ GFSDK_HairSDK* FurSample_LoadHairWorksDLL(void)
 //---------------------------------------------------------------------------------------------
 // Create texture resource and set it to hairworks runtime
 //---------------------------------------------------------------------------------------------
-HRESULT FurSample_SetupTextureResource(ID3D11Device* device, GFSDK_HairSDK* hairSDK, GFSDK_HairAssetID assetID, GFSDK_HairInstanceID instanceID, const char* mediaPath)
+HRESULT FurSample_SetupTextureResource(ID3D11Device *device, GFSDK_HairSDK *hairSDK, GFSDK_HairAssetID assetID, GFSDK_HairInstanceID instanceID, const char *mediaPath)
 {
 	HRESULT hr;
-	// load texture maps for hair and create shader resource views	
+	// load texture maps for hair and create shader resource views
 	// Build absolute path for textures
 	char drive[_MAX_DRIVE];
 	char dir[_MAX_DIR];
 
-	_splitpath(mediaPath, drive, dir, NULL, NULL );
+	_splitpath(mediaPath, drive, dir, NULL, NULL);
 
 	for (int t = 0; t < GFSDK_HAIR_NUM_TEXTURES; ++t)
 	{
@@ -101,7 +102,7 @@ HRESULT FurSample_SetupTextureResource(ID3D11Device* device, GFSDK_HairSDK* hair
 
 		_makepath(textureFilePath, drive, dir, textureFileName, NULL);
 
-		ID3D11ShaderResourceView* textureSRV = nullptr;
+		ID3D11ShaderResourceView *textureSRV = nullptr;
 
 		hr = FurSample_CreateTextureSRV(device, textureFilePath, &textureSRV);
 		if (FAILED(hr))

@@ -1,22 +1,22 @@
-// This code contains NVIDIA Confidential Information and is disclosed 
-// under the Mutual Non-Disclosure Agreement. 
-// 
-// Notice 
-// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES 
-// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO 
-// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT, 
-// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. 
-// 
-// NVIDIA Corporation assumes no responsibility for the consequences of use of such 
-// information or for any infringement of patents or other rights of third parties that may 
-// result from its use. No license is granted by implication or otherwise under any patent 
-// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless 
-// expressly authorized by NVIDIA.  Details are subject to change without notice. 
-// This code supersedes and replaces all information previously supplied. 
-// NVIDIA Corporation products are not authorized for use as critical 
-// components in life support devices or systems without express written approval of 
-// NVIDIA Corporation. 
-// 
+// This code contains NVIDIA Confidential Information and is disclosed
+// under the Mutual Non-Disclosure Agreement.
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA Corporation assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless
+// expressly authorized by NVIDIA.  Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA Corporation products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA Corporation.
+//
 // Copyright (c) 2013 NVIDIA Corporation. All rights reserved.
 //
 // NVIDIA Corporation and its licensors retain all intellectual property and proprietary
@@ -32,7 +32,7 @@
 
 	HIGHLIGHTS:
 	This sample updates the skinning matrices using UpdateSkinningMatrices() API.
-	
+
 	To visualize how the bone hierarchy is, set m_visualizeBones of GFSDK_HairInstanceDescriptor to true and call RenderVisualization().
 
 	SAMPLE CODE WORKFLOW:
@@ -58,10 +58,10 @@
 
 #include "GFSDK_HairWorks.h" // hairworks main header file
 
-#include "FurSampleAppBase.h" // application wrapper to hide non hair-related codes
-#include "FurSampleCommon.h" // general DX utility functions shared among samples
+#include "FurSampleAppBase.h"		  // application wrapper to hide non hair-related codes
+#include "FurSampleCommon.h"		  // general DX utility functions shared among samples
 #include "FurSampleHairWorksHelper.h" // convenience functions related to hairworks
-#include "FurSampleMesh.h" // sample mesh loading/rendering functions
+#include "FurSampleMesh.h"			  // sample mesh loading/rendering functions
 
 #include "FurSampleVector.h"
 
@@ -70,19 +70,19 @@ using namespace DirectX;
 //--------------------------------------------------------------------------------------
 // global variables (used only in this file)
 //--------------------------------------------------------------------------------------
-namespace 
+namespace
 {
-	GFSDK_HairSDK*					g_hairSDK = nullptr; // HairWorks SDK runtime 
-	GFSDK_HairAssetDescriptor		g_hairAssetDescriptor;		// hair asset descriptor
-	GFSDK_HairAssetID				g_hairAssetID = GFSDK_HairAssetID_NULL;	// hair asset ID
-	GFSDK_HairInstanceDescriptor	g_hairInstanceDescriptor;	// hair instance descriptor
-	GFSDK_HairInstanceID			g_hairInstanceID = GFSDK_HairInstanceID_NULL; // hair instance ID
-	
+	GFSDK_HairSDK *g_hairSDK = nullptr;								   // HairWorks SDK runtime
+	GFSDK_HairAssetDescriptor g_hairAssetDescriptor;				   // hair asset descriptor
+	GFSDK_HairAssetID g_hairAssetID = GFSDK_HairAssetID_NULL;		   // hair asset ID
+	GFSDK_HairInstanceDescriptor g_hairInstanceDescriptor;			   // hair instance descriptor
+	GFSDK_HairInstanceID g_hairInstanceID = GFSDK_HairInstanceID_NULL; // hair instance ID
+
 	// apx file path
 	char g_apxFilePath[1024];
 
 	// custom pixel shader for hair rendering
-	ID3D11PixelShader*	g_customHairWorksShader = 0;
+	ID3D11PixelShader *g_customHairWorksShader = 0;
 
 	// To use animation or not
 	bool g_useAnimation = true;
@@ -110,8 +110,8 @@ namespace
 	{
 		gfsdk_U32 m_numFaces; // Number of triangle faces
 
-		FurSample_Vector<XMFLOAT3> m_positions; // Positions
-		FurSample_Vector<gfsdk_U32> m_indices; // Indices
+		FurSample_Vector<XMFLOAT3> m_positions;	  // Positions
+		FurSample_Vector<gfsdk_U32> m_indices;	  // Indices
 		FurSample_Vector<XMVECTOR> m_boneWeights; // Bone weights
 		FurSample_Vector<XMVECTOR> m_boneIndices; // Bone indices
 
@@ -130,7 +130,7 @@ namespace
 //--------------------------------------------------------------------------------------
 // This function contains all the steps necessary to prepare hair asset and resources
 //--------------------------------------------------------------------------------------
-HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DESC* backBufferSurfaceDesc, void* userContext)
+HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DESC *backBufferSurfaceDesc, void *userContext)
 {
 	HRESULT hr;
 	// initialize sample app
@@ -145,9 +145,9 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DE
 	// note that actual asset might have used different coord system (e.g. r.h.s/z-up), so we need this setting to be properly set.
 	GFSDK_HairConversionSettings conversionSettings;
 	{
-		conversionSettings.m_targetHandednessHint	= GFSDK_HAIR_LEFT_HANDED;
-		conversionSettings.m_targetUpAxisHint		= GFSDK_HAIR_Y_UP;
-		conversionSettings.m_targetSceneUnit		= 1.0 ; // centimeter
+		conversionSettings.m_targetHandednessHint = GFSDK_HAIR_LEFT_HANDED;
+		conversionSettings.m_targetUpAxisHint = GFSDK_HAIR_Y_UP;
+		conversionSettings.m_targetSceneUnit = 1.0; // centimeter
 	}
 
 	// Load hair asset from .apx file
@@ -158,7 +158,7 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DE
 		return E_FAIL;
 
 	// Create custom pixel shader for HairWorks rendering
-	const char* shaderFile= "samples\\FurSampleSkinning\\HairWorksSampleShader.hlsl";
+	const char *shaderFile = "samples\\FurSampleSkinning\\HairWorksSampleShader.hlsl";
 	hr = FurSample_CreatePixelShader(device, shaderFile, &g_customHairWorksShader);
 	if (FAILED(hr))
 		return hr;
@@ -193,7 +193,7 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DE
 	}
 
 	// set up default DXUT camera
-	XMVECTOR modelCenter = XMVectorSet(0,	40, 0, 0);
+	XMVECTOR modelCenter = XMVectorSet(0, 40, 0, 0);
 	XMVECTOR camCenter = XMVectorSet(-250, 40, 50, 0);
 
 	FurSampleAppBase::InitDefaultCamera(camCenter, modelCenter);
@@ -207,19 +207,19 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DE
 		TempMeshData meshData(numPositions, numFaces);
 
 		// Fill the vertices info (root of each hair == vertex of the mesh)
-		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->GetRootVertices(g_hairAssetID, (gfsdk_float3*)meshData.m_positions.data()))
+		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->GetRootVertices(g_hairAssetID, (gfsdk_float3 *)meshData.m_positions.data()))
 		{
 			return E_FAIL;
 		}
 
 		// Fill the bone indices info
-		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->GetBoneIndices(g_hairAssetID, (gfsdk_float4*)meshData.m_boneIndices.data()))
+		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->GetBoneIndices(g_hairAssetID, (gfsdk_float4 *)meshData.m_boneIndices.data()))
 		{
 			return E_FAIL;
 		}
 
 		// Fill the bone weights info
-		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->GetBoneWeights(g_hairAssetID, (gfsdk_float4*)meshData.m_boneWeights.data()))
+		if (GFSDK_HAIR_RETURN_OK != g_hairSDK->GetBoneWeights(g_hairAssetID, (gfsdk_float4 *)meshData.m_boneWeights.data()))
 		{
 			return E_FAIL;
 		}
@@ -232,10 +232,10 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DE
 
 		// Build a skinned mesh from the given geometry info
 		hr = g_meshes.LoadSkinnedMesh(device,
-			(const XMFLOAT3*)meshData.m_positions.data(), int(meshData.m_positions.getSize()),
-			(const unsigned int*)meshData.m_indices.data(), meshData.m_numFaces * 3,
-			(const XMVECTOR*)meshData.m_boneIndices.data(),
-			(const XMVECTOR*)meshData.m_boneWeights.data());
+									  (const XMFLOAT3 *)meshData.m_positions.data(), int(meshData.m_positions.getSize()),
+									  (const unsigned int *)meshData.m_indices.data(), meshData.m_numFaces * 3,
+									  (const XMVECTOR *)meshData.m_boneIndices.data(),
+									  (const XMVECTOR *)meshData.m_boneWeights.data());
 
 		if (FAILED(hr))
 			return hr;
@@ -245,9 +245,9 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device* device, const DXGI_SURFACE_DE
 }
 
 //--------------------------------------------------------------------------------------
-// Release D3D11 resources created in OnD3D11CreateDevice 
+// Release D3D11 resources created in OnD3D11CreateDevice
 //--------------------------------------------------------------------------------------
-void CALLBACK OnD3D11DestroyDevice(void* userContext)
+void CALLBACK OnD3D11DestroyDevice(void *userContext)
 {
 	g_meshes.Release();
 
@@ -264,7 +264,7 @@ void CALLBACK OnD3D11DestroyDevice(void* userContext)
 //--------------------------------------------------------------------------------------
 // Called at every frame. This is the main function for hair rendering
 //--------------------------------------------------------------------------------------
-void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* context, double time, float elapsedTime, void* userContext)
+void CALLBACK OnD3D11FrameRender(ID3D11Device *device, ID3D11DeviceContext *context, double time, float elapsedTime, void *userContext)
 {
 	// prepare render target to render hair into
 	FurSampleAppBase::PrepareRenderTarget(context);
@@ -275,7 +275,7 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 	// Set view matrix and projection matrix
 	XMMATRIX projection = FurSampleAppBase::GetCameraProjection();
 	XMMATRIX view = FurSampleAppBase::GetCameraViewMatrix();
-	g_hairSDK->SetViewProjection((const gfsdk_float4x4*)&view,(const gfsdk_float4x4*)&projection, GFSDK_HAIR_LEFT_HANDED);
+	g_hairSDK->SetViewProjection((const gfsdk_float4x4 *)&view, (const gfsdk_float4x4 *)&projection, GFSDK_HAIR_LEFT_HANDED);
 
 	// Render polygonal skinned mesh (replace with your mesh code)
 	{
@@ -286,7 +286,7 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 		context->IASetInputLayout(g_meshes.m_skinnedInputLayout);
 
 		// Render skinned meshes
-		g_meshes.RenderMeshes(device, context, (const float*)&view, (const float*)&projection);
+		g_meshes.RenderMeshes(device, context, (const float *)&view, (const float *)&projection);
 	}
 
 	// set hair control options
@@ -303,20 +303,20 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 
 	// set texture sampler for texture color in hair shader
 	{
-		ID3D11SamplerState* states[1] = { FurSampleAppBase::GetSamplerLinear() };
+		ID3D11SamplerState *states[1] = {FurSampleAppBase::GetSamplerLinear()};
 		context->PSSetSamplers(0, 1, states);
 	}
 
 	// get standard shader resources for attribute interpolation
 	{
-		ID3D11ShaderResourceView* srvs[GFSDK_HAIR_NUM_SHADER_RESOUCES];
+		ID3D11ShaderResourceView *srvs[GFSDK_HAIR_NUM_SHADER_RESOUCES];
 		g_hairSDK->GetShaderResources(g_hairInstanceID, srvs);
 		context->PSSetShaderResources(0, GFSDK_HAIR_NUM_SHADER_RESOUCES, srvs);
 	}
 
 	// set textures
 	{
-		ID3D11ShaderResourceView* textureSRVs[2];
+		ID3D11ShaderResourceView *textureSRVs[2];
 		g_hairSDK->GetTextureSRV(g_hairInstanceID, GFSDK_HAIR_TEXTURE_ROOT_COLOR, &textureSRVs[0]);
 		g_hairSDK->GetTextureSRV(g_hairInstanceID, GFSDK_HAIR_TEXTURE_TIP_COLOR, &textureSRVs[1]);
 		context->PSSetShaderResources(GFSDK_HAIR_NUM_SHADER_RESOUCES, 2, textureSRVs);
@@ -331,7 +331,7 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 	{
 		// Unbind
 		const int numResources = GFSDK_HAIR_NUM_SHADER_RESOUCES + 2;
-		ID3D11ShaderResourceView* nullResources[numResources] = { nullptr };
+		ID3D11ShaderResourceView *nullResources[numResources] = {nullptr};
 		context->PSSetShaderResources(0, numResources, nullResources);
 	}
 }
@@ -340,12 +340,12 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device* device, ID3D11DeviceContext* cont
 // Called once per frame when animation is on.
 // We update user parameters, update skinning and call hair simulation hair
 //--------------------------------------------------------------------------------------
-void CALLBACK OnFrameMove(double time, float elapsedTime, void* userContext)
+void CALLBACK OnFrameMove(double time, float elapsedTime, void *userContext)
 {
 	if (S_OK != FurSampleAppBase::OnFrameMove(time, elapsedTime, userContext))
 		return;
 
-	ID3D11DeviceContext* context = FurSampleAppBase::GetDeviceContext();
+	ID3D11DeviceContext *context = FurSampleAppBase::GetDeviceContext();
 
 	// Set simulation context for HairWorks
 	g_hairSDK->SetCurrentContext(context);
@@ -355,10 +355,11 @@ void CALLBACK OnFrameMove(double time, float elapsedTime, void* userContext)
 	if (g_useAnimation)
 		s_frame++;
 
-	if (s_frame >= g_numFrames) s_frame = 0;
+	if (s_frame >= g_numFrames)
+		s_frame = 0;
 
-	// Makes sure its 16 byte aligned 
-	const XMMATRIX* frameSkinningMatrices = (const XMMATRIX*)g_skinningMatrices[s_frame];
+	// Makes sure its 16 byte aligned
+	const XMMATRIX *frameSkinningMatrices = (const XMMATRIX *)g_skinningMatrices[s_frame];
 	assert((size_t(frameSkinningMatrices) & 0xf) == 0);
 
 	// Update polygonal mesh animation
@@ -371,36 +372,44 @@ void CALLBACK OnFrameMove(double time, float elapsedTime, void* userContext)
 	g_hairSDK->StepSimulation(FurSampleAppBase::GetSimulationTimeStep());
 }
 
-#define TOGGLE(x) { x = !x; }
+#define TOGGLE(x) \
+	{             \
+		x = !x;   \
+	}
 
-void CALLBACK OnKeyboard(UINT character, bool keyDown, bool altDown, void* userContext)
-{	
+void CALLBACK OnKeyboard(UINT character, bool keyDown, bool altDown, void *userContext)
+{
 	if (!keyDown)
 		return;
 
-	switch(character)
+	switch (character)
 	{
-		case ' ': case 'p': case 'P':
-			TOGGLE(g_useAnimation);
-			break;
-		case 'b': case 'B':
-			TOGGLE(g_showBones);
-			break;
-		case 'g': case 'G':
-			TOGGLE(g_showGrowthMesh);
-			break;
-		case 'h': case 'H':
-			TOGGLE(g_showHairs);
-			break;
-		case 's': case 'S':
-			TOGGLE(g_simulateHairs);
-			break;
-
+	case ' ':
+	case 'p':
+	case 'P':
+		TOGGLE(g_useAnimation);
+		break;
+	case 'b':
+	case 'B':
+		TOGGLE(g_showBones);
+		break;
+	case 'g':
+	case 'G':
+		TOGGLE(g_showGrowthMesh);
+		break;
+	case 'h':
+	case 'H':
+		TOGGLE(g_showHairs);
+		break;
+	case 's':
+	case 'S':
+		TOGGLE(g_simulateHairs);
+		break;
 	}
 }
 
 //--------------------------------------------------------------------------------------
-// Entry point to the program. Initializes everything and goes into a message processing 
+// Entry point to the program. Initializes everything and goes into a message processing
 // loop. Idle time is used to render the scene.
 //--------------------------------------------------------------------------------------
 int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPWSTR cmdLine, int cmdShow)
@@ -410,7 +419,7 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPWSTR cmdLine, 
 	wcstombs(arg1, cmdLine, 1024);
 
 	// find file path for sample apx file
-	const char* fileName = strlen(arg1) > 0 ? arg1 : "media\\Manjaladon\\Maya\\Manjaladon_wFur.apx";
+	const char *fileName = strlen(arg1) > 0 ? arg1 : "media\\Manjaladon\\Maya\\Manjaladon_wFur.apx";
 
 	FurSample_GetSampleMediaFilePath(fileName, g_apxFilePath);
 
@@ -424,4 +433,3 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPWSTR cmdLine, 
 
 	return FurSampleAppBase::WinMain(L"FurSampleSkinning");
 }
-

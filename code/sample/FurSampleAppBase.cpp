@@ -1,22 +1,22 @@
-// This code contains NVIDIA Confidential Information and is disclosed 
-// under the Mutual Non-Disclosure Agreement. 
-// 
-// Notice 
-// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES 
-// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO 
-// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT, 
-// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. 
-// 
-// NVIDIA Corporation assumes no responsibility for the consequences of use of such 
-// information or for any infringement of patents or other rights of third parties that may 
-// result from its use. No license is granted by implication or otherwise under any patent 
-// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless 
-// expressly authorized by NVIDIA.  Details are subject to change without notice. 
-// This code supersedes and replaces all information previously supplied. 
-// NVIDIA Corporation products are not authorized for use as critical 
-// components in life support devices or systems without express written approval of 
-// NVIDIA Corporation. 
-// 
+// This code contains NVIDIA Confidential Information and is disclosed
+// under the Mutual Non-Disclosure Agreement.
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA Corporation assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless
+// expressly authorized by NVIDIA.  Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA Corporation products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA Corporation.
+//
 // Copyright (c) 2013 NVIDIA Corporation. All rights reserved.
 //
 // NVIDIA Corporation and its licensors retain all intellectual property and proprietary
@@ -32,27 +32,27 @@
 using namespace DirectX;
 
 //--------------------------------------------------------------------------------------
-int					FurSampleAppBase::m_width = 1024;
-int					FurSampleAppBase::m_height = 768;
-CModelViewerCamera	FurSampleAppBase::m_camera;
-D3D11_VIEWPORT		FurSampleAppBase::m_viewport;
+int FurSampleAppBase::m_width = 1024;
+int FurSampleAppBase::m_height = 768;
+CModelViewerCamera FurSampleAppBase::m_camera;
+D3D11_VIEWPORT FurSampleAppBase::m_viewport;
 
-DirectX::XMMATRIX	FurSampleAppBase::m_lightView;		
-DirectX::XMMATRIX	FurSampleAppBase::m_lightProjection;
-DirectX::XMMATRIX	FurSampleAppBase::m_lightWorldToTex;
+DirectX::XMMATRIX FurSampleAppBase::m_lightView;
+DirectX::XMMATRIX FurSampleAppBase::m_lightProjection;
+DirectX::XMMATRIX FurSampleAppBase::m_lightWorldToTex;
 
-ID3D11SamplerState*	FurSampleAppBase::m_texSamplerLinear = 0;
-ID3D11SamplerState*	FurSampleAppBase::m_texSamplerPointClamp = 0;
+ID3D11SamplerState *FurSampleAppBase::m_texSamplerLinear = 0;
+ID3D11SamplerState *FurSampleAppBase::m_texSamplerPointClamp = 0;
 
-ID3D11VertexShader*	FurSampleAppBase::m_visualizeShadowVS = 0;
-ID3D11PixelShader*	FurSampleAppBase::m_visualizeShadowPS = 0;
+ID3D11VertexShader *FurSampleAppBase::m_visualizeShadowVS = 0;
+ID3D11PixelShader *FurSampleAppBase::m_visualizeShadowPS = 0;
 
-FurSampleShadowMap	FurSampleAppBase::m_shadowMap;
+FurSampleShadowMap FurSampleAppBase::m_shadowMap;
 
-FurTimeStepFilter 	FurSampleAppBase::m_timeStepFilter;
+FurTimeStepFilter FurSampleAppBase::m_timeStepFilter;
 
 //--------------------------------------------------------------------------------------
-HRESULT FurSampleAppBase::OnCreateDevice(ID3D11Device* device)
+HRESULT FurSampleAppBase::OnCreateDevice(ID3D11Device *device)
 {
 	HRESULT hr;
 	// create an example texture sampler
@@ -88,14 +88,14 @@ void FurSampleAppBase::OnDestroyDevice()
 }
 
 //--------------------------------------------------------------------------------------
-ID3D11DeviceContext* 
+ID3D11DeviceContext *
 FurSampleAppBase::GetDeviceContext()
 {
 	return DXUTGetD3D11DeviceContext();
 }
 
 //--------------------------------------------------------------------------------------
-ID3D11Device* 
+ID3D11Device *
 FurSampleAppBase::GetDevice()
 {
 	return DXUTGetD3D11Device();
@@ -113,7 +113,7 @@ void FurSampleAppBase::InitDefaultCamera(FXMVECTOR eyePos, FXMVECTOR at)
 void FurSampleAppBase::InitDefaultLight(FXMVECTOR eye, FXMVECTOR at, FXMVECTOR up)
 {
 	float sizeX = 50.0f;
-	float sizeY = 50.0f; 
+	float sizeY = 50.0f;
 	float znear = -200.0f;
 	float zfar = 200.0f;
 
@@ -127,11 +127,11 @@ void FurSampleAppBase::SetupLightMatrices(FXMVECTOR eye, FXMVECTOR lookAt, FXMVE
 
 	m_lightProjection = XMMatrixOrthographicLH(sizeX, sizeY, zNear, zFar);
 
-	DirectX::XMMATRIX clip2Tex(0.5,    0,    0,   0,
-						0,	   -0.5,  0,   0,
-						0,     0,     1,   0,
-						0.5,   0.5,   0,   1 );
-			
+	DirectX::XMMATRIX clip2Tex(0.5, 0, 0, 0,
+							   0, -0.5, 0, 0,
+							   0, 0, 1, 0,
+							   0.5, 0.5, 0, 1);
+
 	DirectX::XMMATRIX viewProjection = m_lightView * m_lightProjection;
 	m_lightWorldToTex = viewProjection * clip2Tex;
 }
@@ -139,7 +139,7 @@ void FurSampleAppBase::SetupLightMatrices(FXMVECTOR eye, FXMVECTOR lookAt, FXMVE
 //--------------------------------------------------------------------------------------
 void FurSampleAppBase::SetViewport()
 {
-	m_viewport.Width  = float(m_width);
+	m_viewport.Width = float(m_width);
 	m_viewport.Height = float(m_height);
 	m_viewport.MinDepth = 0;
 	m_viewport.MaxDepth = 1;
@@ -148,16 +148,16 @@ void FurSampleAppBase::SetViewport()
 }
 
 //--------------------------------------------------------------------------------------
-void FurSampleAppBase::PrepareRenderTarget(ID3D11DeviceContext* pd3dContext)
+void FurSampleAppBase::PrepareRenderTarget(ID3D11DeviceContext *pd3dContext)
 {
 	// Get the depth stencil and render target
-	ID3D11RenderTargetView* pRTV = DXUTGetD3D11RenderTargetView();
-	ID3D11DepthStencilView* pDSV = DXUTGetD3D11DepthStencilView();
+	ID3D11RenderTargetView *pRTV = DXUTGetD3D11RenderTargetView();
+	ID3D11DepthStencilView *pDSV = DXUTGetD3D11DepthStencilView();
 
-	pd3dContext->OMSetRenderTargets( 1, &pRTV, pDSV);
+	pd3dContext->OMSetRenderTargets(1, &pRTV, pDSV);
 
 	const XMVECTOR color = XMVectorSet(0.5f, 0.5f, 0.5f, 1.0f);
-	pd3dContext->ClearRenderTargetView(pRTV, (const FLOAT*)&color);
+	pd3dContext->ClearRenderTargetView(pRTV, (const FLOAT *)&color);
 	pd3dContext->ClearDepthStencilView(pDSV, D3D11_CLEAR_DEPTH, 1.0, 0);
 
 	UINT numViewports = 1;
@@ -165,50 +165,49 @@ void FurSampleAppBase::PrepareRenderTarget(ID3D11DeviceContext* pd3dContext)
 }
 
 //--------------------------------------------------------------------------------------
-void FurSampleAppBase::PrepareShadowTarget(ID3D11DeviceContext* context)
+void FurSampleAppBase::PrepareShadowTarget(ID3D11DeviceContext *context)
 {
-	context->OMSetRenderTargets( 1, &m_shadowMap.m_shadowRTV, m_shadowMap.m_depthDSV);
+	context->OMSetRenderTargets(1, &m_shadowMap.m_shadowRTV, m_shadowMap.m_depthDSV);
 
 	context->RSSetViewports(1, &m_shadowMap.m_viewport);
 
 	float clearDepth = FLT_MAX;
-	float ClearColor[4] = { clearDepth, clearDepth, clearDepth, clearDepth};
+	float ClearColor[4] = {clearDepth, clearDepth, clearDepth, clearDepth};
 
-	context->ClearRenderTargetView( m_shadowMap.m_shadowRTV, ClearColor );		
-	context->ClearDepthStencilView( m_shadowMap.m_depthDSV, D3D11_CLEAR_DEPTH, 1.0, 0 );
+	context->ClearRenderTargetView(m_shadowMap.m_shadowRTV, ClearColor);
+	context->ClearDepthStencilView(m_shadowMap.m_depthDSV, D3D11_CLEAR_DEPTH, 1.0, 0);
 }
 
 //--------------------------------------------------------------------------------------
-ID3D11ShaderResourceView* FurSampleAppBase::GetShadowSRV()
+ID3D11ShaderResourceView *FurSampleAppBase::GetShadowSRV()
 {
 	return m_shadowMap.m_shadowSRV;
 }
 
 //--------------------------------------------------------------------------------------
-void 
-FurSampleAppBase::VisualizeShadowMap(ID3D11DeviceContext* context)
+void FurSampleAppBase::VisualizeShadowMap(ID3D11DeviceContext *context)
 {
 	// render shadow map
 	context->IASetInputLayout(NULL);
-	context->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	context->VSSetShader(m_visualizeShadowVS, NULL, 0);
 	context->PSSetShader(m_visualizeShadowPS, NULL, 0);
 
 	// set texture sampler for texture color in hair shader
-	ID3D11SamplerState *states[1] = { m_texSamplerPointClamp };
-	context->PSSetSamplers( 0, 1, states );
+	ID3D11SamplerState *states[1] = {m_texSamplerPointClamp};
+	context->PSSetSamplers(0, 1, states);
 
 	{
-		ID3D11ShaderResourceView* srvs[] = {  GetShadowSRV() };
-		context->PSSetShaderResources( 0, 1, srvs);
+		ID3D11ShaderResourceView *srvs[] = {GetShadowSRV()};
+		context->PSSetShaderResources(0, 1, srvs);
 	}
 
-	context->Draw(3,0);
+	context->Draw(3, 0);
 
 	{
-		ID3D11ShaderResourceView* srvs[] = { nullptr };
-		context->PSSetShaderResources( 0, 1, srvs);
+		ID3D11ShaderResourceView *srvs[] = {nullptr};
+		context->PSSetShaderResources(0, 1, srvs);
 	}
 }
 
@@ -227,13 +226,13 @@ FurSampleAppBase::GetCameraViewMatrix()
 }
 
 //--------------------------------------------------------------------------------------
-HRESULT 
-FurSampleAppBase::OnFrameMove(double time, float elapsedTime, void*)
+HRESULT
+FurSampleAppBase::OnFrameMove(double time, float elapsedTime, void *)
 {
 	m_camera.FrameMove(elapsedTime);
 
-	ID3D11Device* pd3dDevice = DXUTGetD3D11Device();
-	ID3D11DeviceContext* pd3dContext = DXUTGetD3D11DeviceContext();
+	ID3D11Device *pd3dDevice = DXUTGetD3D11Device();
+	ID3D11DeviceContext *pd3dContext = DXUTGetD3D11DeviceContext();
 
 	if (!pd3dDevice || !pd3dContext || (elapsedTime <= 0.0f))
 		return S_FALSE;
@@ -243,8 +242,8 @@ FurSampleAppBase::OnFrameMove(double time, float elapsedTime, void*)
 }
 
 //--------------------------------------------------------------------------------------
-HRESULT 
-FurSampleAppBase::OnSwapChainResized(ID3D11Device* device, IDXGISwapChain* swapChain, const DXGI_SURFACE_DESC* backBufferSurfaceDesc, void* userContext)
+HRESULT
+FurSampleAppBase::OnSwapChainResized(ID3D11Device *device, IDXGISwapChain *swapChain, const DXGI_SURFACE_DESC *backBufferSurfaceDesc, void *userContext)
 {
 	m_width = backBufferSurfaceDesc->Width;
 	m_height = backBufferSurfaceDesc->Height;
@@ -252,26 +251,26 @@ FurSampleAppBase::OnSwapChainResized(ID3D11Device* device, IDXGISwapChain* swapC
 	// Setup the camera's projection parameters
 	float aspectRatio = backBufferSurfaceDesc->Width / float(backBufferSurfaceDesc->Height);
 	m_camera.SetProjParams(XM_PI / 3, aspectRatio, 0.1f, 10000.0f);
-	m_camera.SetButtonMasks(MOUSE_LEFT_BUTTON );
+	m_camera.SetButtonMasks(MOUSE_LEFT_BUTTON);
 	SetViewport();
 	return S_OK;
 }
 
 //--------------------------------------------------------------------------------------
-LRESULT CALLBACK FurSampleAppBase::MsgProc(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam, bool* noFurtherProcessingInOut, void* userContext)
+LRESULT CALLBACK FurSampleAppBase::MsgProc(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam, bool *noFurtherProcessingInOut, void *userContext)
 {
 	m_camera.HandleMessages(wnd, msg, wparam, lparam);
 	return 0;
 }
 
 //--------------------------------------------------------------------------------------
-bool CALLBACK FurSampleAppBase::ModifyDeviceSettings(DXUTDeviceSettings* deviceSettings, void* userContext)
+bool CALLBACK FurSampleAppBase::ModifyDeviceSettings(DXUTDeviceSettings *deviceSettings, void *userContext)
 {
 #ifdef _DEBUG
 	deviceSettings->d3d11.CreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 	{
-		deviceSettings->d3d11.SyncInterval = 0; // Turn off vsync
+		deviceSettings->d3d11.SyncInterval = 0;		   // Turn off vsync
 		deviceSettings->d3d11.sd.SampleDesc.Count = 8; // set MSAA samples to 8
 		deviceSettings->d3d11.sd.SampleDesc.Quality = 0;
 	}
@@ -279,10 +278,10 @@ bool CALLBACK FurSampleAppBase::ModifyDeviceSettings(DXUTDeviceSettings* deviceS
 }
 
 //--------------------------------------------------------------------------------------
-// Entry point to the program. Initializes everything and goes into a message processing 
+// Entry point to the program. Initializes everything and goes into a message processing
 // loop. Idle time is used to render the scene.
 //--------------------------------------------------------------------------------------
-int FurSampleAppBase::WinMain(const WCHAR* title, int width, int height)
+int FurSampleAppBase::WinMain(const WCHAR *title, int width, int height)
 {
 	m_width = width;
 	m_height = height;
@@ -295,7 +294,7 @@ int FurSampleAppBase::WinMain(const WCHAR* title, int width, int height)
 
 	DXUTSetIsInGammaCorrectMode(false);
 
-	DXUTInit(true, true, NULL); // Parse the command line, show msgboxes on error, no extra command line params
+	DXUTInit(true, true, NULL);		   // Parse the command line, show msgboxes on error, no extra command line params
 	DXUTSetCursorSettings(true, true); // Show the cursor and clip it when in full screen
 	DXUTCreateWindow(title, 0, 0, 0, 0, 0);
 
@@ -322,8 +321,8 @@ int FurSampleAppBase::WinMain(const WCHAR* title, int width, int height)
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!! FurTimeStepFilter !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 //--------------------------------------------------------------------------------------
-void FurTimeStepFilter::addValue(float v) 
-{ 
+void FurTimeStepFilter::addValue(float v)
+{
 	const float minDelta = 1e-4f;
 	if (v > 0.0f)
 	{
@@ -339,7 +338,7 @@ void FurTimeStepFilter::addValue(float v)
 		maxDelta = (maxDelta < minDelta) ? minDelta : maxDelta;
 
 		float delta = v - m_value;
-		delta = (delta >  maxDelta) ?  maxDelta : delta;
+		delta = (delta > maxDelta) ? maxDelta : delta;
 		delta = (delta < -maxDelta) ? -maxDelta : delta;
 
 		// Alter the value

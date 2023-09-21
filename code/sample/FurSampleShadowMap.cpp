@@ -1,22 +1,22 @@
-// This code contains NVIDIA Confidential Information and is disclosed 
-// under the Mutual Non-Disclosure Agreement. 
-// 
-// Notice 
-// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES 
-// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO 
-// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT, 
-// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. 
-// 
-// NVIDIA Corporation assumes no responsibility for the consequences of use of such 
-// information or for any infringement of patents or other rights of third parties that may 
-// result from its use. No license is granted by implication or otherwise under any patent 
-// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless 
-// expressly authorized by NVIDIA.  Details are subject to change without notice. 
-// This code supersedes and replaces all information previously supplied. 
-// NVIDIA Corporation products are not authorized for use as critical 
-// components in life support devices or systems without express written approval of 
-// NVIDIA Corporation. 
-// 
+// This code contains NVIDIA Confidential Information and is disclosed
+// under the Mutual Non-Disclosure Agreement.
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA Corporation assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless
+// expressly authorized by NVIDIA.  Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA Corporation products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA Corporation.
+//
 // Copyright (c) 2013 NVIDIA Corporation. All rights reserved.
 //
 // NVIDIA Corporation and its licensors retain all intellectual property and proprietary
@@ -38,32 +38,32 @@ namespace // anonymous
 		UINT miscFlags = 0, UINT arraySize = 1, UINT mipLevels = 1)
 	{
 		D3D11_TEXTURE2D_DESC desc;
-		desc.Format                 = format;
-		desc.Width					= width;
-		desc.Height					= height;
+		desc.Format = format;
+		desc.Width = width;
+		desc.Height = height;
 
-		desc.ArraySize				= arraySize;
-		desc.MiscFlags				= miscFlags;
-		desc.MipLevels				= mipLevels;
+		desc.ArraySize = arraySize;
+		desc.MiscFlags = miscFlags;
+		desc.MipLevels = mipLevels;
 
-		desc.SampleDesc.Count		= sampleCount;
-		desc.SampleDesc.Quality		= 0;
-		desc.BindFlags				= bindFlags;
-		desc.Usage					= usage;
-		desc.CPUAccessFlags			= cpuAccessFlags;
+		desc.SampleDesc.Count = sampleCount;
+		desc.SampleDesc.Quality = 0;
+		desc.BindFlags = bindFlags;
+		desc.Usage = usage;
+		desc.CPUAccessFlags = cpuAccessFlags;
 		return desc;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	D3D11_DEPTH_STENCIL_VIEW_DESC CreateD3D11DSVDesc(
-		DXGI_FORMAT format, D3D11_DSV_DIMENSION viewDimension,  
+		DXGI_FORMAT format, D3D11_DSV_DIMENSION viewDimension,
 		UINT flags = 0, UINT mipSlice = 0)
 	{
 		D3D11_DEPTH_STENCIL_VIEW_DESC desc;
-		desc.Format                    = format;
-		desc.ViewDimension             = viewDimension;
-		desc.Flags					   = flags;
-		desc.Texture2D.MipSlice        = mipSlice;
+		desc.Format = format;
+		desc.ViewDimension = viewDimension;
+		desc.Flags = flags;
+		desc.Texture2D.MipSlice = mipSlice;
 		return desc;
 	}
 
@@ -81,13 +81,13 @@ FurSampleShadowMap::FurSampleShadowMap()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-HRESULT 
-FurSampleShadowMap::Init(ID3D11Device* device, int resolution)
-{	
+HRESULT
+FurSampleShadowMap::Init(ID3D11Device *device, int resolution)
+{
 	HRESULT hr;
 	// set viewport
 	{
-		m_viewport.Width  = float(resolution);
+		m_viewport.Width = float(resolution);
 		m_viewport.Height = float(resolution);
 		m_viewport.MinDepth = 0;
 		m_viewport.MaxDepth = 1;
@@ -100,12 +100,12 @@ FurSampleShadowMap::Init(ID3D11Device* device, int resolution)
 		D3D11_TEXTURE2D_DESC texDesc = CreateD3D11TextureDesc(
 			DXGI_FORMAT_R32_FLOAT, UINT(resolution), UINT(resolution),
 			D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
-	
-		hr =  device->CreateTexture2D( &texDesc, nullptr, &m_shadowTexture);
+
+		hr = device->CreateTexture2D(&texDesc, nullptr, &m_shadowTexture);
 		if (FAILED(hr))
 			return hr;
 
-		hr = device->CreateShaderResourceView( m_shadowTexture, nullptr, &m_shadowSRV );
+		hr = device->CreateShaderResourceView(m_shadowTexture, nullptr, &m_shadowSRV);
 		if (FAILED(hr))
 			return hr;
 
@@ -118,9 +118,9 @@ FurSampleShadowMap::Init(ID3D11Device* device, int resolution)
 	{
 		D3D11_TEXTURE2D_DESC texDesc = CreateD3D11TextureDesc(
 			DXGI_FORMAT_R32_TYPELESS, UINT(resolution), UINT(resolution),
-			D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE); 
+			D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE);
 
-		hr = device->CreateTexture2D( &texDesc, NULL, &m_depthTexture );
+		hr = device->CreateTexture2D(&texDesc, NULL, &m_depthTexture);
 		if (FAILED(hr))
 			return hr;
 
@@ -136,7 +136,7 @@ FurSampleShadowMap::Init(ID3D11Device* device, int resolution)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-HRESULT 
+HRESULT
 FurSampleShadowMap::Release()
 {
 	SAFE_RELEASE(m_shadowTexture);
@@ -153,4 +153,3 @@ FurSampleShadowMap::Release()
 	m_depthDSV = nullptr;
 	return S_OK;
 }
-

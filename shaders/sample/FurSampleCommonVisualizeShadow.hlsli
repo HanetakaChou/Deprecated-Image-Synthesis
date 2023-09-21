@@ -1,22 +1,22 @@
-// This code contains NVIDIA Confidential Information and is disclosed 
-// under the Mutual Non-Disclosure Agreement. 
-// 
-// Notice 
-// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES 
-// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO 
-// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT, 
-// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. 
-// 
-// NVIDIA Corporation assumes no responsibility for the consequences of use of such 
-// information or for any infringement of patents or other rights of third parties that may 
-// result from its use. No license is granted by implication or otherwise under any patent 
-// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless 
-// expressly authorized by NVIDIA.  Details are subject to change without notice. 
-// This code supersedes and replaces all information previously supplied. 
-// NVIDIA Corporation products are not authorized for use as critical 
-// components in life support devices or systems without express written approval of 
-// NVIDIA Corporation. 
-// 
+// This code contains NVIDIA Confidential Information and is disclosed
+// under the Mutual Non-Disclosure Agreement.
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA Corporation assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA Corporation. No third party distribution is allowed unless
+// expressly authorized by NVIDIA.  Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA Corporation products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA Corporation.
+//
 // Copyright (c) 2013 NVIDIA Corporation. All rights reserved.
 //
 // NVIDIA Corporation and its licensors retain all intellectual property and proprietary
@@ -30,33 +30,34 @@
 ///////////////////////////////////////////////////////////////////////////////////
 cbuffer cbPerFrame : register(b0)
 {
-	float			g_zNear;
-	float			g_zFar;
-	float			__unused1__;
-	float			__unused2__;
+	float g_zNear;
+	float g_zFar;
+	float __unused1__;
+	float __unused2__;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Textures
 ///////////////////////////////////////////////////////////////////////////////////
-Texture2D		g_texture : register(t0);
+Texture2D g_texture : register(t0);
 
 struct VSOut
 {
-    float4 pos : SV_Position;
+	float4 pos : SV_Position;
 	float2 tex : TEXCOORD;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////
 // vertex shader
 /////////////////////////////////////////////////////////////////////////////////////
-VSOut vs_main( uint id : SV_VertexID )
+VSOut vs_main(uint id
+			  : SV_VertexID)
 {
-    VSOut output;
-    output.tex = float2( (id << 1) & 2, id & 2 );
-    output.pos = float4( output.tex * float2( 2.0f, -2.0f ) + float2( -1.0f, 1.0f), 0.0f, 1.0f );
+	VSOut output;
+	output.tex = float2((id << 1) & 2, id & 2);
+	output.pos = float4(output.tex * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f), 0.0f, 1.0f);
 
-    return output;
+	return output;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -65,14 +66,14 @@ VSOut vs_main( uint id : SV_VertexID )
 SamplerState samPointClamp : register(s0);
 
 float4 ps_main(VSOut input) : SV_Target
-{   
+{
 	float4 color;
 
-	color.rgb = g_texture.Sample(samPointClamp,input.tex).rgb;
+	color.rgb = g_texture.Sample(samPointClamp, input.tex).rgb;
 	float depth = color.r;
-	
-	float near	= -200.0f;
-	float far	= 200.0f;
+
+	float near = -200.0f;
+	float far = 200.0f;
 
 	color.rgb = (depth - near) / (far - near);
 	color.a = 1.0f;
