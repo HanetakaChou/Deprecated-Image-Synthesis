@@ -27,7 +27,7 @@
 //
 
 // common hairworks shader header must be included
-#include "GFSDK_HairWorks_ShaderCommon.h"
+#include "../GFSDK_HairWorks_ShaderCommon.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // constant buffer for render parameters

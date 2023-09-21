@@ -1,173 +1,349 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<ItemGroup Label="ProjectConfigurations">
-	<ProjectConfiguration Include="debug|x64">
-			<Configuration>debug</Configuration>
-			<Platform>x64</Platform>
-	</ProjectConfiguration>
-	<ProjectConfiguration Include="release|x64">
-			<Configuration>release</Configuration>
-			<Platform>x64</Platform>
-	</ProjectConfiguration>
-	</ItemGroup>
-	<PropertyGroup Label="Globals">
-		<ApplicationEnvironment>title</ApplicationEnvironment>
-		<!-- - - - -->
-		<PlatformToolset>v110</PlatformToolset>
-		<MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
-	</PropertyGroup>
-	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
-		<ConfigurationType>Application</ConfigurationType>
-		<PlatformToolset>v140</PlatformToolset>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
-		<ConfigurationType>Application</ConfigurationType>
-		<PlatformToolset>v140</PlatformToolset>
-	</PropertyGroup>
-	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-	<ImportGroup Label="ExtensionSettings">
-	</ImportGroup>
-	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
-		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-	</ImportGroup>
-	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
-		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-	</ImportGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
-		<OutDir>./../../../bin/win64\</OutDir>
-		<IntDir>./x64/FurSampleShadow/debug\</IntDir>
-		<TargetExt>.exe</TargetExt>
-		<TargetName>FurSampleShadow.win64.D</TargetName>
-		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-		<CodeAnalysisRules />
-		<CodeAnalysisRuleAssemblies />
-	</PropertyGroup>
-	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
-		<ClCompile>
-			<FloatingPointModel>Precise</FloatingPointModel>
-			<AdditionalOptions>/fp:fast /W4 /MTd /Zi /Oi /Oy- /EHsc /GS /Gd /nologo /wd4100 /d2Zi+</AdditionalOptions>
-			<Optimization>Disabled</Optimization>
-			<AdditionalIncludeDirectories>./../../../include;./../../FurSampleCommon;./../../../external/DXUT11/DXUT/Core;./../../../external/DXUT11/DXUT/Optional;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>WIN64;_UNICODE;UNICODE;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_LIB;_DEBUG;PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<WarningLevel>Level3</WarningLevel>
-			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-			<PrecompiledHeader>NotUsing</PrecompiledHeader>
-			<PrecompiledHeaderFile></PrecompiledHeaderFile>
-			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
-			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-		</ClCompile>
-		<Link>
-			<AdditionalOptions>/MACHINE:x64 /SUBSYSTEM:WINDOWS /NOLOGO /DEBUG</AdditionalOptions>
-			<AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dxgi.lib;comctl32.lib;Usp10.lib;dxut.lib;dxutopt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-			<OutputFile>$(OutDir)FurSampleShadow.win64.D.exe</OutputFile>
-			<AdditionalLibraryDirectories>./../../../lib;./../../../external/DXUT11/DXUT/Lib/VC14/win64/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
-			<SubSystem>Console</SubSystem>
-			<ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<TargetMachine>MachineX64</TargetMachine>
-		</Link>
-		<ResourceCompile>
-		</ResourceCompile>
-		<ProjectReference>
-		</ProjectReference>
-	</ItemDefinitionGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
-		<OutDir>./../../../bin/win64\</OutDir>
-		<IntDir>./x64/FurSampleShadow/release\</IntDir>
-		<TargetExt>.exe</TargetExt>
-		<TargetName>FurSampleShadow.win64</TargetName>
-		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-		<CodeAnalysisRules />
-		<CodeAnalysisRuleAssemblies />
-	</PropertyGroup>
-	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
-		<ClCompile>
-			<FloatingPointModel>Precise</FloatingPointModel>
-			<AdditionalOptions>/fp:fast /W4 /MT /Zi /O2 /Oi /Oy- /GL /EHsc /GS /Gy /nologo /wd4100 /d2Zi+</AdditionalOptions>
-			<Optimization>Disabled</Optimization>
-			<AdditionalIncludeDirectories>./../../../include;./../../FurSampleCommon;./../../../external/DXUT11/DXUT/Core;./../../../external/DXUT11/DXUT/Optional;$(WindowsSDK_IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>WIN64;_UNICODE;UNICODE;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<WarningLevel>Level3</WarningLevel>
-			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-			<PrecompiledHeader>NotUsing</PrecompiledHeader>
-			<PrecompiledHeaderFile></PrecompiledHeaderFile>
-			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
-			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-		</ClCompile>
-		<Link>
-			<AdditionalOptions>/MACHINE:x64 /SUBSYSTEM:WINDOWS /NOLOGO</AdditionalOptions>
-			<AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dxgi.lib;comctl32.lib;Usp10.lib;dxut.lib;dxutopt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-			<OutputFile>$(OutDir)FurSampleShadow.win64.exe</OutputFile>
-			<AdditionalLibraryDirectories>./../../../lib;./../../../external/DXUT11/DXUT/Lib/VC14/win64/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
-			<SubSystem>Console</SubSystem>
-			<ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<TargetMachine>MachineX64</TargetMachine>
-		</Link>
-		<ResourceCompile>
-		</ResourceCompile>
-		<ProjectReference>
-		</ProjectReference>
-	</ItemDefinitionGroup>
-	<ItemGroup>
-		<ClCompile Include="..\..\FurSampleShadow\FurSampleShadow.cpp">
-		</ClCompile>
-	</ItemGroup>
-	<ItemGroup>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleAppBase.h">
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleCommon.h">
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleHairWorksHelper.h">
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleMesh.h">
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleShadowMap.h">
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleVector.h">
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\stb_image.h">
-		</ClInclude>
-		<ClCompile Include="..\..\FurSampleCommon\FurSampleAppBase.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\FurSampleCommon\FurSampleCommon.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\FurSampleCommon\FurSampleHairWorksHelper.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\FurSampleCommon\FurSampleMesh.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\FurSampleCommon\FurSampleShadowMap.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\FurSampleCommon\stb_image.c">
-		</ClCompile>
-		<None Include="..\..\FurSampleCommon\HairWorksSampleSkinnedPixelShader.hlsl">
-		</None>
-		<None Include="..\..\FurSampleCommon\HairWorksSampleSkinnedVertexShader.hlsl">
-		</None>
-		<None Include="..\..\FurSampleCommon\HairWorksSampleVisualizeShadow.hlsl">
-		</None>
-	</ItemGroup>
-	<ItemGroup>
-		<CustomBuild Include="..\..\FurSampleShadow\HairWorksSampleShader.hlsl">
-			<Command Condition="'$(Configuration)|$(Platform)'=='debug|x64'">"$(WindowsSdkDir)/bin/x86/fxc.exe" /T ps_5_0 /Fh ../../../samples/FurSampleShadow/generated/HairWorksSampleShader.h /Eps_main ../../../samples/FurSampleShadow/HairWorksSampleShader.hlsl</Command>
-			<Message Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Compile shaders</Message>
-			<Outputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../../samples/FurSampleShadow/generated/HairWorksSampleShader.h;</Outputs>
-			<Command Condition="'$(Configuration)|$(Platform)'=='release|x64'">"$(WindowsSdkDir)/bin/x86/fxc.exe" /T ps_5_0 /Fh ../../../samples/FurSampleShadow/generated/HairWorksSampleShader.h /Eps_main ../../../samples/FurSampleShadow/HairWorksSampleShader.hlsl</Command>
-			<Message Condition="'$(Configuration)|$(Platform)'=='release|x64'">Compile shaders</Message>
-			<Outputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../../samples/FurSampleShadow/generated/HairWorksSampleShader.h;</Outputs>
-		</CustomBuild>
-		<CustomBuild Include="..\..\FurSampleShadow\HairWorksSampleShadowShader.hlsl">
-			<Command Condition="'$(Configuration)|$(Platform)'=='debug|x64'">"$(WindowsSdkDir)/bin/x86/fxc.exe" /T ps_5_0 /Fh ../../../samples/FurSampleShadow/generated/HairWorksSampleShadowShader.h /Eps_main ../../../samples/FurSampleShadow/HairWorksSampleShadowShader.hlsl</Command>
-			<Message Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Compile shaders</Message>
-			<Outputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../../samples/FurSampleShadow/generated/HairWorksSampleShadowShader.h;</Outputs>
-			<Command Condition="'$(Configuration)|$(Platform)'=='release|x64'">"$(WindowsSdkDir)/bin/x86/fxc.exe" /T ps_5_0 /Fh ../../../samples/FurSampleShadow/generated/HairWorksSampleShadowShader.h /Eps_main ../../../samples/FurSampleShadow/HairWorksSampleShadowShader.hlsl</Command>
-			<Message Condition="'$(Configuration)|$(Platform)'=='release|x64'">Compile shaders</Message>
-			<Outputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../../samples/FurSampleShadow/generated/HairWorksSampleShadowShader.h;</Outputs>
-		</CustomBuild>
-	</ItemGroup>
-	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|Win32">
+      <Configuration>debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="debug|x64">
+      <Configuration>debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|Win32">
+      <Configuration>release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|x64">
+      <Configuration>release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\sample\FurSampleAppBase.cpp" />
+    <ClCompile Include="code\sample\FurSampleCommon.cpp" />
+    <ClCompile Include="code\sample\FurSampleHairWorksHelper.cpp" />
+    <ClCompile Include="code\sample\FurSampleMesh.cpp" />
+    <ClCompile Include="code\sample\FurSampleShadow.cpp" />
+    <ClCompile Include="code\sample\FurSampleShadowMap.cpp" />
+    <ClCompile Include="code\sample\stb_image.c" />
+    <ClCompile Include="DXUT\Core\DDSTextureLoader.cpp" />
+    <ClCompile Include="DXUT\Core\dxerr.cpp" />
+    <ClCompile Include="DXUT\Core\DXUT.cpp" />
+    <ClCompile Include="DXUT\Core\DXUTDevice11.cpp" />
+    <ClCompile Include="DXUT\Core\DXUTmisc.cpp" />
+    <ClCompile Include="DXUT\Core\ScreenGrab.cpp" />
+    <ClCompile Include="DXUT\Core\WICTextureLoader.cpp" />
+    <ClCompile Include="DXUT\Optional\DXUTcamera.cpp" />
+    <ClCompile Include="DXUT\Optional\DXUTgui.cpp" />
+    <ClCompile Include="DXUT\Optional\DXUTres.cpp" />
+    <ClCompile Include="DXUT\Optional\DXUTsettingsdlg.cpp" />
+    <ClCompile Include="DXUT\Optional\SDKmisc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\GFSDK_HairWorks.h" />
+    <ClInclude Include="code\GFSDK_HairWorks_Common.h" />
+    <ClInclude Include="code\sample\FurSampleAppBase.h" />
+    <ClInclude Include="code\sample\FurSampleCommon.h" />
+    <ClInclude Include="code\sample\FurSampleHairWorksHelper.h" />
+    <ClInclude Include="code\sample\FurSampleMesh.h" />
+    <ClInclude Include="code\sample\FurSampleShadowMap.h" />
+    <ClInclude Include="code\sample\FurSampleVector.h" />
+    <ClInclude Include="code\sample\stb_image.h" />
+    <ClInclude Include="DXUT\Core\DDSTextureLoader.h" />
+    <ClInclude Include="DXUT\Core\dxerr.h" />
+    <ClInclude Include="DXUT\Core\DXUT.h" />
+    <ClInclude Include="DXUT\Core\DXUTDevice11.h" />
+    <ClInclude Include="DXUT\Core\DXUTmisc.h" />
+    <ClInclude Include="DXUT\Core\ScreenGrab.h" />
+    <ClInclude Include="DXUT\Core\WICTextureLoader.h" />
+    <ClInclude Include="DXUT\Optional\DXUTcamera.h" />
+    <ClInclude Include="DXUT\Optional\DXUTgui.h" />
+    <ClInclude Include="DXUT\Optional\DXUTres.h" />
+    <ClInclude Include="DXUT\Optional\DXUTsettingsdlg.h" />
+    <ClInclude Include="DXUT\Optional\SDKmisc.h" />
+    <ClInclude Include="shaders\GFSDK_HairWorks_ShaderCommon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\sample\FurSampleCommonSkinnedPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|Win32'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|x64'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|Win32'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|x64'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">ps_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shaders\sample\FurSampleCommonSkinnedVertexShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|x64'">vs_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|Win32'">vs_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|Win32'">Vertex</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|x64'">vs_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">vs_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shaders\sample\FurSampleCommonVisualizeShadowPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|Win32'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|x64'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|Win32'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|x64'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">ps_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shaders\sample\FurSampleCommonVisualizeShadowVertexShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|x64'">vs_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|Win32'">vs_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|Win32'">Vertex</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|x64'">vs_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">vs_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shaders\sample\FurSampleShadowRenderingPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|Win32'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|x64'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|Win32'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|x64'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">ps_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shaders\sample\FurSampleShadowShadowPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='release|Win32'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|x64'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='release|Win32'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|x64'">ps_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">ps_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">Pixel</ShaderType>
+    </FxCompile>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ApplicationEnvironment>title</ApplicationEnvironment>
+    <!-- - - - -->
+    <PlatformToolset>v110</PlatformToolset>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <ProjectGuid>{F56C57BF-F6FD-D5CE-00A2-C4E9CFED5789}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <OutDir>$(SolutionDir)\bin\win64\</OutDir>
+    <IntDir>$(SolutionDir)\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetExt>.exe</TargetExt>
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <IntDir>$(SolutionDir)\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetExt>.exe</TargetExt>
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <OutDir>$(SolutionDir)\bin\win32\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <ClCompile>
+      <AdditionalOptions>/wd4100 /d2Zi+</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>DXUT\Core;DXUT\Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <OmitFramePointers>false</OmitFramePointers>
+      <FloatingPointModel>Fast</FloatingPointModel>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <AdditionalDependencies>Comctl32.lib;Usp10.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <ResourceCompile>
+    </ResourceCompile>
+    <ProjectReference>
+    </ProjectReference>
+    <FxCompile>
+      <HeaderFileOutput>$(SolutionDir)\dxbc\%(Filename)_bytecode.inl</HeaderFileOutput>
+    </FxCompile>
+    <FxCompile>
+      <ObjectFileOutput />
+      <VariableName>%(Filename)_bytecode</VariableName>
+      <ShaderModel>5.0</ShaderModel>
+      <DisableOptimizations>true</DisableOptimizations>
+      <EnableDebuggingInformation>true</EnableDebuggingInformation>
+    </FxCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/wd4100 /d2Zi+</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>DXUT\Core;DXUT\Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <OmitFramePointers>false</OmitFramePointers>
+      <FloatingPointModel>Fast</FloatingPointModel>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <AdditionalDependencies>Comctl32.lib;Usp10.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <ResourceCompile />
+    <ProjectReference />
+    <FxCompile>
+      <HeaderFileOutput>$(SolutionDir)\dxbc\%(Filename)_bytecode.inl</HeaderFileOutput>
+    </FxCompile>
+    <FxCompile>
+      <ObjectFileOutput>
+      </ObjectFileOutput>
+      <VariableName>%(Filename)_bytecode</VariableName>
+      <ShaderModel>5.0</ShaderModel>
+      <DisableOptimizations>true</DisableOptimizations>
+      <EnableDebuggingInformation>true</EnableDebuggingInformation>
+    </FxCompile>
+  </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <OutDir>$(SolutionDir)\bin\win64\</OutDir>
+    <IntDir>$(SolutionDir)\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetExt>.exe</TargetExt>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <IntDir>$(SolutionDir)\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetExt>.exe</TargetExt>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <OutDir>$(SolutionDir)\bin\win32\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <ClCompile>
+      <AdditionalOptions>/wd4100 /d2Zi+</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>DXUT\Core;DXUT\Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <OmitFramePointers>false</OmitFramePointers>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <AdditionalDependencies>Comctl32.lib;Usp10.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <ResourceCompile>
+    </ResourceCompile>
+    <ProjectReference>
+    </ProjectReference>
+    <FxCompile>
+      <HeaderFileOutput>$(SolutionDir)\dxbc\%(Filename)_bytecode.inl</HeaderFileOutput>
+    </FxCompile>
+    <FxCompile>
+      <ObjectFileOutput />
+      <VariableName>%(Filename)_bytecode</VariableName>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/wd4100 /d2Zi+</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>DXUT\Core;DXUT\Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <OmitFramePointers>false</OmitFramePointers>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <AdditionalDependencies>Comctl32.lib;Usp10.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <ResourceCompile />
+    <ProjectReference />
+    <FxCompile>
+      <HeaderFileOutput>$(SolutionDir)\dxbc\%(Filename)_bytecode.inl</HeaderFileOutput>
+    </FxCompile>
+    <FxCompile>
+      <ObjectFileOutput>
+      </ObjectFileOutput>
+      <VariableName>%(Filename)_bytecode</VariableName>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
 </Project>

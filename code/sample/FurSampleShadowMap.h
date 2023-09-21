@@ -28,7 +28,7 @@
 
 #pragma once
 
-#include "DXUT.h" // DXUT header
+#include <DXUT.h> // DXUT header
 
 struct FurSampleShadowMap
 {

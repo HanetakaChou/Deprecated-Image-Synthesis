@@ -72,59 +72,20 @@ HRESULT FurSample_GetSampleMediaFilePath(const char *file, char *filePath)
 //--------------------------------------------------------------------------------------
 // Create custom hair shader from file
 //--------------------------------------------------------------------------------------
-HRESULT FurSample_CreatePixelShader(ID3D11Device *device, const char *shaderFile, ID3D11PixelShader **shaderOut)
+HRESULT FurSample_CreatePixelShader(ID3D11Device *device, const void *pShaderBytecode, SIZE_T BytecodeLength, ID3D11PixelShader **shaderOut)
 {
-	char shaderFilePath[1024];
-	// get file path for the shader file
-	HRESULT hr = FurSample_GetSampleMediaFilePath(shaderFile, shaderFilePath);
-	if (FAILED(hr))
-		return hr;
-
-	ID3DBlob *blob = NULL;
-	WCHAR buffer[MAX_PATH];
-	MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, shaderFile, -1, buffer, MAX_PATH);
-	hr = DXUTCompileFromFile(buffer, NULL, "ps_main", "ps_5_0", D3DCOMPILE_ENABLE_STRICTNESS, 0, &blob);
-
-	if (FAILED(hr))
-		return hr;
-
 	// Create custom pixel shader for HairWorks rendering
-	hr = device->CreatePixelShader((void *)blob->GetBufferPointer(), blob->GetBufferSize(), NULL, shaderOut);
-	blob->Release();
+	HRESULT hr = device->CreatePixelShader(pShaderBytecode, BytecodeLength, NULL, shaderOut);
 	return hr;
 }
 
 //--------------------------------------------------------------------------------------
 // Create custom hair shader from file
 //--------------------------------------------------------------------------------------
-HRESULT FurSample_CreateVertexShader(ID3D11Device *device, const char *shaderFile, ID3D11VertexShader **shaderOut, ID3D10Blob **blobOut)
+HRESULT FurSample_CreateVertexShader(ID3D11Device *device, const void *pShaderBytecode, SIZE_T BytecodeLength, ID3D11VertexShader **shaderOut)
 {
-	char shaderFilePath[1024];
-
-	// get file path for the shader file
-	HRESULT hr = FurSample_GetSampleMediaFilePath(shaderFile, shaderFilePath);
-	if (FAILED(hr))
-		return hr;
-
-	WCHAR buffer[MAX_PATH];
-	MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, shaderFile, -1, buffer, MAX_PATH);
-
-	ID3D10Blob *blob = nullptr;
-	hr = DXUTCompileFromFile(buffer, NULL, "vs_main", "vs_5_0", D3DCOMPILE_ENABLE_STRICTNESS, 0, &blob);
-
-	if (FAILED(hr))
-		return hr;
-
-	// Copy blob if specified
-	if (blobOut)
-	{
-		blob->AddRef();
-		*blobOut = blob;
-	}
-
 	// Create custom pixel shader for HairWorks rendering
-	hr = device->CreateVertexShader((void *)blob->GetBufferPointer(), blob->GetBufferSize(), NULL, shaderOut);
-	blob->Release();
+	HRESULT hr = device->CreateVertexShader(pShaderBytecode, BytecodeLength, NULL, shaderOut);
 	return hr;
 }
 

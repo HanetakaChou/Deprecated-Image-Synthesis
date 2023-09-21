@@ -27,10 +27,10 @@
 //
 #pragma once
 
-#include "DXUT.h"
-#include "DXUTcamera.h" // DXUT camera utility class
+#include <DXUT.h>
+#include <DXUTcamera.h> // DXUT camera utility class
 
-#include "DirectXMath.h"
+#include <DirectXMath.h>
 
 #include "FurSampleShadowMap.h"
 

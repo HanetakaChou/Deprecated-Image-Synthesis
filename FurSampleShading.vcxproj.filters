@@ -1,66 +1,170 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<ItemGroup>
-		<Filter Include="src"><!--  -->
-		</Filter>
-	</ItemGroup>
-	<ItemGroup>
-		<ClCompile Include="..\..\FurSampleShading\FurSampleShading.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-	</ItemGroup>
-	<ItemGroup>
-		<Filter Include="common"><!--  -->
-		</Filter>
-	</ItemGroup>
-	<ItemGroup>
-		<ClCompile Include="..\..\FurSampleCommon\FurSampleAppBase.cpp">
-			<Filter>common</Filter>
-		</ClCompile>
-		<ClCompile Include="..\..\FurSampleCommon\FurSampleCommon.cpp">
-			<Filter>common</Filter>
-		</ClCompile>
-		<ClCompile Include="..\..\FurSampleCommon\FurSampleHairWorksHelper.cpp">
-			<Filter>common</Filter>
-		</ClCompile>
-		<ClCompile Include="..\..\FurSampleCommon\FurSampleMesh.cpp">
-			<Filter>common</Filter>
-		</ClCompile>
-		<ClCompile Include="..\..\FurSampleCommon\FurSampleShadowMap.cpp">
-			<Filter>common</Filter>
-		</ClCompile>
-		<ClCompile Include="..\..\FurSampleCommon\stb_image.c">
-			<Filter>common</Filter>
-		</ClCompile>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleAppBase.h">
-			<Filter>common</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleCommon.h">
-			<Filter>common</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleHairWorksHelper.h">
-			<Filter>common</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleMesh.h">
-			<Filter>common</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleShadowMap.h">
-			<Filter>common</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\FurSampleVector.h">
-			<Filter>common</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\FurSampleCommon\stb_image.h">
-			<Filter>common</Filter>
-		</ClInclude>
-	</ItemGroup>
-	<ItemGroup>
-		<Filter Include="shader"><!-- compile_shaders -->
-		</Filter>
-	</ItemGroup>
-	<ItemGroup>
-		<CustomBuild Include="..\..\FurSampleShading\HairWorksSampleShader.hlsl">
-			<Filter>shader</Filter>
-		</CustomBuild>
-	</ItemGroup>
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="code">
+      <UniqueIdentifier>{e5fc6d24-4133-4c97-95b2-f1974f4bbb7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="code\sample">
+      <UniqueIdentifier>{66fe11c9-8157-4e7b-bb5c-0c41c845ed91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{9f0aaf59-99a5-4eed-95b0-214851093fac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\sample">
+      <UniqueIdentifier>{9fa8be0e-193a-4512-949e-7d123f481222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DXUT">
+      <UniqueIdentifier>{8d5a6780-dff3-4dc1-8812-f3c4640b47b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DXUT\Core">
+      <UniqueIdentifier>{398a7403-7339-4439-b01b-a72124dcc49e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DXUT\Optional">
+      <UniqueIdentifier>{589a7898-e742-49e7-810c-563a810a51cf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\sample\FurSampleVector.h">
+      <Filter>code\sample</Filter>
+    </ClInclude>
+    <ClInclude Include="code\sample\stb_image.h">
+      <Filter>code\sample</Filter>
+    </ClInclude>
+    <ClInclude Include="code\sample\FurSampleAppBase.h">
+      <Filter>code\sample</Filter>
+    </ClInclude>
+    <ClInclude Include="code\sample\FurSampleCommon.h">
+      <Filter>code\sample</Filter>
+    </ClInclude>
+    <ClInclude Include="code\sample\FurSampleHairWorksHelper.h">
+      <Filter>code\sample</Filter>
+    </ClInclude>
+    <ClInclude Include="code\sample\FurSampleMesh.h">
+      <Filter>code\sample</Filter>
+    </ClInclude>
+    <ClInclude Include="code\sample\FurSampleShadowMap.h">
+      <Filter>code\sample</Filter>
+    </ClInclude>
+    <ClInclude Include="code\GFSDK_HairWorks.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\GFSDK_HairWorks_Common.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="shaders\GFSDK_HairWorks_ShaderCommon.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\DDSTextureLoader.h">
+      <Filter>DXUT\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\dxerr.h">
+      <Filter>DXUT\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\DXUT.h">
+      <Filter>DXUT\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\DXUTDevice11.h">
+      <Filter>DXUT\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\DXUTmisc.h">
+      <Filter>DXUT\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\ScreenGrab.h">
+      <Filter>DXUT\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\WICTextureLoader.h">
+      <Filter>DXUT\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\DXUTgui.h">
+      <Filter>DXUT\Optional</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\DXUTres.h">
+      <Filter>DXUT\Optional</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\DXUTsettingsdlg.h">
+      <Filter>DXUT\Optional</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\SDKmisc.h">
+      <Filter>DXUT\Optional</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\DXUTcamera.h">
+      <Filter>DXUT\Optional</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\sample\stb_image.c">
+      <Filter>code\sample</Filter>
+    </ClCompile>
+    <ClCompile Include="code\sample\FurSampleAppBase.cpp">
+      <Filter>code\sample</Filter>
+    </ClCompile>
+    <ClCompile Include="code\sample\FurSampleCommon.cpp">
+      <Filter>code\sample</Filter>
+    </ClCompile>
+    <ClCompile Include="code\sample\FurSampleHairWorksHelper.cpp">
+      <Filter>code\sample</Filter>
+    </ClCompile>
+    <ClCompile Include="code\sample\FurSampleMesh.cpp">
+      <Filter>code\sample</Filter>
+    </ClCompile>
+    <ClCompile Include="code\sample\FurSampleShadowMap.cpp">
+      <Filter>code\sample</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\DDSTextureLoader.cpp">
+      <Filter>DXUT\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\dxerr.cpp">
+      <Filter>DXUT\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\DXUT.cpp">
+      <Filter>DXUT\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\DXUTDevice11.cpp">
+      <Filter>DXUT\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\DXUTmisc.cpp">
+      <Filter>DXUT\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\ScreenGrab.cpp">
+      <Filter>DXUT\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\WICTextureLoader.cpp">
+      <Filter>DXUT\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\DXUTgui.cpp">
+      <Filter>DXUT\Optional</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\DXUTres.cpp">
+      <Filter>DXUT\Optional</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\DXUTsettingsdlg.cpp">
+      <Filter>DXUT\Optional</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\SDKmisc.cpp">
+      <Filter>DXUT\Optional</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\DXUTcamera.cpp">
+      <Filter>DXUT\Optional</Filter>
+    </ClCompile>
+    <ClCompile Include="code\sample\FurSampleShading.cpp">
+      <Filter>code\sample</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\sample\FurSampleShadingRenderingPixelShader.hlsl">
+      <Filter>shaders\sample</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\sample\FurSampleCommonSkinnedPixelShader.hlsl">
+      <Filter>shaders\sample</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\sample\FurSampleCommonSkinnedVertexShader.hlsl">
+      <Filter>shaders\sample</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\sample\FurSampleCommonVisualizeShadowPixelShader.hlsl">
+      <Filter>shaders\sample</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\sample\FurSampleCommonVisualizeShadowVertexShader.hlsl">
+      <Filter>shaders\sample</Filter>
+    </FxCompile>
+  </ItemGroup>
 </Project>

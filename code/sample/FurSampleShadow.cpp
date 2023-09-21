@@ -63,11 +63,14 @@
 
 *****************************************************************************************************************/
 
-#include "GFSDK_HairWorks.h" // hairworks main header file
+#include "../GFSDK_HairWorks.h" // hairworks main header file
 
 #include "FurSampleAppBase.h"		  // application wrapper to hide non hair-related codes
 #include "FurSampleCommon.h"		  // general DX utility functions shared among samples
 #include "FurSampleHairWorksHelper.h" // convenience functions related to hairworks
+
+#include "../../dxbc/FurSampleShadowRenderingPixelShader_bytecode.inl"
+#include "../../dxbc/FurSampleShadowShadowPixelShader_bytecode.inl"
 
 using namespace DirectX;
 
@@ -105,6 +108,10 @@ namespace
 
 		GFSDK_HairShaderConstantBuffer hairShaderConstantBuffer;
 	};
+
+#ifndef NDEBUG
+	ID3DUserDefinedAnnotation* g_d3dUserDefinedAnnotation = nullptr;
+#endif
 }
 
 //--------------------------------------------------------------------------------------
@@ -139,12 +146,12 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DE
 		return E_FAIL;
 
 	// Create custom pixel shader for hair rendering
-	hr = FurSample_CreatePixelShader(device, "samples\\FurSampleShadow\\HairWorksSampleShader.hlsl", &g_customHairWorksShader);
+	hr = FurSample_CreatePixelShader(device, FurSampleShadowRenderingPixelShader_bytecode, sizeof(FurSampleShadowRenderingPixelShader_bytecode), &g_customHairWorksShader);
 	if (FAILED(hr))
 		return hr;
 
 	// Create custom pixel shader for hair shadow pass
-	hr = FurSample_CreatePixelShader(device, "samples\\FurSampleShadow\\HairWorksSampleShadowShader.hlsl", &g_customHairWorksShadowShader);
+	hr = FurSample_CreatePixelShader(device, FurSampleShadowShadowPixelShader_bytecode, sizeof(FurSampleShadowShadowPixelShader_bytecode), &g_customHairWorksShadowShader);
 	if (FAILED(hr))
 		return hr;
 
@@ -173,6 +180,10 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DE
 	XMVECTOR lightCenter = XMVectorAdd(modelCenter, XMVectorSet(0.0f, 20.0f, -50.0f, 0));
 	FurSampleAppBase::InitDefaultLight(lightCenter, modelCenter, up);
 
+#ifndef NDEBUG
+	DXUTGetD3D11DeviceContext()->QueryInterface(IID_PPV_ARGS(&g_d3dUserDefinedAnnotation));
+#endif
+
 	return S_OK;
 }
 
@@ -181,6 +192,10 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DE
 //--------------------------------------------------------------------------------------
 void CALLBACK OnD3D11DestroyDevice(void *userContext)
 {
+#ifndef NDEBUG
+	SAFE_RELEASE(g_d3dUserDefinedAnnotation);
+#endif
+
 	FurSampleAppBase::OnDestroyDevice();
 
 	SAFE_RELEASE(g_hairShaderConstantBuffer);
@@ -223,6 +238,10 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *device, ID3D11DeviceContext *cont
 
 		// 3. set shader settings and render hairs with our custom hair shadow shader
 		{
+#ifndef NDEBUG
+			g_d3dUserDefinedAnnotation->BeginEvent(L"Shadow Pass Hairs");
+#endif
+
 			// use custom shadow pass shader
 			context->PSSetShader(g_customHairWorksShadowShader, NULL, 0);
 
@@ -233,6 +252,10 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *device, ID3D11DeviceContext *cont
 			settings.m_shadowPass = true;
 
 			g_hairSDK->RenderHairs(g_hairInstanceID, &settings);
+
+#ifndef NDEBUG
+			g_d3dUserDefinedAnnotation->EndEvent();
+#endif
 		}
 	}
 
@@ -296,6 +319,10 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *device, ID3D11DeviceContext *cont
 
 		// 5. set hair shader and render hairs
 		{
+#ifndef NDEBUG
+			g_d3dUserDefinedAnnotation->BeginEvent(L"Render Hairs");
+#endif
+
 			// set your hair pixel shader before rendering hairs
 			context->PSSetShader(g_customHairWorksShader, NULL, 0);
 
@@ -305,6 +332,10 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *device, ID3D11DeviceContext *cont
 
 			// Render the hair instance
 			g_hairSDK->RenderHairs(g_hairInstanceID, &settings);
+
+#ifndef NDEBUG
+			g_d3dUserDefinedAnnotation->EndEvent();
+#endif
 		}
 
 		// 6. clear shader resource references

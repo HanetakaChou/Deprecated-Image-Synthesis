@@ -29,6 +29,9 @@
 #include "FurSampleMesh.h"
 #include "FurSampleVector.h"
 
+#include "../../dxbc/FurSampleCommonSkinnedVertexShader_bytecode.inl"
+#include "../../dxbc/FurSampleCommonSkinnedPixelShader_bytecode.inl"
+
 using namespace DirectX;
 
 HRESULT FurSampleSkinnedMeshes::Init(ID3D11Device *device)
@@ -36,8 +39,7 @@ HRESULT FurSampleSkinnedMeshes::Init(ID3D11Device *device)
 	HRESULT hr;
 	{
 		// Create skinned mesh vertex shader
-		ID3DBlob *blob = NULL;
-		hr = FurSample_CreateVertexShader(device, "samples\\FurSampleCommon\\HairWorksSampleSkinnedVertexShader.hlsl", &m_skinnedVS, &blob);
+		hr = FurSample_CreateVertexShader(device, FurSampleCommonSkinnedVertexShader_bytecode, sizeof(FurSampleCommonSkinnedVertexShader_bytecode), &m_skinnedVS);
 		if (FAILED(hr))
 			return hr;
 
@@ -53,12 +55,12 @@ HRESULT FurSampleSkinnedMeshes::Init(ID3D11Device *device)
 				{"TEXCOORD", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 96, D3D11_INPUT_PER_VERTEX_DATA, 0},
 				{"TEXCOORD", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 112, D3D11_INPUT_PER_VERTEX_DATA, 0},
 			};
-		hr = device->CreateInputLayout(layout, ARRAYSIZE(layout), blob->GetBufferPointer(), blob->GetBufferSize(), &m_skinnedInputLayout);
+		hr = device->CreateInputLayout(layout, ARRAYSIZE(layout), FurSampleCommonSkinnedVertexShader_bytecode, sizeof(FurSampleCommonSkinnedVertexShader_bytecode), &m_skinnedInputLayout);
 		if (FAILED(hr))
 			return hr;
 	}
 
-	hr = FurSample_CreatePixelShader(device, "samples\\FurSampleCommon\\HairWorksSampleSkinnedPixelShader.hlsl", &m_skinnedPS);
+	hr = FurSample_CreatePixelShader(device, FurSampleCommonSkinnedPixelShader_bytecode, sizeof(FurSampleCommonSkinnedPixelShader_bytecode), &m_skinnedPS);
 	if (FAILED(hr))
 		return hr;
 

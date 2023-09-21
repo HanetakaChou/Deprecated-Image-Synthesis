@@ -52,11 +52,13 @@
 
 *****************************************************************************************************************/
 
-#include "GFSDK_HairWorks.h" // HairWorks main header file
+#include "../GFSDK_HairWorks.h" // HairWorks main header file
 
 #include "FurSampleAppBase.h"		  // application wrapper to hide non hair-related codes
 #include "FurSampleCommon.h"		  // general DX utility functions shared among samples
 #include "FurSampleHairWorksHelper.h" // convenience functions related to HairWorks
+
+#include "../../dxbc/FurSampleSimpleRenderingPixelShader_bytecode.inl"
 
 using namespace DirectX;
 
@@ -72,6 +74,10 @@ namespace
 	GFSDK_HairInstanceID g_hairInstanceID = GFSDK_HairInstanceID_NULL; // hair instance ID
 
 	ID3D11PixelShader *g_customHairWorksShader = NULL; // custom pixel shader
+
+#ifndef NDEBUG
+	ID3DUserDefinedAnnotation* g_d3dUserDefinedAnnotation = NULL;
+#endif
 }
 
 //--------------------------------------------------------------------------------------
@@ -169,7 +175,7 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DE
 	g_hairSDK->CreateHairAsset(g_hairAssetDescriptor, &g_hairAssetID);
 
 	// create custom hair shader
-	hr = FurSample_CreatePixelShader(device, "samples\\FurSampleSimple\\HairWorksSampleShader.hlsl", &g_customHairWorksShader);
+	hr = FurSample_CreatePixelShader(device, FurSampleSimpleRenderingPixelShader_bytecode, sizeof(FurSampleSimpleRenderingPixelShader_bytecode), &g_customHairWorksShader);
 	if (FAILED(hr))
 		return hr;
 
@@ -182,6 +188,10 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DE
 	// Update instance descriptor
 	g_hairSDK->UpdateInstanceDescriptor(g_hairInstanceID, g_hairInstanceDescriptor);
 
+#ifndef NDEBUG
+	DXUTGetD3D11DeviceContext()->QueryInterface(IID_PPV_ARGS(&g_d3dUserDefinedAnnotation));
+#endif
+
 	return S_OK;
 }
 
@@ -190,6 +200,10 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DE
 //--------------------------------------------------------------------------------------
 void CALLBACK OnD3D11DestroyDevice(void *userContext)
 {
+#ifndef NDEBUG
+	SAFE_RELEASE(g_d3dUserDefinedAnnotation);
+#endif
+
 	SAFE_RELEASE(g_customHairWorksShader);
 
 	g_hairSDK->FreeHairInstance(g_hairInstanceID);
@@ -218,10 +232,29 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *device, ID3D11DeviceContext *cont
 	context->PSSetShader(g_customHairWorksShader, nullptr, 0);
 
 	// Render the hair instance
-	g_hairSDK->RenderHairs(g_hairInstanceID);
+	{
+#ifndef NDEBUG
+		g_d3dUserDefinedAnnotation->BeginEvent(L"Render Hairs");
+#endif
+		g_hairSDK->RenderHairs(g_hairInstanceID);
+
+#ifndef NDEBUG
+		g_d3dUserDefinedAnnotation->EndEvent();
+#endif
+	}
 
 	// Render visualization the hair instance
-	g_hairSDK->RenderVisualization(g_hairInstanceID);
+	{
+#ifndef NDEBUG
+		g_d3dUserDefinedAnnotation->BeginEvent(L"Render Visualization");
+#endif
+
+		g_hairSDK->RenderVisualization(g_hairInstanceID);
+
+#ifndef NDEBUG
+		g_d3dUserDefinedAnnotation->EndEvent();
+#endif
+	}
 }
 
 //--------------------------------------------------------------------------------------

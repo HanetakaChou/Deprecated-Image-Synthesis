@@ -27,7 +27,7 @@
 //
 #pragma once
 
-#include "DXUT.h"
+#include <DXUT.h>
 
 /// Simple vector type.
 /// We'd might have used std::vector, but we can't because we need allocations to be 16 byte aligned.

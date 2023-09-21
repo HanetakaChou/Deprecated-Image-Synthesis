@@ -28,8 +28,8 @@
 #pragma once
 
 // This file contains convenience functions that can be useful to simplify some HairWorks related tasks.
-#include "GFSDK_HairWorks.h"
-#include "DXUT.h"
+#include "../GFSDK_HairWorks.h"
+#include <DXUT.h>
 
 //---------------------------------------------------------------------------------------------
 // Load hairworks runtime

@@ -29,6 +29,9 @@
 #include "FurSampleAppBase.h"
 #include "FurSampleCommon.h" // simple utility functions shared among fur samples
 
+#include "../../dxbc/FurSampleCommonVisualizeShadowVertexShader_bytecode.inl"
+#include "../../dxbc/FurSampleCommonVisualizeShadowPixelShader_bytecode.inl"
+
 using namespace DirectX;
 
 //--------------------------------------------------------------------------------------
@@ -60,12 +63,12 @@ HRESULT FurSampleAppBase::OnCreateDevice(ID3D11Device *device)
 	FurSample_CreateTextureSampler(device, &m_texSamplerPointClamp);
 
 	// create utility shaders
-	hr = FurSample_CreatePixelShader(device, "samples\\FurSampleCommon\\HairWorksSampleVisualizeShadow.hlsl", &m_visualizeShadowPS);
+	hr = FurSample_CreatePixelShader(device, FurSampleCommonVisualizeShadowPixelShader_bytecode, sizeof(FurSampleCommonVisualizeShadowPixelShader_bytecode), &m_visualizeShadowPS);
 	if (FAILED(hr))
 		return hr;
 
 	// Create custom pixel shader for HairWorks shadow pass
-	hr = FurSample_CreateVertexShader(device, "samples\\FurSampleCommon\\HairWorksSampleVisualizeShadow.hlsl", &m_visualizeShadowVS);
+	hr = FurSample_CreateVertexShader(device, FurSampleCommonVisualizeShadowVertexShader_bytecode, sizeof(FurSampleCommonVisualizeShadowVertexShader_bytecode), &m_visualizeShadowVS);
 	if (FAILED(hr))
 		return hr;
 

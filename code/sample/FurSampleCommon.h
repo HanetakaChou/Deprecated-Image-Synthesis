@@ -27,7 +27,7 @@
 //
 #pragma once
 
-#include "DXUT.h"
+#include <DXUT.h>
 
 //--------------------------------------------------------------------------------------
 // Given a filename, find path for media file location traversing up in the parent directories
@@ -42,12 +42,12 @@ HRESULT FurSample_CreateTextureSRV(ID3D11Device *device, const char *textureFile
 //--------------------------------------------------------------------------------------
 // Create custom hair shader from file
 //--------------------------------------------------------------------------------------
-HRESULT FurSample_CreatePixelShader(ID3D11Device *device, const char *shaderFile, ID3D11PixelShader **shaderOut);
+HRESULT FurSample_CreatePixelShader(ID3D11Device *device, const void *pShaderBytecode, SIZE_T BytecodeLength, ID3D11PixelShader **shaderOut);
 
 //--------------------------------------------------------------------------------------
 // Create custom hair shader from file
 //--------------------------------------------------------------------------------------
-HRESULT FurSample_CreateVertexShader(ID3D11Device *device, const char *shaderFile, ID3D11VertexShader **shaderOut, ID3DBlob **blobOut = nullptr);
+HRESULT FurSample_CreateVertexShader(ID3D11Device *device, const void *pShaderBytecode, SIZE_T BytecodeLength, ID3D11VertexShader **shaderOut);
 
 //--------------------------------------------------------------------------------------
 // Create constant buffer for use in hair shader

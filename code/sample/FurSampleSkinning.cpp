@@ -56,7 +56,7 @@
 
 *****************************************************************************************************************/
 
-#include "GFSDK_HairWorks.h" // hairworks main header file
+#include "../GFSDK_HairWorks.h" // hairworks main header file
 
 #include "FurSampleAppBase.h"		  // application wrapper to hide non hair-related codes
 #include "FurSampleCommon.h"		  // general DX utility functions shared among samples
@@ -64,6 +64,8 @@
 #include "FurSampleMesh.h"			  // sample mesh loading/rendering functions
 
 #include "FurSampleVector.h"
+
+#include "../../dxbc/FurSampleSkinningRenderingPixelShader_bytecode.inl"
 
 using namespace DirectX;
 
@@ -125,6 +127,9 @@ namespace
 		}
 	};
 
+#ifndef NDEBUG
+	ID3DUserDefinedAnnotation *g_d3dUserDefinedAnnotation = nullptr;
+#endif
 }
 
 //--------------------------------------------------------------------------------------
@@ -158,8 +163,7 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DE
 		return E_FAIL;
 
 	// Create custom pixel shader for HairWorks rendering
-	const char *shaderFile = "samples\\FurSampleSkinning\\HairWorksSampleShader.hlsl";
-	hr = FurSample_CreatePixelShader(device, shaderFile, &g_customHairWorksShader);
+	hr = FurSample_CreatePixelShader(device, FurSampleSkinningRenderingPixelShader_bytecode, sizeof(FurSampleSkinningRenderingPixelShader_bytecode), &g_customHairWorksShader);
 	if (FAILED(hr))
 		return hr;
 
@@ -241,6 +245,10 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DE
 			return hr;
 	}
 
+#ifndef NDEBUG
+	DXUTGetD3D11DeviceContext()->QueryInterface(IID_PPV_ARGS(&g_d3dUserDefinedAnnotation));
+#endif
+
 	return S_OK;
 }
 
@@ -249,6 +257,10 @@ HRESULT CALLBACK OnD3D11CreateDevice(ID3D11Device *device, const DXGI_SURFACE_DE
 //--------------------------------------------------------------------------------------
 void CALLBACK OnD3D11DestroyDevice(void *userContext)
 {
+#ifndef NDEBUG
+	SAFE_RELEASE(g_d3dUserDefinedAnnotation);
+#endif
+
 	g_meshes.Release();
 
 	FurSampleAppBase::OnDestroyDevice();
@@ -279,6 +291,10 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *device, ID3D11DeviceContext *cont
 
 	// Render polygonal skinned mesh (replace with your mesh code)
 	{
+#ifndef NDEBUG
+		g_d3dUserDefinedAnnotation->BeginEvent(L"Render Meshes");
+#endif
+
 		context->VSSetShader(g_meshes.m_skinnedVS, nullptr, 0);
 		context->PSSetShader(g_meshes.m_skinnedPS, nullptr, 0);
 
@@ -287,6 +303,10 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *device, ID3D11DeviceContext *cont
 
 		// Render skinned meshes
 		g_meshes.RenderMeshes(device, context, (const float *)&view, (const float *)&projection);
+
+#ifndef NDEBUG
+		g_d3dUserDefinedAnnotation->EndEvent();
+#endif
 	}
 
 	// set hair control options
@@ -323,10 +343,30 @@ void CALLBACK OnD3D11FrameRender(ID3D11Device *device, ID3D11DeviceContext *cont
 	}
 
 	// render hairs with default shader settings
-	g_hairSDK->RenderHairs(g_hairInstanceID);
+	{
+#ifndef NDEBUG
+		g_d3dUserDefinedAnnotation->BeginEvent(L"Render Hairs");
+#endif
+
+		g_hairSDK->RenderHairs(g_hairInstanceID);
+
+#ifndef NDEBUG
+		g_d3dUserDefinedAnnotation->EndEvent();
+#endif
+	}
 
 	// Render visualization
-	g_hairSDK->RenderVisualization(g_hairInstanceID);
+	{
+#ifndef NDEBUG
+		g_d3dUserDefinedAnnotation->BeginEvent(L"Render Visualization");
+#endif
+
+		g_hairSDK->RenderVisualization(g_hairInstanceID);
+
+#ifndef NDEBUG
+		g_d3dUserDefinedAnnotation->EndEvent();
+#endif
+	}
 
 	{
 		// Unbind
