@@ -146,13 +146,27 @@ $(SPIRV_DIR)/forward_shading_fragment.inl $(SPIRV_DIR)/forward_shading_fragment.
 	$(HIDE) $(call host-mkdir,$(SPIRV_DIR))
 	$(HIDE) "$(GLSL_COMPILER_PATH)" --depfile "$(SPIRV_DIR)/forward_shading_fragment.d" -V100 -x $(GLSL_COMPILER_FLAGS) -S frag -o "$(SPIRV_DIR)/forward_shading_fragment.inl" "$(SHADERS_DIR)/forward_shading_fragment.glsl"
 
--include $(SPIRV_DIR)/forward_shading_vertex.d $(SPIRV_DIR)/forward_shading_fragment.d
+$(SPIRV_DIR)/point_light_shadow_vertex.inl $(SPIRV_DIR)/point_light_shadow_vertex.d : $(SHADERS_DIR)/point_light_shadow_vertex.glsl
+	$(HIDE) $(call host-mkdir,$(SPIRV_DIR))
+	$(HIDE) $(call host-mkdir,$(SPIRV_DIR))
+	$(HIDE) $(GLSL_COMPILER_PATH) --depfile "$(SPIRV_DIR)/point_light_shadow_vertex.d" -V100 -x $(GLSL_COMPILER_FLAGS) -S vert -o "$(SPIRV_DIR)/point_light_shadow_vertex.inl" "$(SHADERS_DIR)/point_light_shadow_vertex.glsl"
+
+$(SPIRV_DIR)/point_light_shadow_fragment.inl $(SPIRV_DIR)/point_light_shadow_fragment.d : $(SHADERS_DIR)/point_light_shadow_fragment.glsl
+	$(HIDE) $(call host-mkdir,$(SPIRV_DIR))
+	$(HIDE) $(call host-mkdir,$(SPIRV_DIR))
+	$(HIDE) $(GLSL_COMPILER_PATH) --depfile "$(SPIRV_DIR)/point_light_shadow_fragment.d" -V100 -x $(GLSL_COMPILER_FLAGS) -S frag -o "$(SPIRV_DIR)/point_light_shadow_fragment.inl" "$(SHADERS_DIR)/point_light_shadow_fragment.glsl"
+
+-include $(SPIRV_DIR)/forward_shading_vertex.d $(SPIRV_DIR)/forward_shading_fragment.d $(SPIRV_DIR)/point_light_shadow_vertex.d $(SPIRV_DIR)/point_light_shadow_fragment.d
 
 clean:
 	$(HIDE) $(call host-rm,$(SPIRV_DIR)/forward_shading_vertex.inl)
 	$(HIDE) $(call host-rm,$(SPIRV_DIR)/forward_shading_fragment.inl)
+	$(HIDE) $(call host-rm,$(SPIRV_DIR)/point_light_shadow_vertex.inl)
+	$(HIDE) $(call host-rm,$(SPIRV_DIR)/point_light_shadow_fragment.inl)
 	$(HIDE) $(call host-rm,$(SPIRV_DIR)/forward_shading_vertex.d)
 	$(HIDE) $(call host-rm,$(SPIRV_DIR)/forward_shading_fragment.d)
+	$(HIDE) $(call host-rm,$(SPIRV_DIR)/point_light_shadow_vertex.d)
+	$(HIDE) $(call host-rm,$(SPIRV_DIR)/point_light_shadow_fragment.d)
 
 .PHONY : \
 	all

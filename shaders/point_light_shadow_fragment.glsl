@@ -19,25 +19,20 @@
 
 #extension GL_GOOGLE_include_directive : enable
 
-#include "forward_shading_pipeline_layout.h"
-#include "mesh_vertex.h"
+#include "point_light_shadow_pipeline_layout.h"
 
-layout(location = 0) out highp vec3 out_position_world_space;
+layout(location = 0) in highp float in_inverse_length_view_space;
 
 void main()
 {
-    // Model Space
-    highp vec3 position_model_space = in_position_xyzw.xyz;
+    // Perspective Correct Interpolation
+    highp float length_view_space = 1.0 / in_inverse_length_view_space;
 
-    // World Space
-    highp vec3 position_world_space = (g_model_transform * vec4(position_model_space, 1.0)).xyz;
+    // Light Information
+    highp float point_light_radius = g_point_light_position_and_radius.w;
 
-    // View Space
-    highp vec3 position_view_space = (g_view_transform * vec4(position_world_space, 1.0)).xyz;
+    // Real Depth
+    highp float ratio = length_view_space / point_light_radius;
 
-    // Clip Space
-    highp vec4 position_clip_space = g_projection_transform * vec4(position_view_space, 1.0);
-
-    out_position_world_space = position_world_space;
-    gl_Position = position_clip_space;
+    gl_FragDepth = ratio;
 }

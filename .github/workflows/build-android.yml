@@ -2,9 +2,9 @@ name: build android
 
 on:
   push:
-    branches: [Cube-VK]
+    branches: [Octahedron-Shadow-Map-VK]
   pull_request:
-    branches: [Cube-VK]
+    branches: [Octahedron-Shadow-Map-VK]
 
 jobs:
   build_android:

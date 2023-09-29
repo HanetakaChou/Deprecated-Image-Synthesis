@@ -630,8 +630,8 @@ void vulkan_renderer::init()
 		device_create_info.queueCreateInfoCount = device_queue_create_info_count;
 		device_create_info.enabledLayerCount = 0U;
 		device_create_info.ppEnabledLayerNames = NULL;
-		char const *enabled_extension_names[1] = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
-		device_create_info.enabledExtensionCount = 1U;
+		char const* enabled_extension_names[2] = { VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_EXT_SHADER_VIEWPORT_INDEX_LAYER_EXTENSION_NAME };
+		device_create_info.enabledExtensionCount = 2U;
 		device_create_info.ppEnabledExtensionNames = enabled_extension_names;
 		device_create_info.pEnabledFeatures = &physical_device_features;
 
@@ -797,7 +797,6 @@ void vulkan_renderer::init()
 
 		// depth attachment
 		this->m_depth_format = VK_FORMAT_UNDEFINED;
-		this->m_depth_stencil_transient_attachment_memory_index = VK_MAX_MEMORY_TYPES;
 		{
 			struct VkFormatProperties format_properties;
 			this->m_depth_format = VK_FORMAT_D32_SFLOAT;
@@ -808,6 +807,9 @@ void vulkan_renderer::init()
 				pfn_get_physical_device_format_properties(this->m_physical_device, this->m_depth_format, &format_properties);
 				assert(format_properties.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT);
 			}
+		}
+		this->m_depth_stencil_transient_attachment_memory_index = VK_MAX_MEMORY_TYPES;
+		{
 
 			VkDeviceSize memory_requirements_size = VkDeviceSize(-1);
 			uint32_t memory_requirements_memory_type_bits = 0U;
@@ -1020,6 +1022,7 @@ void vulkan_renderer::init()
 		uint32_t vulkan_asset_index_buffer_memory_index;
 		uint32_t vulkan_asset_uniform_buffer_memory_index;
 		uint32_t vulkan_asset_image_memory_index;
+		uint32_t vulkan_depth_stencil_sampled_memory_index;
 		{
 			PFN_vkGetPhysicalDeviceMemoryProperties pfn_get_physical_device_memory_properties = reinterpret_cast<PFN_vkGetPhysicalDeviceMemoryProperties>(this->m_pfn_get_instance_proc_addr(this->m_instance, "vkGetPhysicalDeviceMemoryProperties"));
 			PFN_vkCreateBuffer pfn_create_buffer = reinterpret_cast<PFN_vkCreateBuffer>(this->m_pfn_get_device_proc_addr(this->m_device, "vkCreateBuffer"));
@@ -1267,6 +1270,49 @@ void vulkan_renderer::init()
 				assert(VK_MAX_MEMORY_TYPES > vulkan_asset_image_memory_index);
 				assert(physical_device_memory_properties.memoryTypeCount > vulkan_asset_image_memory_index);
 			}
+
+			vulkan_depth_stencil_sampled_memory_index = VK_MAX_MEMORY_TYPES;
+			{
+
+				VkDeviceSize memory_requirements_size = VkDeviceSize(-1);
+				uint32_t memory_requirements_memory_type_bits = 0U;
+				{
+					struct VkImageCreateInfo image_create_info_depth_stencil_sampled_tiling_optimal;
+					image_create_info_depth_stencil_sampled_tiling_optimal.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+					image_create_info_depth_stencil_sampled_tiling_optimal.pNext = NULL;
+					image_create_info_depth_stencil_sampled_tiling_optimal.flags = 0U;
+					image_create_info_depth_stencil_sampled_tiling_optimal.imageType = VK_IMAGE_TYPE_2D;
+					image_create_info_depth_stencil_sampled_tiling_optimal.format = this->m_depth_format;
+					image_create_info_depth_stencil_sampled_tiling_optimal.extent.width = 8U;
+					image_create_info_depth_stencil_sampled_tiling_optimal.extent.height = 8U;
+					image_create_info_depth_stencil_sampled_tiling_optimal.extent.depth = 1U;
+					image_create_info_depth_stencil_sampled_tiling_optimal.mipLevels = 1U;
+					image_create_info_depth_stencil_sampled_tiling_optimal.arrayLayers = 1U;
+					image_create_info_depth_stencil_sampled_tiling_optimal.samples = VK_SAMPLE_COUNT_1_BIT;
+					image_create_info_depth_stencil_sampled_tiling_optimal.tiling = VK_IMAGE_TILING_OPTIMAL;
+					image_create_info_depth_stencil_sampled_tiling_optimal.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+					image_create_info_depth_stencil_sampled_tiling_optimal.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+					image_create_info_depth_stencil_sampled_tiling_optimal.queueFamilyIndexCount = 0U;
+					image_create_info_depth_stencil_sampled_tiling_optimal.pQueueFamilyIndices = NULL;
+					image_create_info_depth_stencil_sampled_tiling_optimal.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+
+					VkImage dummy_img;
+					VkResult res_create_image = pfn_create_image(this->m_device, &image_create_info_depth_stencil_sampled_tiling_optimal, this->m_allocation_callbacks, &dummy_img);
+					assert(VK_SUCCESS == res_create_image);
+
+					struct VkMemoryRequirements memory_requirements;
+					pfn_get_image_memory_requirements(this->m_device, dummy_img, &memory_requirements);
+					memory_requirements_size = memory_requirements.size;
+					memory_requirements_memory_type_bits = memory_requirements.memoryTypeBits;
+
+					pfn_destroy_image(this->m_device, dummy_img, this->m_allocation_callbacks);
+				}
+
+				// The lower index indicates the more performance
+				vulkan_depth_stencil_sampled_memory_index = __internal_find_lowest_memory_type_index(&physical_device_memory_properties, memory_requirements_size, memory_requirements_memory_type_bits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+				assert(VK_MAX_MEMORY_TYPES > vulkan_depth_stencil_sampled_memory_index);
+				assert(physical_device_memory_properties.memoryTypeCount > vulkan_depth_stencil_sampled_memory_index);
+			}
 		}
 
 		if (this->m_has_dedicated_transfer_queue)
@@ -1311,7 +1357,7 @@ void vulkan_renderer::init()
 		this->m_demo.init(
 			this->m_instance, this->m_pfn_get_instance_proc_addr, this->m_device, this->m_pfn_get_device_proc_addr, this->m_allocation_callbacks,
 			this->m_asset_allocator, 0U, static_cast<uint32_t>(vulkan_staging_buffer_size), vulkan_staging_buffer_device_memory_pointer, vulkan_staging_buffer,
-			vulkan_asset_vertex_buffer_memory_index, vulkan_asset_index_buffer_memory_index, vulkan_asset_uniform_buffer_memory_index, vulkan_asset_image_memory_index,
+			vulkan_asset_vertex_buffer_memory_index, vulkan_asset_index_buffer_memory_index, vulkan_asset_uniform_buffer_memory_index, vulkan_asset_image_memory_index, this->m_depth_format, vulkan_depth_stencil_sampled_memory_index,
 			this->m_optimal_buffer_copy_offset_alignment, this->m_optimal_buffer_copy_row_pitch_alignment,
 			this->m_has_dedicated_transfer_queue, this->m_queue_transfer_family_index, this->m_queue_graphics_family_index, vulkan_streaming_transfer_command_buffer, vulkan_streaming_graphics_command_buffer,
 			this->m_upload_ring_buffer_size, this->m_upload_ring_buffer);
@@ -1531,7 +1577,7 @@ void vulkan_renderer::destory_framebuffer()
 	VkResult res_wait_for_fences = this->m_pfn_wait_for_fences(this->m_device, FRAME_THROTTLING_COUNT, this->m_fences, VK_TRUE, UINT64_MAX);
 	assert(VK_SUCCESS == res_wait_for_fences);
 
-	this->m_demo.destroy_frame_buffer(
+	this->m_demo.destroy_main_camera_frame_buffer(
 		this->m_device, this->m_pfn_get_device_proc_addr, this->m_allocation_callbacks,
 		this->m_swapchain_image_count);
 
@@ -1730,7 +1776,7 @@ void vulkan_renderer::create_framebuffer()
 			}
 		}
 
-		this->m_demo.create_frame_buffer(
+		this->m_demo.create_main_camera_frame_buffer(
 			this->m_instance, this->m_pfn_get_instance_proc_addr, this->m_physical_device, this->m_device, this->m_pfn_get_device_proc_addr, this->m_allocation_callbacks,
 			this->m_depth_format, this->m_depth_stencil_transient_attachment_memory_index,
 			vulkan_swapchain_image_format,
